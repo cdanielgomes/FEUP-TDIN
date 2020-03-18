@@ -4,12 +4,12 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{81F11713-EF4C-4144-A247-4445CCF6F0F3}</ProjectGuid>
+        <ProjectGuid>{9BA2DD71-729D-4262-B643-850E0051D100}</ProjectGuid>
         <OutputType>Exe</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>Server</RootNamespace>
-        <AssemblyName>Server</AssemblyName>
-        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+        <RootNamespace>Client</RootNamespace>
+        <AssemblyName>Client</AssemblyName>
+        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -40,16 +40,16 @@
     <ItemGroup>
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Server.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <None Include="App.config" />
+        <Compile Include="RemoteNew.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Common\Common.csproj">
         <Project>{53118ae5-247f-4978-9a01-29c5a570c651}</Project>
         <Name>Common</Name>
       </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="App.config" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
