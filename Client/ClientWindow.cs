@@ -10,12 +10,12 @@ namespace Client {
             InitializeServerConnection();
             InitializeComponent();
             
-            if (ChatServer.RegisterUser("Random User")) {
+            /*if (ChatServer.RegisterUser("Random User")) {
                 Console.WriteLine("Registration worked");
             }
             else {
                 Console.WriteLine("Registration failed");
-            }
+            }*/
 
         }
 
