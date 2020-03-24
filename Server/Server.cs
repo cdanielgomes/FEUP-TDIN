@@ -24,7 +24,6 @@ namespace Server
             usersMap[user] = user;
             Console.WriteLine("[Server]: User {0} registered with success", user);
             return true;
-
         }
     }
 }
