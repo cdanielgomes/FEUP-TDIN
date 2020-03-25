@@ -40,14 +40,21 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="ClientWindow.cs">
+        <Compile Include="ClientApp.cs" />
+        <Compile Include="LoginWindow.cs">
           <SubType>Form</SubType>
         </Compile>
-        <Compile Include="ClientWindow.Designer.cs">
-          <DependentUpon>ClientWindow.cs</DependentUpon>
+        <Compile Include="LoginWindow.Designer.cs">
+          <DependentUpon>LoginWindow.cs</DependentUpon>
         </Compile>
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="RegisterWindow.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="RegisterWindow.Designer.cs">
+          <DependentUpon>RegisterWindow.cs</DependentUpon>
+        </Compile>
         <Compile Include="RemoteNew.cs" />
     </ItemGroup>
     <ItemGroup>
