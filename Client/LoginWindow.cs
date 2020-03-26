@@ -20,14 +20,10 @@ namespace Client {
         }
 
         private void loginButton_Click(object sender, EventArgs e) {
-            
-        }
-        
-        public void OnlineUsers(HashSet<ActiveUser> onlineUsers)
-        {
-            _friends = onlineUsers;
-            Console.WriteLine("Receive stuff");
-
+            if (ClientApp.GetServer().LoginUser(nicknameBox.Text, passwordBox.Text, "address")) {
+                this.Close();
+                Application.Run(new MainWindow());
+            }
         }
     }
 }

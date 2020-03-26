@@ -9,14 +9,14 @@ namespace Client {
         
         private void registerButton_Click(object sender, EventArgs e) {
                         
-            if (ClientApp.GetServer().RegisterUser("Carlos", "myAddress")) {
+            if (ClientApp.GetServer().RegisterUser(nicknameBox.Text, passwordBox.Text)) {
                 Console.WriteLine("Registration worked");
 
-                if (ClientApp.GetServer().LoginUser("Carlos", "myAddress", "address"))
-                {
-                  
+                if (ClientApp.GetServer().LoginUser(nicknameBox.Text, passwordBox.Text, "address")) {
+                    Console.WriteLine("Login worked");
+                    this.Close();
+                    Application.Run(new MainWindow());
                 }
-                // Launch everything else
             }
             else {
                 Console.WriteLine("Registration failed");
