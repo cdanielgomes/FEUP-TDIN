@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using Common;
 
 namespace Client {
     public partial class RegisterWindow : Form {
@@ -13,6 +14,7 @@ namespace Client {
                 Console.WriteLine("Registration worked");
 
                 if (ClientApp.GetServer().LoginUser(nicknameBox.Text, passwordBox.Text, "address")) {
+                    ClientApp.SetLoggedUser(new ActiveUser(nicknameBox.Text, "address"));
                     Console.WriteLine("Login worked");
                     this.Close();
                     Application.Run(new MainWindow());

@@ -8,7 +8,8 @@ namespace Server
     {
         private Dictionary<string, RegisteredUser> _usersRegistered;
         private HashSet<ActiveUser> _onlineUsers;
-        private IClientRem _clientRem;
+        public event NewActiveUser NewUserHandler; 
+        public event LogoutActiveUser LogoutUserHandler; 
 
         public Server()
         {
@@ -48,16 +49,54 @@ namespace Server
             
             if (!_usersRegistered.ContainsKey(username) ||
                 !_usersRegistered[username].CheckPassword((password))) return false;
-            if (!_onlineUsers.Add(new ActiveUser(username, address))) return false;
+            ActiveUser newUser = new ActiveUser(username, address);
+            if (!_onlineUsers.Add(newUser)) return false;
 
 
-          //  _clientRem.OnlineUsers(_onlineUsers);
+            NotifyActiveUser(newUser);
             return true;
         }
 
         public bool LogoutUser(ActiveUser user)
         {
+            NotifyLogoutUser(user);
             return _onlineUsers.Remove(user);
+        }
+
+        public HashSet<ActiveUser> getOnlineUsers() {
+            return _onlineUsers;
+        }
+        
+        void NotifyActiveUser(ActiveUser user) {
+            if (NewUserHandler != null) {
+                Delegate[] invkList = NewUserHandler.GetInvocationList();
+
+                foreach (NewActiveUser handler in invkList) {
+                    try {
+                        IAsyncResult ar = handler.BeginInvoke(user, null, null);
+                        Console.WriteLine("User {0} Logged in",user.Username);
+                    }
+                    catch (Exception e) {
+                        NewUserHandler -= handler;
+                    }
+                }
+            }
+        }
+        
+        void NotifyLogoutUser(ActiveUser user) {
+            if (LogoutUserHandler != null) {
+                Delegate[] invkList = LogoutUserHandler.GetInvocationList();
+
+                foreach (LogoutActiveUser handler in invkList) {
+                    try {
+                        IAsyncResult ar = handler.BeginInvoke(user, null, null);
+                        Console.WriteLine("User {0} Logged out",user.Username);
+                    }
+                    catch (Exception e) {
+                        LogoutUserHandler -= handler;
+                    }
+                }
+            }
         }
     }
 }

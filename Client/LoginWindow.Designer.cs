@@ -75,7 +75,7 @@ namespace Client
             this.LoginButton.Name = "LoginButton";
             this.LoginButton.Size = new System.Drawing.Size(146, 29);
             this.LoginButton.TabIndex = 4;
-            this.registerButton.Click += new System.EventHandler(this.loginButton_Click);
+            this.LoginButton.Click += new System.EventHandler(this.loginButton_Click);
             // 
             // closeButton
             // 
