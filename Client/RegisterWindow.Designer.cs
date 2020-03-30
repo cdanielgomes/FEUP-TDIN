@@ -64,7 +64,7 @@ namespace Client {
             // 
             // nicknameBox
             // 
-            this.nicknameBox.Text = "nicknameBox";
+            this.nicknameBox.Text = "";
             this.nicknameBox.BackColor = System.Drawing.SystemColors.Window;
             this.nicknameBox.ForeColor = System.Drawing.SystemColors.WindowText;
             this.nicknameBox.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -75,7 +75,8 @@ namespace Client {
             // 
             // passwordBox
             // 
-            this.passwordBox.Text = "passwordBox";
+            this.passwordBox.Text = "";
+            this.passwordBox.PasswordChar = '*';
             this.passwordBox.BackColor = System.Drawing.SystemColors.Window;
             this.passwordBox.ForeColor = System.Drawing.SystemColors.WindowText;
             this.passwordBox.Cursor = System.Windows.Forms.Cursors.IBeam;

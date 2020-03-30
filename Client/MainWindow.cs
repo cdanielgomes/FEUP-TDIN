@@ -29,11 +29,22 @@ namespace Client {
 
         public void AddActiveUser(ActiveUser user) {
             _onlineUsers.Add(user);
+            ListViewItem lvItem = new ListViewItem(user.Username);
+            userListView.Items.Add(lvItem);
+            lvItem.ImageIndex = 0;
+            //Application.DoEvents();
             Console.WriteLine("User {0} Logged in",user.Username);
         }
 
         public void RemoveActiveUser(ActiveUser user) {
             _onlineUsers.Remove(user);
+
+            foreach (ListViewItem lvItem in this.userListView.Items) {
+                if (lvItem.Text.Equals(user.Username)) {
+                    lvItem.Remove();
+                }
+            }
+            
             Console.WriteLine("User {0} Logged out",user.Username);
         }
 
@@ -61,6 +72,14 @@ namespace Client {
         private void MainWindow_FormClosed(Object sender, FormClosedEventArgs e) {
             LogoutSession();
             Application.Exit();
+        }
+
+        private void ClientWindow_Load(object sender, EventArgs e) {
+            foreach (ActiveUser user in _onlineUsers) {
+                ListViewItem lvItem = new ListViewItem(user.Username);
+                userListView.Items.Add(lvItem);
+                lvItem.ImageIndex = 0;
+            }
         }
     }
 }

@@ -49,11 +49,14 @@ namespace Server
             
             if (!_usersRegistered.ContainsKey(username) ||
                 !_usersRegistered[username].CheckPassword((password))) return false;
+            
             ActiveUser newUser = new ActiveUser(username, address);
-            if (!_onlineUsers.Add(newUser)) return false;
 
-
-            NotifyActiveUser(newUser);
+            if (!_onlineUsers.Contains(newUser)) {
+                if (!_onlineUsers.Add(newUser)) return false;
+                NotifyActiveUser(newUser);
+            }
+            
             return true;
         }
 
@@ -74,7 +77,7 @@ namespace Server
                 foreach (NewActiveUser handler in invkList) {
                     try {
                         IAsyncResult ar = handler.BeginInvoke(user, null, null);
-                        Console.WriteLine("User {0} Logged in",user.Username);
+                        Console.WriteLine("[Server]: User {0} Logged in",user.Username);
                     }
                     catch (Exception e) {
                         NewUserHandler -= handler;
@@ -90,7 +93,7 @@ namespace Server
                 foreach (LogoutActiveUser handler in invkList) {
                     try {
                         IAsyncResult ar = handler.BeginInvoke(user, null, null);
-                        Console.WriteLine("User {0} Logged out",user.Username);
+                        Console.WriteLine("[Server]: User {0} Logged out",user.Username);
                     }
                     catch (Exception e) {
                         LogoutUserHandler -= handler;
