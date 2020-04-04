@@ -12,10 +12,9 @@ namespace Client {
             InitializeServerConnection();
         }
 
-        public static void Init() {
-            if (_instance == null) {
-                _instance = new ClientApp();
-            }
+        public static void Init(string address)
+        {
+            _instance ??= new ClientApp {Address = address};
         }
 
         void InitializeServerConnection() {
@@ -44,5 +43,7 @@ namespace Client {
         public static void SetLoggedUser(ActiveUser user) {
             _instance._loggedUser = user;
         }
+
+        public string Address { get; private set; }
     }
 }

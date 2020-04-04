@@ -28,12 +28,23 @@ namespace Client {
         }
 
         public void AddActiveUser(ActiveUser user) {
+                  Console.WriteLine("User {0} Logged in",user.Username);
+
             _onlineUsers.Add(user);
             ListViewItem lvItem = new ListViewItem(user.Username);
             userListView.Items.Add(lvItem);
             lvItem.ImageIndex = 0;
             //Application.DoEvents();
             Console.WriteLine("User {0} Logged in",user.Username);
+
+            if (user.Username != ClientApp.GetLoggedUser().Username)
+            {
+              
+                IClientRem rem = (IClientRem) RemotingServices.Connect(typeof(IClientRem), user.Address); 
+                Console.WriteLine(rem);
+                Console.WriteLine(rem.SayI("I from " + ClientApp.GetLoggedUser().Username)); // Send I and receive Ola 
+                // Vou começar com o Daniel client entao devera ser o Daniel a dar print de um OLa
+            }
         }
 
         public void RemoveActiveUser(ActiveUser user) {
