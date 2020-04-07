@@ -14,6 +14,10 @@ namespace Client
     #region Windows Form Designer generated code
     public partial class LoginWindow
     {
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
         private void InitializeComponent()
         {
             this.nicknameLabel = new System.Windows.Forms.Label();
@@ -23,86 +27,79 @@ namespace Client
             this.LoginButton = new System.Windows.Forms.Button();
             this.closeButton = new System.Windows.Forms.Button();
             this.registerButton = new System.Windows.Forms.Button();
+            this.SuspendLayout();
             // 
             // nicknameLabel
             // 
             this.nicknameLabel.AutoSize = true;
-            this.nicknameLabel.Image = null;
-            this.nicknameLabel.Text = "Name:";
             this.nicknameLabel.Location = new System.Drawing.Point(28, 26);
             this.nicknameLabel.Name = "nicknameLabel";
-            this.nicknameLabel.Size = new System.Drawing.Size(40, 14);
+            this.nicknameLabel.Size = new System.Drawing.Size(52, 20);
             this.nicknameLabel.TabIndex = 0;
+            this.nicknameLabel.Text = "Name:";
             // 
             // passwordLabel
             // 
             this.passwordLabel.AutoSize = true;
-            this.passwordLabel.Image = null;
-            this.passwordLabel.Text = "Pass:";
             this.passwordLabel.Location = new System.Drawing.Point(28, 78);
             this.passwordLabel.Name = "passwordLabel";
-            this.passwordLabel.Size = new System.Drawing.Size(33, 14);
+            this.passwordLabel.Size = new System.Drawing.Size(39, 20);
             this.passwordLabel.TabIndex = 0;
+            this.passwordLabel.Text = "Pass:";
             // 
             // nicknameBox
             // 
-            this.nicknameBox.Text = "";
             this.nicknameBox.BackColor = System.Drawing.SystemColors.Window;
-            this.nicknameBox.ForeColor = System.Drawing.SystemColors.WindowText;
             this.nicknameBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.nicknameBox.ForeColor = System.Drawing.SystemColors.WindowText;
             this.nicknameBox.Location = new System.Drawing.Point(79, 22);
             this.nicknameBox.Name = "nicknameBox";
-            this.nicknameBox.Size = new System.Drawing.Size(314, 20);
+            this.nicknameBox.Size = new System.Drawing.Size(314, 27);
             this.nicknameBox.TabIndex = 3;
             // 
             // passwordBox
             // 
-            this.passwordBox.Text = "";
-            this.passwordBox.PasswordChar = '*';
             this.passwordBox.BackColor = System.Drawing.SystemColors.Window;
-            this.passwordBox.ForeColor = System.Drawing.SystemColors.WindowText;
             this.passwordBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.passwordBox.ForeColor = System.Drawing.SystemColors.WindowText;
             this.passwordBox.Location = new System.Drawing.Point(79, 76);
             this.passwordBox.Name = "passwordBox";
-            this.passwordBox.Size = new System.Drawing.Size(314, 20);
+            this.passwordBox.PasswordChar = '*';
+            this.passwordBox.Size = new System.Drawing.Size(314, 27);
             this.passwordBox.TabIndex = 3;
             // 
             // LoginButton
             // 
-            this.LoginButton.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.LoginButton.Text = "Login";
-            this.LoginButton.UseVisualStyleBackColor = true;
             this.LoginButton.Location = new System.Drawing.Point(142, 113);
             this.LoginButton.Name = "LoginButton";
             this.LoginButton.Size = new System.Drawing.Size(146, 29);
             this.LoginButton.TabIndex = 4;
+            this.LoginButton.Text = "Login";
+            this.LoginButton.UseVisualStyleBackColor = true;
             this.LoginButton.Click += new System.EventHandler(this.loginButton_Click);
             // 
             // closeButton
             // 
-            this.closeButton.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.closeButton.Text = "Close";
-            this.closeButton.UseVisualStyleBackColor = true;
             this.closeButton.Location = new System.Drawing.Point(144, 192);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(145, 34);
             this.closeButton.TabIndex = 6;
+            this.closeButton.Text = "Close";
+            this.closeButton.UseVisualStyleBackColor = true;
             // 
             // registerButton
             // 
-            this.registerButton.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.registerButton.Text = "Register";
-            this.registerButton.UseVisualStyleBackColor = true;
             this.registerButton.Location = new System.Drawing.Point(144, 152);
-            this.registerButton.Name = "button1";
+            this.registerButton.Name = "registerButton";
             this.registerButton.Size = new System.Drawing.Size(146, 29);
             this.registerButton.TabIndex = 7;
+            this.registerButton.Text = "Register";
+            this.registerButton.UseVisualStyleBackColor = true;
             this.registerButton.Click += new System.EventHandler(this.registerButton_Click);
             // 
-            // ClientWindow
+            // LoginWindow
             // 
             this.ClientSize = new System.Drawing.Size(450, 241);
-            this.Text = "ChatMessenger";
             this.Controls.Add(this.closeButton);
             this.Controls.Add(this.LoginButton);
             this.Controls.Add(this.nicknameLabel);
@@ -110,15 +107,18 @@ namespace Client
             this.Controls.Add(this.nicknameBox);
             this.Controls.Add(this.passwordBox);
             this.Controls.Add(this.registerButton);
-            this.Name = "ClientWindow";
-            //this.Load += new System.EventHandler(this.ClientWindow_Load);
+            this.Name = "LoginWindow";
+            this.Text = "ChatMessenger";
+            this.ResumeLayout(false);
+            this.PerformLayout();
         }
-        private System.Windows.Forms.Label nicknameLabel;
-        private System.Windows.Forms.Label passwordLabel;
-        private System.Windows.Forms.TextBox nicknameBox;
-        private System.Windows.Forms.TextBox passwordBox;
-        private System.Windows.Forms.Button LoginButton;
+
         private System.Windows.Forms.Button closeButton;
+        private System.Windows.Forms.Button LoginButton;
+        private System.Windows.Forms.TextBox nicknameBox;
+        private System.Windows.Forms.Label nicknameLabel;
+        private System.Windows.Forms.TextBox passwordBox;
+        private System.Windows.Forms.Label passwordLabel;
         private System.Windows.Forms.Button registerButton;
     }
     #endregion

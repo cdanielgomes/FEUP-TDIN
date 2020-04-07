@@ -92,5 +92,11 @@ namespace Client {
                 lvItem.ImageIndex = 0;
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var selectedUsers = userListView.SelectedItems;
+            Console.WriteLine(selectedUsers);
+        }
     }
 }

@@ -44,6 +44,12 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Chat.cs" />
+        <Compile Include="ChatBox.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="ChatBox.Designer.cs">
+          <DependentUpon>ChatBox.cs</DependentUpon>
+        </Compile>
         <Compile Include="ClientApp.cs" />
         <Compile Include="LoginWindow.cs">
           <SubType>Form</SubType>
@@ -75,6 +81,17 @@
         <Project>{53118ae5-247f-4978-9a01-29c5a570c651}</Project>
         <Name>Common</Name>
       </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Include="ChatBox.resx">
+        <DependentUpon>ChatBox.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Include="LoginWindow.resx">
+        <DependentUpon>LoginWindow.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Include="RegisterWindow.resx">
+        <DependentUpon>RegisterWindow.cs</DependentUpon>
+      </EmbeddedResource>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
