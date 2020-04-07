@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.Remoting;
 using Common;
 
@@ -7,9 +8,11 @@ namespace Client {
         private static ClientApp _instance;
         private IServer _chatServer;
         private ActiveUser _loggedUser;
+        private HashSet<ChatBox> _chat;
 
         private ClientApp() {
             InitializeServerConnection();
+            _chat = new HashSet<ChatBox>();
         }
 
         public static void Init(string address)

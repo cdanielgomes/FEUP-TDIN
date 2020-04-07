@@ -4,7 +4,7 @@ namespace Common
 {
     public interface IClientRem
     {
-        string SayI(string message);
+        void SendMessage(Message message);
         
     }
     

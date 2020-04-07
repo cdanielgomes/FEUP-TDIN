@@ -21,8 +21,8 @@ namespace Client {
         }
 
         private void loginButton_Click(object sender, EventArgs e) {
-            if (ClientApp.GetServer().LoginUser(nicknameBox.Text, passwordBox.Text, "address")) {
-                ClientApp.SetLoggedUser(new ActiveUser(nicknameBox.Text, "address"));
+            if (ClientApp.GetServer().LoginUser(nicknameBox.Text, passwordBox.Text, ClientApp.GetInstance().Address)) {
+                ClientApp.SetLoggedUser(new ActiveUser(nicknameBox.Text, ClientApp.GetInstance().Address));
                 Console.WriteLine("Login worked");
                 this.Close();
                 Application.Run(new MainWindow());

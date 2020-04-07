@@ -5,11 +5,13 @@ namespace Client
 {
     public class Chat : MarshalByRefObject, IClientRem
     {
-        public string SayI(string message)
+        
+        public void SendMessage(Message message)
         {
-                Console.WriteLine(message + " \n on the user:");
-                Console.WriteLine(ClientApp.GetLoggedUser().Username);
-                return "olá";
+            // Ver se existe
+            // Caso nao exista Criar a ChatBox
+            // Direcionar a Mensagem para a ChatBox correta
+            ClientApp.GetInstance();
         }
         
         
