@@ -11,18 +11,18 @@ namespace Client {
         private void registerButton_Click(object sender, EventArgs e) {
                         
             if (ClientApp.GetServer().RegisterUser(nicknameBox.Text, passwordBox.Text)) {
-                Console.WriteLine("Registration worked");
+                Console.WriteLine(@"Registration worked");
 
                 if (ClientApp.GetServer().LoginUser(nicknameBox.Text, passwordBox.Text, ClientApp.GetInstance().Address)) {
                     ClientApp.SetLoggedUser(new ActiveUser(nicknameBox.Text, ClientApp.GetInstance().Address));
-                    Console.WriteLine("Login worked");
+                    Console.WriteLine(@"Login worked");
                     this.Hide();
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.ShowDialog();
                 }
             }
             else {
-                Console.WriteLine("Registration failed");
+                Console.WriteLine(@"Registration failed");
             }
         }
         

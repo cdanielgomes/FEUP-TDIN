@@ -4,7 +4,8 @@ using System.Runtime.Remoting;
 using System.Windows.Forms;
 using Common;
 
-namespace Client {
+namespace Client
+{
     public partial class MainWindow : Form
     {
         private HashSet<ActiveUser> _onlineUsers;
@@ -13,7 +14,7 @@ namespace Client {
 
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent(ClientApp.GetLoggedUser().Username);
             fetchOnlineUsers();
             SubscribeServerNotifications();
         }
@@ -23,13 +24,12 @@ namespace Client {
             try
             {
                 _onlineUsers = ClientApp.GetServer().getOnlineUsers();
-                Console.WriteLine("Online users received");
+                Console.WriteLine(@"Online users received");
             }
             catch (RemotingException e)
             {
-                Console.WriteLine("Failed to fetch online users");
+                Console.WriteLine(@"Failed to fetch online users");
             }
-
         }
 
         public void AddActiveUser(ActiveUser user)
@@ -42,7 +42,6 @@ namespace Client {
             lvItem.ImageIndex = 0;
             //Application.DoEvents();
             Console.WriteLine("User {0} Logged in", user.Username);
-
         }
 
         public void RemoveActiveUser(ActiveUser user)
@@ -68,14 +67,14 @@ namespace Client {
             _logoutUserRepeater.Handler += new LogoutActiveUser(RemoveActiveUser);
             ClientApp.GetServer().NewUserHandler += new NewActiveUser(_newUserRepeater.Repeater);
             ClientApp.GetServer().LogoutUserHandler += new LogoutActiveUser(_logoutUserRepeater.Repeater);
-            Console.WriteLine("Client App subscribed with success");
+            Console.WriteLine(@"Client App subscribed with success");
         }
 
         private void UnsubscribeServerNotifications()
         {
             ClientApp.GetServer().NewUserHandler -= new NewActiveUser(_newUserRepeater.Repeater);
             ClientApp.GetServer().LogoutUserHandler -= new LogoutActiveUser(_logoutUserRepeater.Repeater);
-            Console.WriteLine("Client App unsubscribed with success");
+            Console.WriteLine(@"Client App unsubscribed with success");
         }
 
         private void LogoutSession()
@@ -102,21 +101,33 @@ namespace Client {
 
         private void button1_Click(object sender, EventArgs e)
         {
+            ActiveUser user = null;
+
             var selectedUsers = userListView.SelectedItems;
-            foreach (var userList in selectedUsers)
+            for (var index = 0; index < selectedUsers.Count ; index++)
             {
-                ActiveUser user = null;
                 foreach (var contact in _onlineUsers)
                 {
-                    if (contact.Username.Equals(userList.ToString()))
+                    
+                    if (contact.Username.Equals(selectedUsers[index].Text))
                     {
+                        Console.WriteLine(@"Made contact with {0}", contact.Username);
+
                         user = contact;
                         break;
                     }
                 }
 
-                var chat = new ChatBox(user);
-                Application.Run();
+                if (user != null)
+                {
+                    var chat = new ChatBox(user);
+                    ClientApp.GetInstance().GetChats().Add(chat);
+                    Application.Run(chat);
+                }
+                else
+                {
+                    Console.WriteLine(@"NULL");
+                }
             }
         }
     }

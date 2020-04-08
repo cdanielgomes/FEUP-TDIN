@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Runtime.Remoting;
 using System.Windows.Forms;
 using Common;
@@ -20,17 +21,37 @@ namespace Client
             _messages = new SortedSet<Message>();
             InitializeComponent(user.Username);
         }
-
         private void sendButton_Click(object sender, EventArgs e)
         {
             char[] charsToTrim = {' '};
             string test = inputMessage.Text.Trim(charsToTrim);
-            if (test.Equals(""))
+            if (!test.Equals(""))
             {
-                Message m = new Message(_user, inputMessage.Text);
+                Message m = new Message(ClientApp.GetLoggedUser(), inputMessage.Text);
+                _messages.Add(m);
+                InsertText(m);
                 _iFriend.SendMessage(m);
-
+                inputMessage.Text = "";
             }
         }
+
+        public ActiveUser GetFriend()
+        {
+            return _user;
+        }
+
+        public void AddMessage(Message message)
+        {
+            _messages.Add(message);
+            InsertText(message);
+        }
+
+        private void InsertText(Message m)
+        {
+            string dateTime = m.MessageDate.ToString("g",  CultureInfo.CreateSpecificCulture("fr-FR"));
+            string message = m.MessageSent;
+            chatMessages.Text += message + '\t' + dateTime + '\n';
+        }
+        
     }
 }

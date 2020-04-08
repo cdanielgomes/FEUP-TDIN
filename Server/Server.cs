@@ -34,7 +34,7 @@ namespace Server
             }
             catch (ArgumentNullException e)
             {
-                Console.WriteLine("[Server]: Username can not be null");
+                Console.WriteLine(@"[Server]: Username can not be null");
                 return false;
             }
             catch (ArgumentException e)

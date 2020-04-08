@@ -10,7 +10,7 @@ namespace Client
     #region Windows Form Designer generated code
     public partial class MainWindow
     {
-        private void InitializeComponent()
+        private void InitializeComponent(string name)
         {
             this.userListView = new System.Windows.Forms.ListView();
             this.userIcon = new System.Windows.Forms.ColumnHeader("");
@@ -57,7 +57,7 @@ namespace Client
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(407, 450);
-            this.Text = "MainWindow";
+            this.Text = name;
             this.Controls.Add(this.userListView);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button2);

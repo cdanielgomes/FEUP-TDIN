@@ -26,7 +26,7 @@ namespace Client {
                 _chatServer = (IServer) RemoteNew.New(typeof(IServer));
             }
             catch (RemotingException e) {
-                Console.WriteLine("Failed to connect to Server:");
+                Console.WriteLine(@"Failed to connect to Server:");
                 Console.WriteLine(e.Message);
             }
         }
@@ -48,5 +48,10 @@ namespace Client {
         }
 
         public string Address { get; private set; }
+
+        public HashSet<ChatBox> GetChats()
+        {
+            return _chat;
+        }
     }
 }
