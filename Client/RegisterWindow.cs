@@ -16,8 +16,9 @@ namespace Client {
                 if (ClientApp.GetServer().LoginUser(nicknameBox.Text, passwordBox.Text, ClientApp.GetInstance().Address)) {
                     ClientApp.SetLoggedUser(new ActiveUser(nicknameBox.Text, ClientApp.GetInstance().Address));
                     Console.WriteLine("Login worked");
-                    this.Close();
-                    Application.Run(new MainWindow());
+                    this.Hide();
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.ShowDialog();
                 }
             }
             else {
@@ -26,8 +27,9 @@ namespace Client {
         }
         
         private void loginButton_Click(object sender, EventArgs e) {
-            this.Close();
-            Application.Run(new LoginWindow());
+            this.Hide();
+            LoginWindow loginWin = new LoginWindow();
+            loginWin.ShowDialog();
         }
     }
 }

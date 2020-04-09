@@ -13,8 +13,11 @@ namespace Client {
         }
 
         private void registerButton_Click(object sender, EventArgs e) {
-            this.Close();
-            Application.Run(new RegisterWindow());
+            this.Hide();
+            RegisterWindow regWindow = new RegisterWindow();
+            regWindow.ShowDialog();
+           
+            
         }
 
         private void loginButton_Click(object sender, EventArgs e) {
