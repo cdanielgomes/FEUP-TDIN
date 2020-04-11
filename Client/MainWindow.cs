@@ -29,6 +29,7 @@ namespace Client
             catch (RemotingException e)
             {
                 Console.WriteLine(@"Failed to fetch online users");
+                Console.WriteLine(e);
             }
         }
 
@@ -38,7 +39,7 @@ namespace Client
 
             _onlineUsers.Add(user);
             ListViewItem lvItem = new ListViewItem(user.Username);
-            userListView.Items.Add(lvItem);
+            listView1.Items.Add(lvItem);
             lvItem.ImageIndex = 0;
             //Application.DoEvents();
             Console.WriteLine("User {0} Logged in", user.Username);
@@ -48,7 +49,7 @@ namespace Client
         {
             _onlineUsers.Remove(user);
 
-            foreach (ListViewItem lvItem in this.userListView.Items)
+            foreach (ListViewItem lvItem in this.listView1.Items)
             {
                 if (lvItem.Text.Equals(user.Username))
                 {
@@ -89,12 +90,12 @@ namespace Client
             Application.Exit();
         }
 
-        private void ClientWindow_Load(object sender, EventArgs e)
+        private void MainWindow_Load(object sender, EventArgs e)
         {
             foreach (ActiveUser user in _onlineUsers)
             {
                 ListViewItem lvItem = new ListViewItem(user.Username);
-                userListView.Items.Add(lvItem);
+                listView1.Items.Add(lvItem);
                 lvItem.ImageIndex = 0;
             }
         }
@@ -103,7 +104,7 @@ namespace Client
         {
             ActiveUser user = null;
 
-            var selectedUsers = userListView.SelectedItems;
+            var selectedUsers = listView1.SelectedItems;
             for (var index = 0; index < selectedUsers.Count ; index++)
             {
                 foreach (var contact in _onlineUsers)
@@ -129,6 +130,11 @@ namespace Client
                     Console.WriteLine(@"NULL");
                 }
             }
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

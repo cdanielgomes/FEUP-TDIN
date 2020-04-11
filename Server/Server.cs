@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using Common;
 
 namespace Server
 {
     public class Server : MarshalByRefObject, IServer
     {
+        const string FileName = "StoredUsers.bin";
         private Dictionary<string, RegisteredUser> _usersRegistered;
         private HashSet<ActiveUser> _onlineUsers;
         public event NewActiveUser NewUserHandler; 
@@ -13,7 +16,7 @@ namespace Server
 
         public Server()
         {
-            _usersRegistered = new Dictionary<string, RegisteredUser>();
+            LoadData();
             _onlineUsers = new HashSet<ActiveUser>();
         }
 
@@ -22,13 +25,13 @@ namespace Server
             return null;
         }
 
-        public bool RegisterUser(string username, string password)
+        public bool RegisterUser(string username, string realname, string password)
         {
             try
             {
-                RegisteredUser newUser = new RegisteredUser(username, password);
+                RegisteredUser newUser = new RegisteredUser(username, realname, password);
                 _usersRegistered.Add(username, newUser);
-
+                SaveData();
                 Console.WriteLine("[Server]: User {0} registered with success", username);
                 return true;
             }
@@ -49,8 +52,9 @@ namespace Server
             
             if (!_usersRegistered.ContainsKey(username) ||
                 !_usersRegistered[username].CheckPassword((password))) return false;
-            
-            ActiveUser newUser = new ActiveUser(username, address);
+
+            RegisteredUser regUser = _usersRegistered[username];
+            ActiveUser newUser = new ActiveUser(regUser.Username, regUser.RealName, address);
 
             if (!_onlineUsers.Contains(newUser)) {
                 if (!_onlineUsers.Add(newUser)) return false;
@@ -100,6 +104,30 @@ namespace Server
                     }
                 }
             }
+        }
+
+        void LoadData()
+        {
+            if (File.Exists(FileName))
+            {
+                Console.WriteLine("Reading saved file");
+                Stream openFileStream = File.OpenRead(FileName);
+                BinaryFormatter deserializer = new BinaryFormatter();
+                this._usersRegistered = (Dictionary<string, RegisteredUser>)deserializer.Deserialize(openFileStream);
+                openFileStream.Close();
+            }
+            else
+            {
+                _usersRegistered = new Dictionary<string, RegisteredUser>();
+            }
+        }
+
+        void SaveData()
+        {
+            Stream SaveFileStream = File.Create(FileName);
+            BinaryFormatter serializer = new BinaryFormatter();
+            serializer.Serialize(SaveFileStream, this._usersRegistered);
+            SaveFileStream.Close();
         }
     }
 }

@@ -5,12 +5,14 @@ namespace Common
     [Serializable]
     public abstract class User
     {
-        protected User(string username)
+        protected User(string username, string realname)
         {
             Username = username;
+            RealName = realname;
         }
 
         public string Username { get; set; }
+        public string RealName { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -29,7 +31,7 @@ namespace Common
     [Serializable]
     public sealed class ActiveUser : User
     {
-        public ActiveUser(string username, string address) : base(username)
+        public ActiveUser(string username, string realname, string address) : base(username, realname)
         {
             Address = address;
         }
@@ -40,7 +42,7 @@ namespace Common
     [Serializable]
     public sealed class RegisteredUser : User
     {
-        public RegisteredUser(string username, string password) : base(username)
+        public RegisteredUser(string username, string realname, string password) : base(username, realname)
         {
             Password = password;
         }
