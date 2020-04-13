@@ -37,6 +37,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Messaging" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
@@ -51,17 +52,17 @@
       <DependentUpon>ChatBox.cs</DependentUpon>
     </Compile>
     <Compile Include="ClientApp.cs" />
-    <Compile Include="LoginWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LoginWindow.Designer.cs">
-      <DependentUpon>LoginWindow.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginWindow.Designer.cs">
+      <DependentUpon>LoginWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,11 +92,11 @@
     <EmbeddedResource Include="ChatBox.resx">
       <DependentUpon>ChatBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginWindow.resx">
-      <DependentUpon>LoginWindow.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginWindow.resx">
+      <DependentUpon>LoginWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,20 +1,29 @@
+﻿using Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
 using System.Runtime.Remoting;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using Common;
 
 namespace Client
 {
     public partial class MainWindow : Form
     {
+
         private HashSet<ActiveUser> _onlineUsers;
         private NewUserEventRepeater _newUserRepeater;
         private LogoutUserEventRepeater _logoutUserRepeater;
 
-        public MainWindow()
+
+        public MainWindow(ActiveUser user)
         {
-            InitializeComponent(ClientApp.GetLoggedUser().Username);
+            InitializeComponent();
+            label2.Text += user.Username;
             fetchOnlineUsers();
             SubscribeServerNotifications();
         }
@@ -84,32 +93,17 @@ namespace Client
             ClientApp.GetServer().LogoutUser(ClientApp.GetLoggedUser());
         }
 
-        private void MainWindow_FormClosed(Object sender, FormClosedEventArgs e)
+        private void CreateChat_Click(object sender, EventArgs e)
         {
-            LogoutSession();
-            Application.Exit();
-        }
 
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-            foreach (ActiveUser user in _onlineUsers)
-            {
-                ListViewItem lvItem = new ListViewItem(user.Username);
-                listView1.Items.Add(lvItem);
-                lvItem.ImageIndex = 0;
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
             ActiveUser user = null;
 
             var selectedUsers = listView1.SelectedItems;
-            for (var index = 0; index < selectedUsers.Count ; index++)
+            for (var index = 0; index < selectedUsers.Count; index++)
             {
                 foreach (var contact in _onlineUsers)
                 {
-                    
+
                     if (contact.Username.Equals(selectedUsers[index].Text))
                     {
                         Console.WriteLine(@"Made contact with {0}", contact.Username);
@@ -132,9 +126,27 @@ namespace Client
             }
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void Logout_Click(object sender, EventArgs e)
         {
 
+            LogoutSession();
+            Application.Exit();
+        }
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            foreach (ActiveUser user in _onlineUsers)
+            {
+                ListViewItem lvItem = new ListViewItem(user.Username);
+                listView1.Items.Add(lvItem);
+                lvItem.ImageIndex = 0;
+            }
+        }
+
+        private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            LogoutSession();
+            Application.Exit();
         }
     }
 }

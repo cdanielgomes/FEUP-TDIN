@@ -25,7 +25,7 @@ namespace Client {
                         ClientApp.SetLoggedUser(newUser);
                         Console.WriteLine(@"Login worked");
                         this.Hide();
-                        MainWindow mainWindow = new MainWindow();
+                        MainWindow mainWindow = new MainWindow(newUser);
                         mainWindow.ShowDialog();
                     }
                 }

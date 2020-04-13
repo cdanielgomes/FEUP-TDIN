@@ -46,7 +46,7 @@ namespace Client {
             this.nicknameLabel.AutoSize = true;
             this.nicknameLabel.Location = new System.Drawing.Point(28, 61);
             this.nicknameLabel.Name = "nicknameLabel";
-            this.nicknameLabel.Size = new System.Drawing.Size(58, 13);
+            this.nicknameLabel.Size = new System.Drawing.Size(74, 17);
             this.nicknameLabel.TabIndex = 0;
             this.nicknameLabel.Text = "Nickname:";
             this.nicknameLabel.Click += new System.EventHandler(this.nicknameLabel_Click);
@@ -56,7 +56,7 @@ namespace Client {
             this.passwordLabel.AutoSize = true;
             this.passwordLabel.Location = new System.Drawing.Point(28, 113);
             this.passwordLabel.Name = "passwordLabel";
-            this.passwordLabel.Size = new System.Drawing.Size(56, 13);
+            this.passwordLabel.Size = new System.Drawing.Size(73, 17);
             this.passwordLabel.TabIndex = 0;
             this.passwordLabel.Text = "Password:";
             // 
@@ -67,7 +67,7 @@ namespace Client {
             this.nicknameBox.ForeColor = System.Drawing.SystemColors.WindowText;
             this.nicknameBox.Location = new System.Drawing.Point(102, 59);
             this.nicknameBox.Name = "nicknameBox";
-            this.nicknameBox.Size = new System.Drawing.Size(314, 20);
+            this.nicknameBox.Size = new System.Drawing.Size(314, 22);
             this.nicknameBox.TabIndex = 3;
             // 
             // passwordBox
@@ -78,7 +78,7 @@ namespace Client {
             this.passwordBox.Location = new System.Drawing.Point(102, 112);
             this.passwordBox.Name = "passwordBox";
             this.passwordBox.PasswordChar = '*';
-            this.passwordBox.Size = new System.Drawing.Size(314, 20);
+            this.passwordBox.Size = new System.Drawing.Size(314, 22);
             this.passwordBox.TabIndex = 3;
             // 
             // registerButton
@@ -118,7 +118,7 @@ namespace Client {
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(28, 89);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
+            this.label1.Size = new System.Drawing.Size(49, 17);
             this.label1.TabIndex = 8;
             this.label1.Text = "Name:";
             // 
@@ -129,7 +129,7 @@ namespace Client {
             this.textBox1.ForeColor = System.Drawing.SystemColors.WindowText;
             this.textBox1.Location = new System.Drawing.Point(102, 86);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(314, 20);
+            this.textBox1.Size = new System.Drawing.Size(314, 22);
             this.textBox1.TabIndex = 9;
             // 
             // label2
@@ -137,7 +137,7 @@ namespace Client {
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(28, 139);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 13);
+            this.label2.Size = new System.Drawing.Size(95, 17);
             this.label2.TabIndex = 10;
             this.label2.Text = "Confirm Pass:";
             // 
@@ -149,7 +149,7 @@ namespace Client {
             this.textBox2.Location = new System.Drawing.Point(102, 137);
             this.textBox2.Name = "textBox2";
             this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(314, 20);
+            this.textBox2.Size = new System.Drawing.Size(314, 22);
             this.textBox2.TabIndex = 11;
             // 
             // label3
@@ -158,7 +158,7 @@ namespace Client {
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(95, 9);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(283, 37);
+            this.label3.Size = new System.Drawing.Size(352, 46);
             this.label3.TabIndex = 12;
             this.label3.Text = "Create an Account";
             // 

@@ -29,8 +29,9 @@ namespace Server
         {
             try
             {
-                RegisteredUser newUser = new RegisteredUser(username, realname, password);
-                _usersRegistered.Add(username, newUser);
+                string user = username.Trim();
+                RegisteredUser newUser = new RegisteredUser(user, realname, password);
+                _usersRegistered.Add(user, newUser);
                 SaveData();
                 Console.WriteLine("[Server]: User {0} registered with success", username);
                 return true;
@@ -49,11 +50,11 @@ namespace Server
 
         public ActiveUser LoginUser(string username, string password, string address)
         {
-            
-            if (!_usersRegistered.ContainsKey(username) ||
-                !_usersRegistered[username].CheckPassword((password))) return null;
+            string user = username.Trim();
+            if (!_usersRegistered.ContainsKey(user) ||
+                !_usersRegistered[user].CheckPassword((password))) return null;
 
-            RegisteredUser regUser = _usersRegistered[username];
+            RegisteredUser regUser = _usersRegistered[user];
             ActiveUser newUser = new ActiveUser(regUser.Username, regUser.RealName, address);
 
             if (!_onlineUsers.Contains(newUser)) {

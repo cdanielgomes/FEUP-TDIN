@@ -29,7 +29,7 @@ namespace Client {
                     ClientApp.SetLoggedUser(newUser);
                     Console.WriteLine(@"Login worked");
                     this.Hide();
-                    MainWindow mainWin = new MainWindow();
+                    MainWindow mainWin = new MainWindow(newUser);
                     mainWin.ShowDialog();
                 }
                 else
