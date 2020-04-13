@@ -161,7 +161,6 @@ namespace Client {
             this.label3.Size = new System.Drawing.Size(283, 37);
             this.label3.TabIndex = 12;
             this.label3.Text = "Create an Account";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // RegisterWindow
             // 
@@ -181,7 +180,6 @@ namespace Client {
             this.Controls.Add(this.loginButton);
             this.Name = "RegisterWindow";
             this.Text = "ChatMessenger";
-            this.Load += new System.EventHandler(this.RegisterWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

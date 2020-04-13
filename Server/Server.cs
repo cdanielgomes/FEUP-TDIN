@@ -47,21 +47,21 @@ namespace Server
             }
         }
 
-        public bool LoginUser(string username, string password, string address)
+        public ActiveUser LoginUser(string username, string password, string address)
         {
             
             if (!_usersRegistered.ContainsKey(username) ||
-                !_usersRegistered[username].CheckPassword((password))) return false;
+                !_usersRegistered[username].CheckPassword((password))) return null;
 
             RegisteredUser regUser = _usersRegistered[username];
             ActiveUser newUser = new ActiveUser(regUser.Username, regUser.RealName, address);
 
             if (!_onlineUsers.Contains(newUser)) {
-                if (!_onlineUsers.Add(newUser)) return false;
+                if (!_onlineUsers.Add(newUser)) return null;
                 NotifyActiveUser(newUser);
             }
             
-            return true;
+            return newUser;
         }
 
         public bool LogoutUser(ActiveUser user)
@@ -110,7 +110,7 @@ namespace Server
         {
             if (File.Exists(FileName))
             {
-                Console.WriteLine("Reading saved file");
+                Console.WriteLine("[Server]: Reading saved file");
                 Stream openFileStream = File.OpenRead(FileName);
                 BinaryFormatter deserializer = new BinaryFormatter();
                 this._usersRegistered = (Dictionary<string, RegisteredUser>)deserializer.Deserialize(openFileStream);

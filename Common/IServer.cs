@@ -6,7 +6,7 @@ namespace Common
     public interface IServer {
         bool RegisterUser(string username, string realname, string password);
 
-        bool LoginUser(string username, string password, string address);
+        ActiveUser LoginUser(string username, string password, string address);
         bool LogoutUser(ActiveUser user);
 
         HashSet<ActiveUser> getOnlineUsers();

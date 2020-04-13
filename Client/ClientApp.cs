@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Remoting;
+using System.Windows.Forms;
 using Common;
 
 namespace Client {
@@ -25,9 +26,10 @@ namespace Client {
                 RemotingConfiguration.Configure("Client.exe.config", false);
                 _chatServer = (IServer) RemoteNew.New(typeof(IServer));
             }
-            catch (RemotingException e) {
+            catch (Exception e) {
                 Console.WriteLine(@"Failed to connect to Server:");
                 Console.WriteLine(e.Message);
+                LaunchServerError(e.Message);
             }
         }
 
@@ -52,6 +54,13 @@ namespace Client {
         public HashSet<ChatBox> GetChats()
         {
             return _chat;
+        }
+
+        public static void LaunchServerError(string message)
+        {
+            MessageBox.Show(message,
+                "Server does not respond",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

@@ -21,13 +21,36 @@ namespace Client {
         }
 
         private void loginButton_Click(object sender, EventArgs e) {
-            if (ClientApp.GetServer().LoginUser(nicknameBox.Text, passwordBox.Text, ClientApp.GetInstance().Address)) {
-                ClientApp.SetLoggedUser(new ActiveUser(nicknameBox.Text, "Realname", ClientApp.GetInstance().Address));
-                Console.WriteLine(@"Login worked");
-                this.Hide();
-                MainWindow mainWin = new MainWindow();
-                mainWin.ShowDialog();
+            try
+            {
+                ActiveUser newUser = ClientApp.GetServer().LoginUser(nicknameBox.Text, passwordBox.Text, ClientApp.GetInstance().Address);
+                if (newUser != null)
+                {
+                    ClientApp.SetLoggedUser(newUser);
+                    Console.WriteLine(@"Login worked");
+                    this.Hide();
+                    MainWindow mainWin = new MainWindow();
+                    mainWin.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Login Failed: Be sure that you were registred with those credentials",
+                        "Login Failed",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    nicknameBox.Text = "";
+                    passwordBox.Text = "";
+                }
             }
+            catch (Exception ex)
+            {
+
+                ClientApp.LaunchServerError(ex.Message);
+            }
+        }
+
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

@@ -10,24 +10,33 @@ namespace Client {
         
         private void registerButton_Click(object sender, EventArgs e) {
 
-
-            if (passwordBox.Text != textBox2.Text)
+            try
             {
+                if (passwordBox.Text != textBox2.Text)
+                {
 
-            }            
-            else if (ClientApp.GetServer().RegisterUser(nicknameBox.Text, textBox2.Text, passwordBox.Text)) {
-                Console.WriteLine(@"Registration worked");
-
-                if (ClientApp.GetServer().LoginUser(nicknameBox.Text, passwordBox.Text, ClientApp.GetInstance().Address)) {
-                    ClientApp.SetLoggedUser(new ActiveUser(nicknameBox.Text, textBox2.Text, ClientApp.GetInstance().Address));
-                    Console.WriteLine(@"Login worked");
-                    this.Hide();
-                    MainWindow mainWindow = new MainWindow();
-                    mainWindow.ShowDialog();
+                }
+                else if (ClientApp.GetServer().RegisterUser(nicknameBox.Text, textBox2.Text, passwordBox.Text))
+                {
+                    Console.WriteLine(@"Registration worked");
+                    ActiveUser newUser = ClientApp.GetServer().LoginUser(nicknameBox.Text, passwordBox.Text, ClientApp.GetInstance().Address);
+                    if (newUser != null)
+                    {
+                        ClientApp.SetLoggedUser(newUser);
+                        Console.WriteLine(@"Login worked");
+                        this.Hide();
+                        MainWindow mainWindow = new MainWindow();
+                        mainWindow.ShowDialog();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine(@"Registration failed");
                 }
             }
-            else {
-                Console.WriteLine(@"Registration failed");
+            catch (Exception ex)
+            {
+                ClientApp.LaunchServerError(ex.Message);
             }
         }
         
@@ -45,16 +54,6 @@ namespace Client {
         private void closeButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void RegisterWindow_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
