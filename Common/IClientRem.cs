@@ -6,7 +6,11 @@ namespace Common
     {
         void SendMessage(Message message);
 
-        bool AcceptChat();
+        void AcceptChat(ActiveUser user, string chatName);
+
+        void RejectChat(ActiveUser user, string chatName);
+
+        void Invite(Message m);
 
     }
 

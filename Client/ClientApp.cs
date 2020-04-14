@@ -9,14 +9,17 @@ namespace Client {
         private static ClientApp _instance;
         private IServer _chatServer;
         private ActiveUser _loggedUser;
-        private HashSet<ChatBox> _chat;
+        private Dictionary<string, ChatBox> _chat;
+        private HashSet<string> _pendingChats;
 
         private ClientApp() {
             InitializeServerConnection();
-            _chat = new HashSet<ChatBox>();
-        }
+            _pendingChats = new HashSet<string>();
+            _chat = new Dictionary<string, ChatBox>();
 
-        public static void Init(string address)
+    }
+
+    public static void Init(string address)
         {
             _instance ??= new ClientApp {Address = address};
         }
@@ -51,11 +54,15 @@ namespace Client {
 
         public string Address { get; private set; }
 
-        public HashSet<ChatBox> GetChats()
+        public Dictionary<string, ChatBox> GetChats()
         {
             return _chat;
         }
 
+        public HashSet<string> GetPendingChats()
+        {
+            return _pendingChats;
+        }
         public static void LaunchServerError(string message)
         {
             MessageBox.Show(message,

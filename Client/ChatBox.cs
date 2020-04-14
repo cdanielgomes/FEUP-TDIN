@@ -14,14 +14,16 @@ namespace Client
         private readonly IClientRem _iFriend;
         private ActiveUser _user;
         private SortedSet<Message> _messages;
+        private string chatName;
 
-        public ChatBox(ActiveUser user)
+        public ChatBox(ActiveUser user, string chatName)
         {
             _user = user;
             _iFriend = (IClientRem) RemotingServices.Connect(typeof(IClientRem), user.Address);
             _messages = new SortedSet<Message>();
             InitializeComponent();
             friendLabel.Text = user.Username;
+            nameOfTheChat.Text = chatName;
         }
 
         private void sendButton_Click(object sender, EventArgs e)
@@ -33,13 +35,13 @@ namespace Client
                 Message m = new Message(ClientApp.GetLoggedUser(), inputMessage.Text);
                 _messages.Add(m);
                 InsertText(m);
-                Console.WriteLine("before call and after insertText");
+
                 Thread t = new Thread(() =>
                 {
                     _iFriend.SendMessage(m);
                 }); 
                 t.Start();
-               Console.WriteLine("after call / insertText");
+
                 inputMessage.Text = "";
             }
         }

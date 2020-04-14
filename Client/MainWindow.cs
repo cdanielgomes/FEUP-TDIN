@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.Remoting;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,7 +19,6 @@ namespace Client
         private HashSet<ActiveUser> _onlineUsers;
         private NewUserEventRepeater _newUserRepeater;
         private LogoutUserEventRepeater _logoutUserRepeater;
-
 
         public MainWindow(ActiveUser user)
         {
@@ -96,6 +96,7 @@ namespace Client
         private void CreateChat_Click(object sender, EventArgs e)
         {
 
+            //List<ActiveUser> users = null;
             ActiveUser user = null;
 
             var selectedUsers = listView1.SelectedItems;
@@ -108,6 +109,7 @@ namespace Client
                     {
                         Console.WriteLine(@"Made contact with {0}", contact.Username);
 
+                        // users.Add(contact);
                         user = contact;
                         break;
                     }
@@ -115,9 +117,19 @@ namespace Client
 
                 if (user != null)
                 {
-                    var chat = new ChatBox(user);
-                    ClientApp.GetInstance().GetChats().Add(chat);
-                    chat.Show();
+
+                    IClientRem friend = (IClientRem)RemotingServices.Connect(typeof(IClientRem), user.Address);
+
+                    // 
+
+                    ClientApp.GetInstance().GetPendingChats().Add(user.Username);
+
+                   Thread a = new Thread(() => { friend.Invite(new Common.Message(ClientApp.GetLoggedUser(), "Random", true)); });
+                    a.Start();
+
+                   // var chat = new ChatBox(user, "Random");
+                    // ClientApp.GetInstance().GetChats().Add(chat);
+                    //chat.Show();
                 }
                 else
                 {
