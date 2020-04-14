@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Remoting;
+using System.Threading;
 using System.Windows.Forms;
 using Common;
 using Message = Common.Message;
@@ -32,7 +33,13 @@ namespace Client
                 Message m = new Message(ClientApp.GetLoggedUser(), inputMessage.Text);
                 _messages.Add(m);
                 InsertText(m);
-                _iFriend.SendMessage(m);
+                Console.WriteLine("before call and after insertText");
+                Thread t = new Thread(() =>
+                {
+                    _iFriend.SendMessage(m);
+                }); 
+                t.Start();
+               Console.WriteLine("after call / insertText");
                 inputMessage.Text = "";
             }
         }
