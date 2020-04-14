@@ -7,7 +7,11 @@ namespace Client
 {
     public class Chat : MarshalByRefObject, IClientRem
     {
-        
+        public bool AcceptChat()
+        {
+            throw new NotImplementedException();
+        }
+
         public void SendMessage(Message message)
         {
             // Ver se existe

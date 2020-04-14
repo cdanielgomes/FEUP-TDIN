@@ -117,7 +117,7 @@ namespace Client
                 {
                     var chat = new ChatBox(user);
                     ClientApp.GetInstance().GetChats().Add(chat);
-                    chat.ShowDialog();
+                    chat.Show();
                 }
                 else
                 {

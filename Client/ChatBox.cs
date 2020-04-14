@@ -19,8 +19,10 @@ namespace Client
             _user = user;
             _iFriend = (IClientRem) RemotingServices.Connect(typeof(IClientRem), user.Address);
             _messages = new SortedSet<Message>();
-            InitializeComponent(user.Username);
+            InitializeComponent();
+            friendLabel.Text = user.Username;
         }
+
         private void sendButton_Click(object sender, EventArgs e)
         {
             char[] charsToTrim = {' '};

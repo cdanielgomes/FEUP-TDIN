@@ -29,7 +29,7 @@ namespace Client
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent(string friend)
+        private void InitializeComponent()
         {
             this.inputMessage = new System.Windows.Forms.TextBox();
             this.sendButton = new System.Windows.Forms.Button();
@@ -73,7 +73,7 @@ namespace Client
             this.friendLabel.Name = "friendLabel";
             this.friendLabel.Size = new System.Drawing.Size(506, 58);
             this.friendLabel.TabIndex = 3;
-            this.friendLabel.Text = friend;
+            this.friendLabel.Text = "friend";
             // 
             // ChatBox
             // 
