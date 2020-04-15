@@ -123,13 +123,12 @@ namespace Client
                     // 
 
                     ClientApp.GetInstance().GetPendingChats().Add(user.Username);
-
-                   Thread a = new Thread(() => { friend.Invite(new Common.Message(ClientApp.GetLoggedUser(), "Random", true)); });
+                    Console.WriteLine(ClientApp.GetInstance().GetPendingChats().Count);
+                   Thread a = new Thread(() => { friend.Invite(new Common.Message(ClientApp.GetLoggedUser(), "Random", true));
+                       Console.WriteLine("VOLTEI DO INVITE");
+                   });
                     a.Start();
 
-                   // var chat = new ChatBox(user, "Random");
-                    // ClientApp.GetInstance().GetChats().Add(chat);
-                    //chat.Show();
                 }
                 else
                 {
@@ -167,6 +166,31 @@ namespace Client
             this.BeginInvoke((MethodInvoker)delegate () {
                 inviteWin.Show();
             });
+        }
+
+        public void StartChatBox(ActiveUser user, string chatName )
+        {
+            /*  BeginInvoke(new Action(() =>
+               {
+                   ChatBox box = new ChatBox(user, chatName);
+                   // TODO: username or 
+                   ClientApp.GetInstance().GetChats().Add(user.Username, box);
+                   box.Show();
+               }));*/
+
+            if (InvokeRequired)
+            {
+
+                BeginInvoke((MethodInvoker)delegate { StartChatBox(user, chatName); });
+            }
+            else
+            {
+                ChatBox box = new ChatBox(user, chatName);
+                // TODO: username or 
+                ClientApp.GetInstance().GetChats().Add(user.Username, box);
+                box.Show();
+            }
+          
         }
     }
 }

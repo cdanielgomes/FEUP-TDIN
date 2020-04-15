@@ -1,6 +1,7 @@
 using Common;
 using System;
 using System.Runtime.Remoting;
+using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
@@ -13,41 +14,49 @@ namespace Client
         private string _chatName;
         public InviteWindow(ActiveUser user, string chatName)
         {
-            InitializeComponent();
-            label1.Text += user.Username;
-            nameOfTheChat.Text += chatName;
-            _iFriend = (IClientRem)RemotingServices.Connect(typeof(IClientRem), user.Address);
-            _user = user;
-            _chatName = chatName;
+            try
+            {
+                Console.WriteLine(user.Username, user.Address);
+                InitializeComponent();
+                label1.Text += user.Username;
+                nameOfTheChat.Text += chatName;
+                _iFriend = (IClientRem)RemotingServices.Connect(typeof(IClientRem), user.Address);
+                _user = user;
+                _chatName = chatName;
+            } catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
+           
         }
 
         private void AcceptInvationButton_Click(object sender, System.EventArgs e)
         {
-            BeginInvoke((MethodInvoker) delegate() {
+
+            Thread t = new Thread(() =>
+            {
                 _iFriend.AcceptChat(ClientApp.GetLoggedUser(), _chatName);
+
             });
 
-            BeginInvoke((MethodInvoker) delegate() {
+            t.Start();
+            Console.WriteLine(ClientApp.GetLoggedUser().Username + " tries to start a chat by accept request of " + _user.Username);
 
-                ChatBox box = new ChatBox(_user, _chatName);
-                // TODO: username or 
-                ClientApp.GetInstance().GetChats().Add(_user.Username, box);
-                box.Show();
-                this.Close();
-            });
+            ClientApp.GetMainWindow().StartChatBox(_user, _chatName);
+            Console.WriteLine(@"start chat on " + ClientApp.GetLoggedUser().Username + " with " + _user.Username);
+            this.Close();
         }
 
         private void RejectInvitationButton_Click(object sender, System.EventArgs e)
         {
-            BeginInvoke((MethodInvoker)delegate () {
-                _iFriend.RejectChat(ClientApp.GetLoggedUser(), _chatName);
-                this.Close();
-            });
+            _iFriend.RejectChat(ClientApp.GetLoggedUser(), _chatName);
+            this.Close();
         }
 
         private void InviteWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
-            BeginInvoke((MethodInvoker)delegate () {
+            BeginInvoke((MethodInvoker)delegate ()
+            {
                 _iFriend.RejectChat(ClientApp.GetLoggedUser(), _chatName);
                 this.Close();
             });

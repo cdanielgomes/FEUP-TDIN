@@ -10,19 +10,18 @@ namespace Client
     {
         public void AcceptChat(ActiveUser user, string chatName)
         {
+            Console.WriteLine("Hey irmao, tentei receber o teu acceptance ");
             ClientApp.GetInstance().GetPendingChats().Remove(user.Username);
-            ClientApp.GetInstance().GetPendingChats().Remove(user.Username);
-            ClientApp.GetInstance().GetChats().Add(user.Username, new ChatBox(user, chatName));
+            Console.WriteLine("Try to start chat on " + ClientApp.GetLoggedUser().Username + " for an acceptance by " + user.Username);
+
+            ClientApp.GetMainWindow().StartChatBox(user, chatName);
+            Console.WriteLine("Open chat on  " + ClientApp.GetLoggedUser().Username + " with " + user.Username);
         }
 
         public void Invite(Message m)
         {
-
-            Console.WriteLine(m.MessageSent);
-
             ClientApp.GetMainWindow().LaunchChatWindow(m);
 
-            Console.WriteLine("Shown");
         }
 
         public void RejectChat(ActiveUser user, string chatName)
@@ -38,7 +37,7 @@ namespace Client
             // Direcionar a Mensagem para a ChatBox correta
             var chats = ClientApp.GetInstance().GetChats();
             ChatBox chat = ClientApp.GetInstance().GetChats()[message.SentUser.Username];
-            Console.WriteLine(@"TRY TO SEND MESSAGE");
+            Console.WriteLine(@"TRY TO RECEIVE MESSAGE");
 
             chat.AddMessage(message);
             
