@@ -13,19 +13,16 @@ namespace Client
             ClientApp.GetInstance().GetPendingChats().Remove(user.Username);
             ClientApp.GetInstance().GetPendingChats().Remove(user.Username);
             ClientApp.GetInstance().GetChats().Add(user.Username, new ChatBox(user, chatName));
-
-            throw new NotImplementedException();
         }
 
         public void Invite(Message m)
         {
 
             Console.WriteLine(m.MessageSent);
-            
-               InviteWindow c = new InviteWindow(m.SentUser, m.ChatName);
-                c.Show();
 
-              Console.WriteLine("Shown");
+            ClientApp.GetMainWindow().LaunchChatWindow(m);
+
+            Console.WriteLine("Shown");
         }
 
         public void RejectChat(ActiveUser user, string chatName)

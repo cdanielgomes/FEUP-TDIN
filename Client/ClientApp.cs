@@ -11,6 +11,7 @@ namespace Client {
         private ActiveUser _loggedUser;
         private Dictionary<string, ChatBox> _chat;
         private HashSet<string> _pendingChats;
+        private MainWindow mainWin;
 
         private ClientApp() {
             InitializeServerConnection();
@@ -68,6 +69,15 @@ namespace Client {
             MessageBox.Show(message,
                 "Server does not respond",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        public static void SetMainWindow(MainWindow window) {
+            _instance.mainWin = window;
+        }
+
+        public static MainWindow GetMainWindow()
+        {
+            return _instance.mainWin;
         }
     }
 }

@@ -23,36 +23,34 @@ namespace Client
 
         private void AcceptInvationButton_Click(object sender, System.EventArgs e)
         {
-            BeginInvoke(new Action(() =>
-            {
+            BeginInvoke((MethodInvoker) delegate() {
                 _iFriend.AcceptChat(ClientApp.GetLoggedUser(), _chatName);
-            }));
+            });
 
-            BeginInvoke(new Action(() => {
+            BeginInvoke((MethodInvoker) delegate() {
 
                 ChatBox box = new ChatBox(_user, _chatName);
                 // TODO: username or 
                 ClientApp.GetInstance().GetChats().Add(_user.Username, box);
                 box.Show();
-                
-            }));
+                this.Close();
+            });
         }
 
         private void RejectInvitationButton_Click(object sender, System.EventArgs e)
         {
-            BeginInvoke(new Action(() =>
-            {
+            BeginInvoke((MethodInvoker)delegate () {
                 _iFriend.RejectChat(ClientApp.GetLoggedUser(), _chatName);
-            }));
-
+                this.Close();
+            });
         }
 
         private void InviteWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
-            BeginInvoke(new Action(() =>
-            {
+            BeginInvoke((MethodInvoker)delegate () {
                 _iFriend.RejectChat(ClientApp.GetLoggedUser(), _chatName);
-            }));
+                this.Close();
+            });
         }
     }
 }

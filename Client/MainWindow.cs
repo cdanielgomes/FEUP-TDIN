@@ -160,5 +160,13 @@ namespace Client
             LogoutSession();
             Application.Exit();
         }
+
+        public void LaunchChatWindow(Common.Message msg)
+        {
+            InviteWindow inviteWin = new InviteWindow(msg.SentUser, msg.ChatName);
+            this.BeginInvoke((MethodInvoker)delegate () {
+                inviteWin.Show();
+            });
+        }
     }
 }
