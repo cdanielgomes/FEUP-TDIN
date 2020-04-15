@@ -2,6 +2,7 @@ using Common;
 using System;
 using System.Runtime.Remoting;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
@@ -27,19 +28,13 @@ namespace Client
             {
                 Console.WriteLine(e);
             }
-           
         }
 
         private void AcceptInvationButton_Click(object sender, System.EventArgs e)
         {
 
-            Thread t = new Thread(() =>
-            {
-                _iFriend.AcceptChat(ClientApp.GetLoggedUser(), _chatName);
+            Task.Factory.StartNew(() => { _iFriend.AcceptChat(ClientApp.GetLoggedUser(), _chatName); });
 
-            });
-
-            t.Start();
             Console.WriteLine(ClientApp.GetLoggedUser().Username + " tries to start a chat by accept request of " + _user.Username);
 
             ClientApp.GetMainWindow().StartChatBox(_user, _chatName);

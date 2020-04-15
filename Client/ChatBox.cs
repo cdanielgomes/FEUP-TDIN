@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.Remoting;
 using System.Threading;
 using System.Windows.Forms;
@@ -14,8 +16,8 @@ namespace Client
         private readonly IClientRem _iFriend;
         private ActiveUser _user;
         private SortedSet<Message> _messages;
-        private string chatName;
-
+        private string _chatName;
+        
         public ChatBox(ActiveUser user, string chatName)
         {
             _user = user;
@@ -24,6 +26,7 @@ namespace Client
             InitializeComponent();
             friendLabel.Text = user.Username;
             nameOfTheChat.Text = chatName;
+            _chatName = chatName;
         }
 
         private void sendButton_Click(object sender, EventArgs e)
@@ -32,7 +35,7 @@ namespace Client
             string test = inputMessage.Text.Trim(charsToTrim);
             if (!test.Equals(""))
             {
-                Message m = new Message(ClientApp.GetLoggedUser(), inputMessage.Text);
+                Message m = new Message(ClientApp.GetLoggedUser(), inputMessage.Text, _chatName);
                 _messages.Add(m);
                 InsertText(m);
 
@@ -60,9 +63,28 @@ namespace Client
         private void InsertText(Message m)
         {
             string dateTime = m.MessageDate.ToString("g",  CultureInfo.CreateSpecificCulture("fr-FR"));
-            string message = m.MessageSent;
-            chatMessages.Text += message + '\t' + dateTime + '\n';
+            string message = "";
+
+            if (m.SentUser.Username == ClientApp.GetLoggedUser().Username)
+            {
+                chatMessages.SelectionAlignment = HorizontalAlignment.Right;
+                message += "me";
+            }
+            else
+            {
+                chatMessages.SelectionAlignment = HorizontalAlignment.Left;
+                message += m.SentUser.Username;
+            }
+
+            message += " - " + dateTime + Environment.NewLine + m.MessageSent + Environment.NewLine + Environment.NewLine;
+
+            chatMessages.SelectionFont = new Font(chatMessages.Font, FontStyle.Regular);
+            chatMessages.AppendText(message);
         }
-        
+
+        private void ChatBox_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _iFriend.CloseChat(new Message(ClientApp.GetLoggedUser(), _chatName, true));
+        }
     }
 }

@@ -98,8 +98,11 @@ namespace Client
 
             //List<ActiveUser> users = null;
             ActiveUser user = null;
+            List<ActiveUser> users = new List<ActiveUser>();
 
             var selectedUsers = listView1.SelectedItems;
+            bool groupChat = selectedUsers.Count > 1;
+
             for (var index = 0; index < selectedUsers.Count; index++)
             {
                 foreach (var contact in _onlineUsers)
@@ -107,33 +110,35 @@ namespace Client
 
                     if (contact.Username.Equals(selectedUsers[index].Text))
                     {
-                        Console.WriteLine(@"Made contact with {0}", contact.Username);
-
-                        // users.Add(contact);
-                        user = contact;
+                        users.Add(contact);
+          
                         break;
                     }
                 }
+            }
 
-                if (user != null)
+            if (users.Count == 1)
+            {
+
+                Form1 a = new Form1();
+
+                a.ShowDialog();
+
+                IClientRem friend = (IClientRem)RemotingServices.Connect(typeof(IClientRem), users[0].Address);
+                ClientApp.GetInstance().GetPendingChats().Add(a.GetText+users[0]);
+
+                Task.Factory.StartNew(() =>
                 {
+                    friend.Invite(new Common.Message(ClientApp.GetLoggedUser(), a.GetText, true));
+                  
+                });
+            }
+            else
+            {
 
-                    IClientRem friend = (IClientRem)RemotingServices.Connect(typeof(IClientRem), user.Address);
+                
+                
 
-                    // 
-
-                    ClientApp.GetInstance().GetPendingChats().Add(user.Username);
-                    Console.WriteLine(ClientApp.GetInstance().GetPendingChats().Count);
-                   Thread a = new Thread(() => { friend.Invite(new Common.Message(ClientApp.GetLoggedUser(), "Random", true));
-                       Console.WriteLine("VOLTEI DO INVITE");
-                   });
-                    a.Start();
-
-                }
-                else
-                {
-                    Console.WriteLine(@"NULL");
-                }
             }
         }
 
@@ -187,7 +192,7 @@ namespace Client
             {
                 ChatBox box = new ChatBox(user, chatName);
                 // TODO: username or 
-                ClientApp.GetInstance().GetChats().Add(user.Username, box);
+                ClientApp.GetInstance().GetChats().Add(chatName+user.Username, box);
                 box.Show();
             }
           

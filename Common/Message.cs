@@ -6,12 +6,8 @@ namespace Common
     public class Message : IComparable
     {
         private bool _invite = false;
-        public Message(ActiveUser user, string message)
-        {
-            MessageSent = message;
-            SentUser = user;
-            ChatName = "Random";    
-        }
+        private Guid _id = Guid.NewGuid();
+        
         public Message(ActiveUser user, string message, string chatName)
         {
             MessageSent = message;
@@ -20,7 +16,7 @@ namespace Common
         }
         public Message(ActiveUser user, string chatName, bool invite)
         {
-            _invite = true;
+            _invite = invite;
             SentUser = user;
             ChatName = chatName;
         }

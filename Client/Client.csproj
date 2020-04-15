@@ -61,6 +61,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="IChat.cs" />
     <Compile Include="InviteWindow.cs">
       <SubType>Form</SubType>
     </Compile>

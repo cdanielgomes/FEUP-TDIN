@@ -33,9 +33,9 @@ namespace Client
         {
             this.inputMessage = new System.Windows.Forms.TextBox();
             this.sendButton = new System.Windows.Forms.Button();
-            this.chatMessages = new System.Windows.Forms.TextBox();
             this.friendLabel = new System.Windows.Forms.Label();
             this.nameOfTheChat = new System.Windows.Forms.Label();
+            this.chatMessages = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // inputMessage
@@ -58,15 +58,6 @@ namespace Client
             this.sendButton.UseVisualStyleBackColor = true;
             this.sendButton.Click += new System.EventHandler(this.sendButton_Click);
             // 
-            // chatMessages
-            // 
-            this.chatMessages.Location = new System.Drawing.Point(93, 135);
-            this.chatMessages.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chatMessages.Multiline = true;
-            this.chatMessages.Name = "chatMessages";
-            this.chatMessages.Size = new System.Drawing.Size(826, 265);
-            this.chatMessages.TabIndex = 2;
-            // 
             // friendLabel
             // 
             this.friendLabel.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -86,24 +77,33 @@ namespace Client
             this.nameOfTheChat.TabIndex = 4;
             this.nameOfTheChat.Text = "Chat Name";
             // 
+            // chatMessages
+            // 
+            this.chatMessages.Location = new System.Drawing.Point(93, 125);
+            this.chatMessages.Name = "chatMessages";
+            this.chatMessages.ReadOnly = true;
+            this.chatMessages.Size = new System.Drawing.Size(826, 289);
+            this.chatMessages.TabIndex = 5;
+            this.chatMessages.TabStop = false;
+            this.chatMessages.Text = "";
+            // 
             // ChatBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1004, 522);
+            this.Controls.Add(this.chatMessages);
             this.Controls.Add(this.nameOfTheChat);
             this.Controls.Add(this.friendLabel);
-            this.Controls.Add(this.chatMessages);
             this.Controls.Add(this.sendButton);
             this.Controls.Add(this.inputMessage);
             this.Name = "ChatBox";
             this.Text = "ChatBox";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ChatBox_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
-
-        private System.Windows.Forms.TextBox chatMessages;
         private System.Windows.Forms.Label friendLabel;
         private System.Windows.Forms.TextBox inputMessage;
         private System.Windows.Forms.Button sendButton;
@@ -111,5 +111,6 @@ namespace Client
         #endregion
 
         private System.Windows.Forms.Label nameOfTheChat;
+        private System.Windows.Forms.RichTextBox chatMessages;
     }
 }

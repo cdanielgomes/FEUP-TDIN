@@ -10,12 +10,16 @@ namespace Client
     {
         public void AcceptChat(ActiveUser user, string chatName)
         {
-            Console.WriteLine("Hey irmao, tentei receber o teu acceptance ");
-            ClientApp.GetInstance().GetPendingChats().Remove(user.Username);
-            Console.WriteLine("Try to start chat on " + ClientApp.GetLoggedUser().Username + " for an acceptance by " + user.Username);
-
+            ClientApp.GetInstance().GetPendingChats().Remove(chatName + user.Username);
             ClientApp.GetMainWindow().StartChatBox(user, chatName);
-            Console.WriteLine("Open chat on  " + ClientApp.GetLoggedUser().Username + " with " + user.Username);
+        }
+
+        public void CloseChat(Message m)
+        {
+           ChatBox b =  ClientApp.GetInstance().GetChats()[m.ChatName + m.SentUser.Username];
+            b.Close();
+            ClientApp.GetInstance().GetChats().Remove(m.ChatName + m.SentUser.Username);
+            b.Dispose();
         }
 
         public void Invite(Message m)
@@ -26,7 +30,7 @@ namespace Client
 
         public void RejectChat(ActiveUser user, string chatName)
         {
-            ClientApp.GetInstance().GetPendingChats().Remove(user.Username);
+            ClientApp.GetInstance().GetPendingChats().Remove(chatName+user.Username);
             //say that was reject 
         }
 
@@ -36,8 +40,7 @@ namespace Client
             // Caso nao exista Criar a ChatBox
             // Direcionar a Mensagem para a ChatBox correta
             var chats = ClientApp.GetInstance().GetChats();
-            ChatBox chat = ClientApp.GetInstance().GetChats()[message.SentUser.Username];
-            Console.WriteLine(@"TRY TO RECEIVE MESSAGE");
+            ChatBox chat = ClientApp.GetInstance().GetChats()[message.ChatName + message.SentUser.Username];
 
             chat.AddMessage(message);
             

@@ -12,6 +12,8 @@ namespace Common
 
         void Invite(Message m);
 
+        void CloseChat(Message m);
+
     }
 
 

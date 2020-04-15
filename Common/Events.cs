@@ -3,7 +3,7 @@ using System;
 namespace Common {
     public delegate void NewActiveUser(ActiveUser user);
     public delegate void LogoutActiveUser(ActiveUser user);
-    
+
     public class NewUserEventRepeater : MarshalByRefObject {
         public event NewActiveUser Handler;
 
