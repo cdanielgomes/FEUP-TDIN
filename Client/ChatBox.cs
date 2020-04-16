@@ -17,15 +17,14 @@ namespace Client
         private ActiveUser _user;
         private SortedSet<Message> _messages;
         private string _chatName;
-        private IChat _chat;
+        private RemoteChat _chat;
 
         private MessageEventRepeater _messageRepeater;
         private CloseEventRepeater _closeRepeater;
         
-        public ChatBox(ActiveUser user, string chatName, IChat chat)
+        public ChatBox(ActiveUser user, string chatName, RemoteChat chat)
         {
             _user = user;
-            _iFriend = (IClientRem) RemotingServices.Connect(typeof(IClientRem), user.Address);
             _messages = new SortedSet<Message>();
             InitializeComponent();
             friendLabel.Text = user.Username;
@@ -43,7 +42,6 @@ namespace Client
             {
                 Message m = new Message(ClientApp.GetLoggedUser(), inputMessage.Text, _chatName);
                 _messages.Add(m);
-                InsertText(m);
 
                 Thread t = new Thread(() =>
                 {
@@ -97,7 +95,7 @@ namespace Client
         {
             try
             {
-                _iFriend.CloseChat(new InviteMessage(ClientApp.GetLoggedUser(), _chatName, _chat));
+                _iFriend.CloseChat(new ControlMessage(ClientApp.GetLoggedUser(), _chatName, _chat));
             }
             catch (Exception ex)
             {

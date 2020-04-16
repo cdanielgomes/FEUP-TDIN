@@ -181,7 +181,7 @@ namespace Client
             });
         }
 
-        public void StartChatBox(ActiveUser user, string chatName, IChat chat )
+        public void StartChatBox(ActiveUser user, string chatName, RemoteChat chat )
         {
             /*  BeginInvoke(new Action(() =>
                {

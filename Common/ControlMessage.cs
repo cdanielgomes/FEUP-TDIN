@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Common
 {
+    [Serializable]
     public class ControlMessage : Message
     {
 
-        public IChat Chat;
+        public RemoteChat Chat;
 
-        public ControlMessage(ActiveUser user, string chatName, IChat chat): base(user, "invite", chatName)
+        public ControlMessage(ActiveUser user, string chatName, RemoteChat chat): base(user, "invite", chatName)
         {
             Chat = chat;
         }

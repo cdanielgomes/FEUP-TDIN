@@ -40,12 +40,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events.cs" />
-    <Compile Include="IChat.cs" />
     <Compile Include="IClientRem.cs" />
-    <Compile Include="InviteMessage.cs" />
+    <Compile Include="ControlMessage.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemoteChat.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,7 +8,7 @@ namespace Client
 {
     public class RemoteClient : MarshalByRefObject, IClientRem
     {
-        public void AcceptChat(ActiveUser user, string chatName, IChat chat)
+        public void AcceptChat(ActiveUser user, string chatName, RemoteChat chat)
         {
             ClientApp.GetInstance().GetPendingChats().Remove(chatName + user.Username);
             ClientApp.GetMainWindow().StartChatBox(user, chatName, chat);

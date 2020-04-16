@@ -11,10 +11,10 @@ namespace Client
     public partial class InviteWindow : Form
     {
         private IClientRem _iFriend;
-        private IChat _chat;
+        private RemoteChat _chat;
         private ActiveUser _user;
         private string _chatName;
-        public InviteWindow(ActiveUser user, string chatName, IChat chat)
+        public InviteWindow(ActiveUser user, string chatName, RemoteChat chat)
         {
             try
             {

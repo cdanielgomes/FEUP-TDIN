@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RemoteChat.cs" />
     <Compile Include="RemoteClient.cs" />
     <Compile Include="ChatBox.cs">
       <SubType>Form</SubType>

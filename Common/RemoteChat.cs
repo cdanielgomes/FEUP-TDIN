@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Common;
 
 namespace Common
 {
-    class RemoteChat : MarshalByRefObject, IChat
+    [Serializable]
+    public class RemoteChat : MarshalByRefObject
     {
         public event NewMessage NewMessageHandler;
         public event CloseChat CloseChatHandler;
