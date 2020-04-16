@@ -13,20 +13,24 @@ namespace Client
 {
     public partial class ChatBox : Form
     {
-        private readonly IClientRem _iFriend;
         private ActiveUser _user;
         private SortedSet<Message> _messages;
         private string _chatName;
+        private RemoteChat _chat;
+
+        private MessageEventRepeater _messageRepeater;
+        private CloseEventRepeater _closeRepeater;
         
-        public ChatBox(ActiveUser user, string chatName)
+        public ChatBox(ActiveUser user, string chatName, RemoteChat chat)
         {
             _user = user;
-            _iFriend = (IClientRem) RemotingServices.Connect(typeof(IClientRem), user.Address);
             _messages = new SortedSet<Message>();
             InitializeComponent();
             friendLabel.Text = user.Username;
             nameOfTheChat.Text = chatName;
             _chatName = chatName;
+            _chat = chat;
+            SubscribeChat();
         }
 
         private void sendButton_Click(object sender, EventArgs e)
@@ -37,11 +41,10 @@ namespace Client
             {
                 Message m = new Message(ClientApp.GetLoggedUser(), inputMessage.Text, _chatName);
                 _messages.Add(m);
-                InsertText(m);
 
                 Thread t = new Thread(() =>
                 {
-                    _iFriend.SendMessage(m);
+                    _chat.WriteMessage(m);
                 }); 
                 t.Start();
 
@@ -65,15 +68,15 @@ namespace Client
             string dateTime = m.MessageDate.ToString("g",  CultureInfo.CreateSpecificCulture("fr-FR"));
             string message = "";
 
-            if (m.SentUser.Username == ClientApp.GetLoggedUser().Username)
+            if (m.Sender.Username == ClientApp.GetLoggedUser().Username)
             {
                 chatMessages.SelectionAlignment = HorizontalAlignment.Right;
-                message += "me";
+                message += m.Sender.Username + "(Me)";
             }
             else
             {
                 chatMessages.SelectionAlignment = HorizontalAlignment.Left;
-                message += m.SentUser.Username;
+                message += m.Sender.Username;
             }
 
             message += " - " + dateTime + Environment.NewLine + m.MessageSent + Environment.NewLine + Environment.NewLine;
@@ -82,9 +85,42 @@ namespace Client
             chatMessages.AppendText(message);
         }
 
+        private void CloseChat()
+        {
+            this.Close();
+        }
+
         private void ChatBox_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _iFriend.CloseChat(new Message(ClientApp.GetLoggedUser(), _chatName, true));
+
+            ClientApp.GetInstance().GetPendingChats().Remove(_chatName);
+            UnsubscibeChat();
+            try
+            {
+                _chat.CloseChat();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void SubscribeChat()
+        {
+            _messageRepeater = new MessageEventRepeater();
+            _closeRepeater = new CloseEventRepeater();
+            _messageRepeater.Handler += new NewMessage(InsertText);
+            _closeRepeater.Handler += new CloseChat(CloseChat);
+            _chat.NewMessageHandler += new NewMessage(_messageRepeater.Repeater);
+            _chat.CloseChatHandler += new CloseChat(_closeRepeater.Repeater);
+            Console.WriteLine(@"Client App subscribed to the chat with success");
+        }
+
+        private void UnsubscibeChat()
+        {
+            _chat.NewMessageHandler -= new NewMessage(_messageRepeater.Repeater);
+            _chat.CloseChatHandler -= new CloseChat(_closeRepeater.Repeater);
+            Console.WriteLine(@"Client App unsubscribed to the chat with success");
         }
     }
 }
