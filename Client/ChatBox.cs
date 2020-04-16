@@ -13,7 +13,6 @@ namespace Client
 {
     public partial class ChatBox : Form
     {
-        private readonly IClientRem _iFriend;
         private ActiveUser _user;
         private SortedSet<Message> _messages;
         private string _chatName;
@@ -69,15 +68,15 @@ namespace Client
             string dateTime = m.MessageDate.ToString("g",  CultureInfo.CreateSpecificCulture("fr-FR"));
             string message = "";
 
-            if (m.SentUser.Username == ClientApp.GetLoggedUser().Username)
+            if (m.Sender.Username == ClientApp.GetLoggedUser().Username)
             {
                 chatMessages.SelectionAlignment = HorizontalAlignment.Right;
-                message += m.SentUser.Username + "(Me)";
+                message += m.Sender.Username + "(Me)";
             }
             else
             {
                 chatMessages.SelectionAlignment = HorizontalAlignment.Left;
-                message += m.SentUser.Username;
+                message += m.Sender.Username;
             }
 
             message += " - " + dateTime + Environment.NewLine + m.MessageSent + Environment.NewLine + Environment.NewLine;
@@ -93,15 +92,17 @@ namespace Client
 
         private void ChatBox_FormClosed(object sender, FormClosedEventArgs e)
         {
+
+            ClientApp.GetInstance().GetPendingChats().Remove(_chatName);
+            UnsubscibeChat();
             try
             {
-                _iFriend.CloseChat(new ControlMessage(ClientApp.GetLoggedUser(), _chatName, _chat));
+                _chat.CloseChat();
             }
             catch (Exception ex)
             {
 
             }
-            UnsubscibeChat();
         }
 
         private void SubscribeChat()

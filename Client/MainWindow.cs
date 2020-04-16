@@ -118,20 +118,16 @@ namespace Client
             if (users.Count == 1)
             {
 
-                Form1 a = new Form1();
-
-                a.ShowDialog();
-
                 IClientRem friend = (IClientRem)RemotingServices.Connect(typeof(IClientRem), users[0].Address);
-                ClientApp.GetInstance().GetPendingChats().Add(a.GetText+users[0]);
+                ClientApp.GetInstance().GetPendingChats().Add(users[0].ToString());
                 RemoteChat chat = new RemoteChat();
 
                 Task.Factory.StartNew(() =>
                 {
-                    Console.WriteLine(@"Invitation sent to " + users[0].Username + " to join " + a.GetText);
+                    Console.WriteLine(@"Invitation sent to " + users[0].Username + " to join the mutual chat");
                     try
                     {
-                        friend.Invite(new ControlMessage(ClientApp.GetLoggedUser(), a.GetText, chat));
+                        friend.Invite(new ControlMessage(ClientApp.GetLoggedUser(), ClientApp.GetLoggedUser().Username, chat));
                     }
                     catch (Exception e)
                     {
@@ -140,6 +136,32 @@ namespace Client
                     }
                     Console.WriteLine("success");
                 });
+            }
+            else if (users.Count > 1)
+            {
+                Form1 a = new Form1();
+                a.ShowDialog();
+                RemoteChat chat = new RemoteChat();
+
+                foreach (var user in users)
+                {
+                    IClientRem friend = (IClientRem)RemotingServices.Connect(typeof(IClientRem), user.Address);
+                  
+                    Task.Factory.StartNew(() =>
+                    {
+                        Console.WriteLine(@"Invitation sent to " + user.Username + " to join " + a.GetText);
+                        try
+                        {
+                            friend.Invite(new ControlMessage(ClientApp.GetLoggedUser(), a.GetText, chat));
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Invitation Failed");
+                            Console.WriteLine(e);
+                        }
+                        Console.WriteLine("success");
+                    });
+                }
             }
             else
             {
@@ -175,7 +197,7 @@ namespace Client
 
         public void LaunchInviteWindow(ControlMessage msg)
         {
-            InviteWindow inviteWin = new InviteWindow(msg.SentUser, msg.ChatName, msg.Chat);
+            InviteWindow inviteWin = new InviteWindow(msg.Sender, msg.ChatName, msg.Chat);
             this.BeginInvoke((MethodInvoker)delegate () {
                 inviteWin.Show();
             });

@@ -20,7 +20,7 @@ namespace Client
             {
                 Console.WriteLine(user.Username, user.Address);
                 InitializeComponent();
-                label1.Text += user.Username;
+                label1.Text += ClientApp.GetLoggedUser().Username;
                 nameOfTheChat.Text += chatName;
                 _iFriend = (IClientRem)RemotingServices.Connect(typeof(IClientRem), user.Address);
                 _user = user;
@@ -34,13 +34,26 @@ namespace Client
 
         private void AcceptInvationButton_Click(object sender, System.EventArgs e)
         {
+            string username = ClientApp.GetLoggedUser().Username;
+            string chatName;
 
-            Task.Factory.StartNew(() => { _iFriend.AcceptChat(ClientApp.GetLoggedUser(), _chatName, _chat); });
+            ClientApp.GetInstance().GetPendingChats().Add(_chatName);
 
+            if (_chatName != _user.Username)
+            {
+                chatName = _chatName;
+            }
+            else
+            {
+                chatName = username;
+            }
+
+            Task.Factory.StartNew(() => { _iFriend.AcceptChat(ClientApp.GetLoggedUser(), chatName, _chat); });
+            
             Console.WriteLine(ClientApp.GetLoggedUser().Username + " tries to start a chat by accept request of " + _user.Username);
 
-            ClientApp.GetMainWindow().StartChatBox(_user, _chatName, _chat);
-            Console.WriteLine(@"start chat on " + ClientApp.GetLoggedUser().Username + " with " + _user.Username);
+            ClientApp.GetMainWindow().StartChatBox(_user, chatName, _chat);
+            Console.WriteLine(@"start chat on " + username + " with " + _user.Username);
             this.Close();
         }
 

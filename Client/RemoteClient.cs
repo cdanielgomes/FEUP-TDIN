@@ -10,21 +10,24 @@ namespace Client
     {
         public void AcceptChat(ActiveUser user, string chatName, RemoteChat chat)
         {
-            ClientApp.GetInstance().GetPendingChats().Remove(chatName + user.Username);
+            if (ClientApp.GetInstance().GetPendingChats().Contains(chatName)) return;
+            ClientApp.GetInstance().GetPendingChats().Add(chatName);
             ClientApp.GetMainWindow().StartChatBox(user, chatName, chat);
         }
 
         public void CloseChat(ControlMessage m)
         {
-           ChatBox b =  ClientApp.GetInstance().GetChats()[m.ChatName + m.SentUser.Username];
+           ChatBox b =  ClientApp.GetInstance().GetChats()[m.ChatName + m.Sender.Username];
             b.Close();
-            ClientApp.GetInstance().GetChats().Remove(m.ChatName + m.SentUser.Username);
+            ClientApp.GetInstance().GetChats().Remove(m.ChatName + m.Sender.Username);
             b.Dispose();
         }
 
         public void Invite(ControlMessage m)
         {
-            Console.WriteLine(@"Invitation received from " + m.SentUser + " to join " + m.ChatName);
+            if (ClientApp.GetInstance().GetPendingChats().Contains(m.ChatName)) return;
+
+            Console.WriteLine(@"Invitation received from " + m.Sender + " to join " + m.ChatName);
             ClientApp.GetMainWindow().LaunchInviteWindow(m);
 
         }

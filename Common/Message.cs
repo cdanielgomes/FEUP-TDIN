@@ -10,10 +10,10 @@ namespace Common
         public Message(ActiveUser user, string message, string chatName)
         {
             MessageSent = message;
-            SentUser = user;
+            Sender = user;
             ChatName = chatName;
         }
-        public ActiveUser SentUser { get; }
+        public ActiveUser Sender { get; }
 
         public DateTime MessageDate { get; } = DateTime.Now;
         public string MessageSent { get; }
