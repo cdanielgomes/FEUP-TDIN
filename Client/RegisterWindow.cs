@@ -14,7 +14,7 @@ namespace Client {
             {
                 if (passwordBox.Text != textBox2.Text)
                 {
-
+                    MessageBox.Show("Passwords do not match!", "Password", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else if (ClientApp.GetServer().RegisterUser(nicknameBox.Text, textBox2.Text, passwordBox.Text))
                 {
@@ -31,7 +31,7 @@ namespace Client {
                 }
                 else
                 {
-                    Console.WriteLine(@"Registration failed");
+                    MessageBox.Show("8 characters minimum;" + Environment.NewLine + "Can not have white spaces, <, >, \' or \"", "Password Rules", MessageBoxButtons.OK);
                 }
             }
             catch (Exception ex)

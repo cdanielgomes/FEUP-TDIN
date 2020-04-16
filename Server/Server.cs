@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using Common;
 
@@ -28,13 +29,15 @@ namespace Server
         public bool RegisterUser(string username, string realname, string password)
         {
             try
-            {
-                string user = username.Trim();
-                RegisteredUser newUser = new RegisteredUser(user, realname, password);
-                _usersRegistered.Add(user, newUser);
-                SaveData();
-                Console.WriteLine("[Server]: User {0} registered with success", username);
-                return true;
+            { 
+                if (ValidPassword(password)) {
+                    RegisteredUser newUser = new RegisteredUser(username, realname, password);
+                    _usersRegistered.Add(username, newUser);
+                    SaveData();
+                    Console.WriteLine("[Server]: User {0} registered with success", username);
+                    return true;
+                }
+                return false;
             }
             catch (ArgumentNullException e)
             {
@@ -129,6 +132,14 @@ namespace Server
             BinaryFormatter serializer = new BinaryFormatter();
             serializer.Serialize(SaveFileStream, this._usersRegistered);
             SaveFileStream.Close();
+        }
+
+        bool ValidPassword(string pass)
+        {
+
+            char[] trim = { ' ', '\"', '\'', '<', '>' };
+            return pass.Count() >= 8 && pass.Trim(trim) == pass;
+            
         }
     }
 }
