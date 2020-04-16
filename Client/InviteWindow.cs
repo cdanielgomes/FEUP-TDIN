@@ -11,9 +11,10 @@ namespace Client
     public partial class InviteWindow : Form
     {
         private IClientRem _iFriend;
+        private IChat _chat;
         private ActiveUser _user;
         private string _chatName;
-        public InviteWindow(ActiveUser user, string chatName)
+        public InviteWindow(ActiveUser user, string chatName, IChat chat)
         {
             try
             {
@@ -24,6 +25,7 @@ namespace Client
                 _iFriend = (IClientRem)RemotingServices.Connect(typeof(IClientRem), user.Address);
                 _user = user;
                 _chatName = chatName;
+                _chat = chat;
             } catch(Exception e)
             {
                 Console.WriteLine(e);
@@ -33,11 +35,11 @@ namespace Client
         private void AcceptInvationButton_Click(object sender, System.EventArgs e)
         {
 
-            Task.Factory.StartNew(() => { _iFriend.AcceptChat(ClientApp.GetLoggedUser(), _chatName); });
+            Task.Factory.StartNew(() => { _iFriend.AcceptChat(ClientApp.GetLoggedUser(), _chatName, _chat); });
 
             Console.WriteLine(ClientApp.GetLoggedUser().Username + " tries to start a chat by accept request of " + _user.Username);
 
-            ClientApp.GetMainWindow().StartChatBox(_user, _chatName);
+            ClientApp.GetMainWindow().StartChatBox(_user, _chatName, _chat);
             Console.WriteLine(@"start chat on " + ClientApp.GetLoggedUser().Username + " with " + _user.Username);
             this.Close();
         }

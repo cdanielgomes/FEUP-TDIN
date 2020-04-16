@@ -96,8 +96,6 @@ namespace Client
         private void CreateChat_Click(object sender, EventArgs e)
         {
 
-            //List<ActiveUser> users = null;
-            ActiveUser user = null;
             List<ActiveUser> users = new List<ActiveUser>();
 
             var selectedUsers = listView1.SelectedItems;
@@ -126,11 +124,21 @@ namespace Client
 
                 IClientRem friend = (IClientRem)RemotingServices.Connect(typeof(IClientRem), users[0].Address);
                 ClientApp.GetInstance().GetPendingChats().Add(a.GetText+users[0]);
+                RemoteChat chat = new RemoteChat();
 
                 Task.Factory.StartNew(() =>
                 {
-                    friend.Invite(new Common.Message(ClientApp.GetLoggedUser(), a.GetText, true));
-                  
+                    Console.WriteLine(@"Invitation sent to " + users[0].Username + " to join " + a.GetText);
+                    try
+                    {
+                        friend.Invite(new ControlMessage(ClientApp.GetLoggedUser(), a.GetText, chat));
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Invitation Failed");
+                        Console.WriteLine(e);
+                    }
+                    Console.WriteLine("success");
                 });
             }
             else
@@ -165,15 +173,15 @@ namespace Client
             Application.Exit();
         }
 
-        public void LaunchChatWindow(Common.Message msg)
+        public void LaunchInviteWindow(ControlMessage msg)
         {
-            InviteWindow inviteWin = new InviteWindow(msg.SentUser, msg.ChatName);
+            InviteWindow inviteWin = new InviteWindow(msg.SentUser, msg.ChatName, msg.Chat);
             this.BeginInvoke((MethodInvoker)delegate () {
                 inviteWin.Show();
             });
         }
 
-        public void StartChatBox(ActiveUser user, string chatName )
+        public void StartChatBox(ActiveUser user, string chatName, IChat chat )
         {
             /*  BeginInvoke(new Action(() =>
                {
@@ -186,11 +194,11 @@ namespace Client
             if (InvokeRequired)
             {
 
-                BeginInvoke((MethodInvoker)delegate { StartChatBox(user, chatName); });
+                BeginInvoke((MethodInvoker)delegate { StartChatBox(user, chatName, chat); });
             }
             else
             {
-                ChatBox box = new ChatBox(user, chatName);
+                ChatBox box = new ChatBox(user, chatName, chat);
                 // TODO: username or 
                 ClientApp.GetInstance().GetChats().Add(chatName+user.Username, box);
                 box.Show();

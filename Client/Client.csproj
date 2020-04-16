@@ -47,7 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chat.cs" />
+    <Compile Include="RemoteChat.cs" />
+    <Compile Include="RemoteClient.cs" />
     <Compile Include="ChatBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,7 +62,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="IChat.cs" />
     <Compile Include="InviteWindow.cs">
       <SubType>Form</SubType>
     </Compile>

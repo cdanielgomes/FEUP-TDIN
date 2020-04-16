@@ -27,10 +27,10 @@ namespace Client
             int port = new Uri(data.ChannelUris[0]).Port; // get the port
                 
           
-            RemotingConfiguration.RegisterWellKnownServiceType(typeof(Chat), "Chat",
+            RemotingConfiguration.RegisterWellKnownServiceType(typeof(RemoteClient), "RemoteClient",
                 WellKnownObjectMode.Singleton); // register my remote object for service
 
-            ClientApp.Init("tcp://localhost:" + port + "/Chat");
+            ClientApp.Init("tcp://localhost:" + port + "/RemoteClient");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LoginWindow());

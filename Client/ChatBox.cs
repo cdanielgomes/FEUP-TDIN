@@ -17,8 +17,12 @@ namespace Client
         private ActiveUser _user;
         private SortedSet<Message> _messages;
         private string _chatName;
+        private IChat _chat;
+
+        private MessageEventRepeater _messageRepeater;
+        private CloseEventRepeater _closeRepeater;
         
-        public ChatBox(ActiveUser user, string chatName)
+        public ChatBox(ActiveUser user, string chatName, IChat chat)
         {
             _user = user;
             _iFriend = (IClientRem) RemotingServices.Connect(typeof(IClientRem), user.Address);
@@ -27,6 +31,8 @@ namespace Client
             friendLabel.Text = user.Username;
             nameOfTheChat.Text = chatName;
             _chatName = chatName;
+            _chat = chat;
+            SubscribeChat();
         }
 
         private void sendButton_Click(object sender, EventArgs e)
@@ -41,7 +47,7 @@ namespace Client
 
                 Thread t = new Thread(() =>
                 {
-                    _iFriend.SendMessage(m);
+                    _chat.WriteMessage(m);
                 }); 
                 t.Start();
 
@@ -68,7 +74,7 @@ namespace Client
             if (m.SentUser.Username == ClientApp.GetLoggedUser().Username)
             {
                 chatMessages.SelectionAlignment = HorizontalAlignment.Right;
-                message += "me";
+                message += m.SentUser.Username + "(Me)";
             }
             else
             {
@@ -82,9 +88,40 @@ namespace Client
             chatMessages.AppendText(message);
         }
 
+        private void CloseChat()
+        {
+            this.Close();
+        }
+
         private void ChatBox_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _iFriend.CloseChat(new Message(ClientApp.GetLoggedUser(), _chatName, true));
+            try
+            {
+                _iFriend.CloseChat(new InviteMessage(ClientApp.GetLoggedUser(), _chatName, _chat));
+            }
+            catch (Exception ex)
+            {
+
+            }
+            UnsubscibeChat();
+        }
+
+        private void SubscribeChat()
+        {
+            _messageRepeater = new MessageEventRepeater();
+            _closeRepeater = new CloseEventRepeater();
+            _messageRepeater.Handler += new NewMessage(InsertText);
+            _closeRepeater.Handler += new CloseChat(CloseChat);
+            _chat.NewMessageHandler += new NewMessage(_messageRepeater.Repeater);
+            _chat.CloseChatHandler += new CloseChat(_closeRepeater.Repeater);
+            Console.WriteLine(@"Client App subscribed to the chat with success");
+        }
+
+        private void UnsubscibeChat()
+        {
+            _chat.NewMessageHandler -= new NewMessage(_messageRepeater.Repeater);
+            _chat.CloseChatHandler -= new CloseChat(_closeRepeater.Repeater);
+            Console.WriteLine(@"Client App unsubscribed to the chat with success");
         }
     }
 }

@@ -5,18 +5,11 @@ namespace Common
     [Serializable]
     public class Message : IComparable
     {
-        private bool _invite = false;
         private Guid _id = Guid.NewGuid();
         
         public Message(ActiveUser user, string message, string chatName)
         {
             MessageSent = message;
-            SentUser = user;
-            ChatName = chatName;
-        }
-        public Message(ActiveUser user, string chatName, bool invite)
-        {
-            _invite = invite;
             SentUser = user;
             ChatName = chatName;
         }
@@ -27,10 +20,6 @@ namespace Common
 
         public string ChatName { get; }
 
-        public bool IsInvite()
-        {
-            return _invite;
-        }
         public int CompareTo(object obj)
         {
             if (obj == null) return 1;

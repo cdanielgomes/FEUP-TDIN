@@ -4,15 +4,14 @@ namespace Common
 {
     public interface IClientRem
     {
-        void SendMessage(Message message);
 
-        void AcceptChat(ActiveUser user, string chatName);
+        void AcceptChat(ActiveUser user, string chatName, IChat chat);
 
         void RejectChat(ActiveUser user, string chatName);
 
-        void Invite(Message m);
+        void Invite(InviteMessage m);
 
-        void CloseChat(Message m);
+        void CloseChat(InviteMessage m);
 
     }
 
