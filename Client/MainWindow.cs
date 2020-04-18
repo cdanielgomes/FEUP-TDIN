@@ -205,13 +205,6 @@ namespace Client
 
         public void StartChatBox(ActiveUser user, string chatName, RemoteChat chat )
         {
-            /*  BeginInvoke(new Action(() =>
-               {
-                   ChatBox box = new ChatBox(user, chatName);
-                   // TODO: username or 
-                   ClientApp.GetInstance().GetChats().Add(user.Username, box);
-                   box.Show();
-               }));*/
 
             if (InvokeRequired)
             {
