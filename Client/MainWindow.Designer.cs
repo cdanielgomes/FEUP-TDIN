@@ -41,7 +41,7 @@ namespace Client
             // 
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(112, 110);
-            this.listView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listView1.Margin = new System.Windows.Forms.Padding(2);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(451, 192);
             this.listView1.TabIndex = 0;
@@ -51,7 +51,7 @@ namespace Client
             // createChat
             // 
             this.createChat.Location = new System.Drawing.Point(255, 336);
-            this.createChat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.createChat.Margin = new System.Windows.Forms.Padding(2);
             this.createChat.Name = "createChat";
             this.createChat.Size = new System.Drawing.Size(172, 32);
             this.createChat.TabIndex = 1;
@@ -62,7 +62,7 @@ namespace Client
             // logoutButton
             // 
             this.logoutButton.Location = new System.Drawing.Point(255, 388);
-            this.logoutButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.logoutButton.Margin = new System.Windows.Forms.Padding(2);
             this.logoutButton.Name = "logoutButton";
             this.logoutButton.Size = new System.Drawing.Size(172, 32);
             this.logoutButton.TabIndex = 2;
@@ -96,13 +96,14 @@ namespace Client
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ClientSize = new System.Drawing.Size(669, 449);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.logoutButton);
             this.Controls.Add(this.createChat);
             this.Controls.Add(this.listView1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainWindow";
             this.Text = "CMessenger";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWindow_FormClosed);
@@ -119,7 +120,5 @@ namespace Client
         private System.Windows.Forms.Button logoutButton;
 
         #endregion
-
-        private string user;
     }
 }

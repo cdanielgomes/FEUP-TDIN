@@ -166,8 +166,9 @@ namespace Client
             else
             {
 
-                
-                
+                MessageBox.Show("Please select a user of a group of users",
+                "No user was selected",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
         }

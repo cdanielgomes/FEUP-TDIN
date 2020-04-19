@@ -39,7 +39,7 @@ namespace Client
 
             ClientApp.GetInstance().GetPendingChats().Add(_chatName);
 
-            if (_chatName != _user.Username)
+            if (_chatName != username)
             {
                 chatName = _chatName;
             }
