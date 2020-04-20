@@ -16,14 +16,6 @@ namespace Client
             ClientApp.GetMainWindow().StartChatBox(user, chatName, chat, number);
         }
 
-        public void CloseChat(ControlMessage m)
-        {
-           ChatBox b =  ClientApp.GetInstance().GetChats()[m.ID];
-            b.Close();
-            ClientApp.GetInstance().GetChats().Remove(m.ID);
-            b.Dispose();
-        }
-
         public void Invite(ControlMessage m)
         {
             if (ClientApp.GetInstance().GetChats().ContainsKey(m.ID)) return;
