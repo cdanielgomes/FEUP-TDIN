@@ -35,7 +35,7 @@ namespace Client
             this.nicknameLabel.AutoSize = true;
             this.nicknameLabel.Location = new System.Drawing.Point(28, 83);
             this.nicknameLabel.Name = "nicknameLabel";
-            this.nicknameLabel.Size = new System.Drawing.Size(58, 13);
+            this.nicknameLabel.Size = new System.Drawing.Size(74, 17);
             this.nicknameLabel.TabIndex = 0;
             this.nicknameLabel.Text = "Nickname:";
             // 
@@ -44,7 +44,7 @@ namespace Client
             this.passwordLabel.AutoSize = true;
             this.passwordLabel.Location = new System.Drawing.Point(28, 122);
             this.passwordLabel.Name = "passwordLabel";
-            this.passwordLabel.Size = new System.Drawing.Size(56, 13);
+            this.passwordLabel.Size = new System.Drawing.Size(73, 17);
             this.passwordLabel.TabIndex = 0;
             this.passwordLabel.Text = "Password:";
             // 
@@ -55,7 +55,7 @@ namespace Client
             this.nicknameBox.ForeColor = System.Drawing.SystemColors.WindowText;
             this.nicknameBox.Location = new System.Drawing.Point(90, 79);
             this.nicknameBox.Name = "nicknameBox";
-            this.nicknameBox.Size = new System.Drawing.Size(314, 20);
+            this.nicknameBox.Size = new System.Drawing.Size(314, 22);
             this.nicknameBox.TabIndex = 3;
             // 
             // passwordBox
@@ -66,7 +66,7 @@ namespace Client
             this.passwordBox.Location = new System.Drawing.Point(90, 120);
             this.passwordBox.Name = "passwordBox";
             this.passwordBox.PasswordChar = '*';
-            this.passwordBox.Size = new System.Drawing.Size(314, 20);
+            this.passwordBox.Size = new System.Drawing.Size(314, 22);
             this.passwordBox.TabIndex = 3;
             // 
             // LoginButton
@@ -105,13 +105,13 @@ namespace Client
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(20, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(419, 29);
+            this.label1.Size = new System.Drawing.Size(528, 36);
             this.label1.TabIndex = 8;
             this.label1.Text = "Login to start chatting with your friends";
             // 
             // LoginWindow
             // 
-            this.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(450, 296);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.closeButton);

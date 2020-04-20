@@ -12,6 +12,7 @@ namespace Client
         {
             if (ClientApp.GetInstance().GetChats().ContainsKey(number)) return;
             if (!ClientApp.GetInstance().GetPendingChats().Remove(number)) Console.WriteLine("Not found  element");
+           
             ClientApp.GetMainWindow().StartChatBox(user, chatName, chat, number);
         }
 

@@ -40,20 +40,20 @@ namespace Client
             // listView1
             // 
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(112, 110);
-            this.listView1.Margin = new System.Windows.Forms.Padding(2);
+            this.listView1.Location = new System.Drawing.Point(149, 135);
+            this.listView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(451, 192);
+            this.listView1.Size = new System.Drawing.Size(600, 235);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
             // 
             // createChat
             // 
-            this.createChat.Location = new System.Drawing.Point(255, 336);
-            this.createChat.Margin = new System.Windows.Forms.Padding(2);
+            this.createChat.Location = new System.Drawing.Point(340, 414);
+            this.createChat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.createChat.Name = "createChat";
-            this.createChat.Size = new System.Drawing.Size(172, 32);
+            this.createChat.Size = new System.Drawing.Size(229, 39);
             this.createChat.TabIndex = 1;
             this.createChat.Text = "Create Chat";
             this.createChat.UseVisualStyleBackColor = true;
@@ -61,10 +61,10 @@ namespace Client
             // 
             // logoutButton
             // 
-            this.logoutButton.Location = new System.Drawing.Point(255, 388);
-            this.logoutButton.Margin = new System.Windows.Forms.Padding(2);
+            this.logoutButton.Location = new System.Drawing.Point(340, 478);
+            this.logoutButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.logoutButton.Name = "logoutButton";
-            this.logoutButton.Size = new System.Drawing.Size(172, 32);
+            this.logoutButton.Size = new System.Drawing.Size(229, 39);
             this.logoutButton.TabIndex = 2;
             this.logoutButton.Text = "Logout";
             this.logoutButton.UseVisualStyleBackColor = true;
@@ -74,10 +74,9 @@ namespace Client
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(110, 93);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(147, 114);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 15);
+            this.label1.Size = new System.Drawing.Size(94, 18);
             this.label1.TabIndex = 3;
             this.label1.Text = "Online Users";
             // 
@@ -85,25 +84,24 @@ namespace Client
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(206, 34);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(275, 42);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(146, 36);
+            this.label2.Size = new System.Drawing.Size(190, 44);
             this.label2.TabIndex = 4;
             this.label2.Text = "Welcome ";
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.ClientSize = new System.Drawing.Size(669, 449);
+            this.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.ClientSize = new System.Drawing.Size(892, 553);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.logoutButton);
             this.Controls.Add(this.createChat);
             this.Controls.Add(this.listView1);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainWindow";
             this.Text = "CMessenger";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWindow_FormClosed);

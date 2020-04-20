@@ -35,7 +35,7 @@ namespace Client
             _messages = new SortedSet<Message>();
             files = new List<byte[]>();
             InitializeComponent();
-            nameOfTheChat.Text = chatName;
+            nameOfTheChat.Text = chatName == user.Username ? user.Username : chatName;
             _chatName = chatName;
             _chat = chat;
             ID = id;

@@ -21,8 +21,8 @@ namespace Client
             {
                 Console.WriteLine(user.Username, user.Address);
                 InitializeComponent();
-                label1.Text += ClientApp.GetLoggedUser().Username;
-                nameOfTheChat.Text += chatName;
+                label1.Text += user.Username;
+                nameOfTheChat.Text = user.Username != chatName ?  "Chat Name " + chatName : "";
                 _iFriend = (IClientRem)RemotingServices.Connect(typeof(IClientRem), user.Address);
                 _user = user;
                 _chatName = chatName;

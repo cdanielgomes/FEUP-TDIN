@@ -164,7 +164,7 @@ namespace Client {
             // 
             // RegisterWindow
             // 
-            this.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(450, 319);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);

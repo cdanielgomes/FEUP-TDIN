@@ -34,7 +34,6 @@ namespace Client
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChatBox));
             this.inputMessage = new System.Windows.Forms.TextBox();
             this.sendButton = new System.Windows.Forms.Button();
-            this.friendLabel = new System.Windows.Forms.Label();
             this.nameOfTheChat = new System.Windows.Forms.Label();
             this.chatMessages = new System.Windows.Forms.RichTextBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -61,15 +60,6 @@ namespace Client
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = true;
             this.sendButton.Click += new System.EventHandler(this.sendButton_Click);
-            // 
-            // friendLabel
-            // 
-            this.friendLabel.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.friendLabel.Location = new System.Drawing.Point(56, 87);
-            this.friendLabel.Name = "friendLabel";
-            this.friendLabel.Size = new System.Drawing.Size(506, 46);
-            this.friendLabel.TabIndex = 3;
-            this.friendLabel.Text = "friend";
             // 
             // nameOfTheChat
             // 
@@ -128,13 +118,13 @@ namespace Client
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(1004, 522);
             this.Controls.Add(this.filesShared);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.chatMessages);
             this.Controls.Add(this.nameOfTheChat);
-            this.Controls.Add(this.friendLabel);
             this.Controls.Add(this.sendButton);
             this.Controls.Add(this.inputMessage);
             this.Name = "ChatBox";
@@ -144,7 +134,6 @@ namespace Client
             this.PerformLayout();
 
         }
-        private System.Windows.Forms.Label friendLabel;
         private System.Windows.Forms.TextBox inputMessage;
         private System.Windows.Forms.Button sendButton;
 
