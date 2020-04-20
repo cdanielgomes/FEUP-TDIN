@@ -14,7 +14,8 @@ namespace Client
         private RemoteChat _chat;
         private ActiveUser _user;
         private string _chatName;
-        public InviteWindow(ActiveUser user, string chatName, RemoteChat chat)
+        private string _id;
+        public InviteWindow(ActiveUser user, string chatName, RemoteChat chat, string id)
         {
             try
             {
@@ -26,6 +27,7 @@ namespace Client
                 _user = user;
                 _chatName = chatName;
                 _chat = chat;
+                _id = id;
             } catch(Exception e)
             {
                 Console.WriteLine(e);
@@ -37,8 +39,6 @@ namespace Client
             string username = ClientApp.GetLoggedUser().Username;
             string chatName;
 
-            ClientApp.GetInstance().GetPendingChats().Add(_chatName);
-
             if (_chatName != _user.Username)
             {
                 chatName = _chatName;
@@ -48,18 +48,16 @@ namespace Client
                 chatName = username;
             }
 
-            Task.Factory.StartNew(() => { _iFriend.AcceptChat(ClientApp.GetLoggedUser(), chatName, _chat); });
+            Task.Factory.StartNew(() => { _iFriend.AcceptChat(ClientApp.GetLoggedUser(), chatName, _chat, _id); });
             
-            Console.WriteLine(ClientApp.GetLoggedUser().Username + " tries to start a chat by accept request of " + _user.Username);
-
-            ClientApp.GetMainWindow().StartChatBox(_user, chatName, _chat);
-            Console.WriteLine(@"start chat on " + username + " with " + _user.Username);
+            
+            ClientApp.GetMainWindow().StartChatBox(_user, chatName, _chat, _id);
             this.Close();
         }
 
         private void RejectInvitationButton_Click(object sender, System.EventArgs e)
         {
-            _iFriend.RejectChat(ClientApp.GetLoggedUser(), _chatName);
+            _iFriend.RejectChat(ClientApp.GetLoggedUser(), _chatName, _id);
             this.Close();
         }
 
@@ -67,7 +65,7 @@ namespace Client
         {
             BeginInvoke((MethodInvoker)delegate ()
             {
-                _iFriend.RejectChat(ClientApp.GetLoggedUser(), _chatName);
+                _iFriend.RejectChat(ClientApp.GetLoggedUser(), _chatName, _id);
                 this.Close();
             });
         }

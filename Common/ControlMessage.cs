@@ -12,7 +12,7 @@ namespace Common
 
         public RemoteChat Chat;
 
-        public ControlMessage(ActiveUser user, string chatName, RemoteChat chat): base(user, "control", chatName)
+        public ControlMessage(ActiveUser user, string chatName, RemoteChat chat, string id): base(user, "control", chatName, id)
         {
             Chat = chat;
         }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Common;
 using Syroot.Windows.IO;
@@ -22,11 +23,13 @@ namespace Client
         private string _chatName;
         private RemoteChat _chat;
 
+        public string ID { get; }
+
         private MessageEventRepeater _messageRepeater;
         private CloseEventRepeater _closeRepeater;
-        private Message _messageToBeSent;
+       
         
-        public ChatBox(ActiveUser user, string chatName, RemoteChat chat)
+        public ChatBox(ActiveUser user, string chatName, RemoteChat chat, string id)
         {
             _user = user;
             _messages = new SortedSet<Message>();
@@ -36,7 +39,7 @@ namespace Client
             nameOfTheChat.Text = chatName;
             _chatName = chatName;
             _chat = chat;
-            _messageToBeSent = new Message(ClientApp.GetLoggedUser(), chatName);
+            ID = id;
             SubscribeChat();
         }
 
@@ -44,20 +47,18 @@ namespace Client
         {
             char[] charsToTrim = {' '};
             string test = inputMessage.Text.Trim(charsToTrim);
-            if (!test.Equals("") || _messageToBeSent.GetFiles().Count > 0)
+            if (!test.Equals(""))
             {
                 Message m = new Message(ClientApp.GetLoggedUser(), inputMessage.Text, _chatName);
                 _messages.Add(m);
-                _messageToBeSent.MessageSent = inputMessage.Text;
-
+               
                 Thread t = new Thread(() =>
                 {
-                    _chat.WriteMessage(_messageToBeSent);
-                    Console.WriteLine(_messageToBeSent.GetFiles().Count + " is the number of files sent");
+                    _chat.WriteMessage(m);
+                   
                 }); 
                 t.Start();
 
-                _messageToBeSent = new Message(ClientApp.GetLoggedUser(), _chatName);
                 inputMessage.Text = "";
             }
         }
@@ -69,17 +70,7 @@ namespace Client
 
         private void ChatBox_FormClosed(object sender, FormClosedEventArgs e)
         {
-
-            ClientApp.GetInstance().GetPendingChats().Remove(_chatName);
-            UnsubscibeChat();
-            try
-            {
-                _chat.CloseChat();
-            }
-            catch (Exception ex)
-            {
-
-            }
+            Logout();
         }
 
         private void SubscribeChat()
@@ -103,15 +94,28 @@ namespace Client
         private void button2_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
-
-            if (dialog.ShowDialog() == DialogResult.OK)
+            dialog.Multiselect = false;
+            if (dialog.ShowDialog().Equals(DialogResult.OK))
             {
-                string filename = dialog.FileName;
-                
-                byte[] file = File.ReadAllBytes(filename);
-                var ans = MessageBox.Show("Add the file " + Path.GetFileName(filename) + " to be sent", "Confirm", MessageBoxButtons.YesNo);
-                if(ans == DialogResult.Yes)
-                    _messageToBeSent.AddFile(file, Path.GetFileName(filename));
+                try
+                {
+                    string filename = dialog.FileName;
+                    byte[] file = File.ReadAllBytes(filename);
+                    var ans = MessageBox.Show("Add the file " + Path.GetFileName(filename) + " to be sent", "Confirm", MessageBoxButtons.YesNo);
+                    if (ans == DialogResult.Yes)
+                    {
+                        Task t = Task.Factory.StartNew(() => {
+                            Message message = new Message(ClientApp.GetLoggedUser(), "Sent file " + filename , _chatName);
+                            message.AddFile(file, Path.GetFileName(filename));
+                            _chat.WriteMessage(message);
+                        });
+                    }
+                }
+                catch (Exception error)
+                {
+                    MessageBox.Show("Unable to upload the file", "Error", MessageBoxButtons.OK);
+                    Console.WriteLine(error.Message);
+                }
             }
         }
 
@@ -131,7 +135,8 @@ namespace Client
                 }
             }
             string message = "";
-            if (m.MessageSent == "") return;
+            if (m.MessageSent == null) return;
+
             if (m.Sender.Username == ClientApp.GetLoggedUser().Username)
             {
                 chatMessages.SelectionAlignment = HorizontalAlignment.Right;
@@ -153,9 +158,10 @@ namespace Client
         {
             string downloadsPath = KnownFolders.Downloads.Path;
             string name = fileName;
-            if(File.Exists(downloadsPath + "/" + fileName))
+
+            while(File.Exists(downloadsPath + "/" + name))
             {
-                name = fileName.Insert(fileName.IndexOf('.'), "_new");
+                name = name.Insert(name.IndexOf('.'), "_new");
             }
 
             File.WriteAllBytes(downloadsPath + "/" + name,file);
@@ -171,6 +177,21 @@ namespace Client
             {
                 MessageBox.Show("Download Failed", "Download", MessageBoxButtons.OK);
             }
+        }
+
+        public void Logout()
+        {
+            ClientApp.GetInstance().GetChats().Remove(this.ID);
+            UnsubscibeChat();
+            try
+            {
+                _chat.CloseChat();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
     }

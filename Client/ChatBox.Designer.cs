@@ -53,7 +53,7 @@ namespace Client
             // 
             // sendButton
             // 
-            this.sendButton.Location = new System.Drawing.Point(874, 445);
+            this.sendButton.Location = new System.Drawing.Point(779, 445);
             this.sendButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.sendButton.Name = "sendButton";
             this.sendButton.Size = new System.Drawing.Size(81, 51);
@@ -94,7 +94,7 @@ namespace Client
             // button2
             // 
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.Location = new System.Drawing.Point(779, 445);
+            this.button2.Location = new System.Drawing.Point(896, 446);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(59, 52);
             this.button2.TabIndex = 7;

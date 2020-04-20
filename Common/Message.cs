@@ -6,33 +6,30 @@ namespace Common
     [Serializable]
     public class Message : IComparable
     {
-        private Guid _id = Guid.NewGuid();
 
-        private List<byte[]> files;
-        private List<string> filesName;
+        private List<byte[]> files = new List<byte[]>();
+        private List<string> filesName = new List<string>();
 
+        public Message(ActiveUser user, string message, string chatName, string chatId)
+        {
+            MessageSent = message;
+            Sender = user;
+            ChatName = chatName;
+            ID = chatId;
+        }
         public Message(ActiveUser user, string message, string chatName)
         {
             MessageSent = message;
             Sender = user;
             ChatName = chatName;
         }
-        public Message(ActiveUser user, string chatName)
-        {
-            Sender = user;
-            ChatName = chatName;
-            files = new List<byte[]>();
-            filesName = new List<string>();
-            MessageSent = "";
-
-        }
-
         public ActiveUser Sender { get; }
 
         public DateTime MessageDate { get; } = DateTime.Now;
         public string MessageSent { get; set; }
 
         public string ChatName { get; }
+        public string ID { get; }
 
         public void AddFile(byte[] file, string filename)
         {

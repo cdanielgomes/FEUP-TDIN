@@ -44,6 +44,7 @@ namespace Client
 
         public void AddActiveUser(ActiveUser user)
         {
+            
             Console.WriteLine("User {0} Logged in", user.Username);
 
             _onlineUsers.Add(user);
@@ -115,19 +116,23 @@ namespace Client
                 }
             }
 
-            if (users.Count == 1)
+
+            string id = CreateID(users);
+            bool exists = ClientApp.GetInstance().GetPendingChats().Contains(id) || ClientApp.GetInstance().GetChats().ContainsKey(id);
+
+            if (users.Count == 1 && !exists)
             {
 
                 IClientRem friend = (IClientRem)RemotingServices.Connect(typeof(IClientRem), users[0].Address);
-                ClientApp.GetInstance().GetPendingChats().Add(users[0].ToString());
+                ClientApp.GetInstance().GetPendingChats().Add(id);
                 RemoteChat chat = new RemoteChat();
 
                 Task.Factory.StartNew(() =>
                 {
-                    Console.WriteLine(@"Invitation sent to " + users[0].Username + " to join the mutual chat");
+
                     try
                     {
-                        friend.Invite(new ControlMessage(ClientApp.GetLoggedUser(), ClientApp.GetLoggedUser().Username, chat));
+                        friend.Invite(new ControlMessage(ClientApp.GetLoggedUser(), ClientApp.GetLoggedUser().Username, chat, id));
                     }
                     catch (Exception e)
                     {
@@ -137,7 +142,7 @@ namespace Client
                     Console.WriteLine("success");
                 });
             }
-            else if (users.Count > 1)
+            else if (users.Count > 1 && !exists)
             {
                 Form1 a = new Form1();
                 a.ShowDialog();
@@ -152,7 +157,7 @@ namespace Client
                         Console.WriteLine(@"Invitation sent to " + user.Username + " to join " + a.GetText);
                         try
                         {
-                            friend.Invite(new ControlMessage(ClientApp.GetLoggedUser(), a.GetText, chat));
+                            friend.Invite(new ControlMessage(ClientApp.GetLoggedUser(), a.GetText, chat, id));
                         }
                         catch (Exception e)
                         {
@@ -165,16 +170,13 @@ namespace Client
             }
             else
             {
-
-                
-                
-
+                MessageBox.Show("Chat already created or Invites sent", "Already Created");
             }
+         
         }
 
         private void Logout_Click(object sender, EventArgs e)
         {
-
             LogoutSession();
             Application.Exit();
         }
@@ -183,6 +185,7 @@ namespace Client
         {
             foreach (ActiveUser user in _onlineUsers)
             {
+                if (user.Equals(ClientApp.GetLoggedUser())) continue;
                 ListViewItem lvItem = new ListViewItem(user.Username);
                 listView1.Items.Add(lvItem);
                 lvItem.ImageIndex = 0;
@@ -191,34 +194,55 @@ namespace Client
 
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
+            foreach (var a in ClientApp.GetInstance().GetChats())
+            {
+                a.Value.Logout();
+            }
             LogoutSession();
+            
             Application.Exit();
         }
 
         public void LaunchInviteWindow(ControlMessage msg)
         {
-            InviteWindow inviteWin = new InviteWindow(msg.Sender, msg.ChatName, msg.Chat);
+            InviteWindow inviteWin = new InviteWindow(msg.Sender, msg.ChatName, msg.Chat, msg.ID);
             this.BeginInvoke((MethodInvoker)delegate () {
                 inviteWin.Show();
+                inviteWin.BringToFront();
             });
         }
 
-        public void StartChatBox(ActiveUser user, string chatName, RemoteChat chat )
+        public void StartChatBox(ActiveUser user, string chatName, RemoteChat chat, string number )
         {
 
             if (InvokeRequired)
             {
-
-                BeginInvoke((MethodInvoker)delegate { StartChatBox(user, chatName, chat); });
+                BeginInvoke((MethodInvoker)delegate { StartChatBox(user, chatName, chat, number); });
             }
             else
             {
-                ChatBox box = new ChatBox(user, chatName, chat);
-                // TODO: username or 
-                ClientApp.GetInstance().GetChats().Add(chatName+user.Username, box);
+                ChatBox box = new ChatBox(user, chatName, chat, number);
+                
+                ClientApp.GetInstance().GetChats().Add(number, box);
                 box.Show();
             }
           
+        }
+
+        public void RejectedChat(ActiveUser user, string chatname)
+        {
+            MessageBox.Show(user.Username + "rejected you chat " + chatname, "Chat Rejection", MessageBoxButtons.OK);
+        }
+
+        private string CreateID(List<ActiveUser> users)
+        {
+            string name = ClientApp.GetLoggedUser().Username;
+
+            foreach (var u in users)
+            {
+                name += u.Username;
+            }
+            return String.Concat(name.OrderBy(c=>c));
         }
     }
 }
