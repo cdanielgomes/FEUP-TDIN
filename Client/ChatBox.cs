@@ -181,7 +181,6 @@ namespace Client
         private void Logout()
         {
             ClientApp.GetInstance().GetChats().Remove(this.ID);
-            ClientApp.GetInstance().GetChatIds().Remove(this.ID);
             UnsubscibeChat();
             try
             {

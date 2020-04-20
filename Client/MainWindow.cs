@@ -186,13 +186,16 @@ namespace Client
 
         private void Logout_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Before iteration");
+            var chatDictionary = ClientApp.GetInstance().GetChats();
 
-            foreach (var a in ClientApp.GetInstance().GetChatIds())
+            foreach (var id in ClientApp.GetInstance().GetChatIds())
             {
-                ClientApp.GetInstance().GetChats()[a].CloseChat();
+                if (chatDictionary.ContainsKey(id))
+                {
+
+                    chatDictionary[id].CloseChat();
+                }
             }
-            Console.WriteLine("After iteration");
 
             ClientApp.GetInstance().GetChatIds().Clear();
             LogoutSession();
@@ -212,13 +215,16 @@ namespace Client
 
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Console.WriteLine("Before iteration 2.0");
+            var chatDictionary = ClientApp.GetInstance().GetChats();
 
-            foreach (var a in ClientApp.GetInstance().GetChatIds())
+            foreach (var id in ClientApp.GetInstance().GetChatIds())
             {
-                ClientApp.GetInstance().GetChats()[a].CloseChat();
+                if (chatDictionary.ContainsKey(id))
+                {
+
+                    chatDictionary[id].CloseChat();
+                }
             }
-            Console.WriteLine("After iteration 2.0");
             LogoutSession();
             
             Application.Exit();
