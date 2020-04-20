@@ -168,9 +168,18 @@ namespace Client
                     });
                 }
             }
-            else
+            else if (users.Count < 1)
             {
-                MessageBox.Show("Chat already created or Invites sent", "Already Created");
+                MessageBox.Show("Please select a user of a group of users",
+                "No user was selected",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            } 
+            else{
+                
+                MessageBox.Show("Chat already created or Invites sent", "Already Created",
+                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
          
         }

@@ -35,7 +35,6 @@ namespace Client
             _messages = new SortedSet<Message>();
             files = new List<byte[]>();
             InitializeComponent();
-            friendLabel.Text = user.Username;
             nameOfTheChat.Text = chatName;
             _chatName = chatName;
             _chat = chat;
@@ -175,7 +174,7 @@ namespace Client
             }
             catch (Exception error)
             {
-                MessageBox.Show("Download Failed", "Download", MessageBoxButtons.OK);
+                MessageBox.Show("Download Failed: " + error.Message, "Download", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
