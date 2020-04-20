@@ -104,7 +104,7 @@ namespace Client
                     if (ans == DialogResult.Yes)
                     {
                         Task t = Task.Factory.StartNew(() => {
-                            Message message = new Message(ClientApp.GetLoggedUser(), "Sent file " + filename , _chatName);
+                            Message message = new Message(ClientApp.GetLoggedUser(), "Sent file " + Path.GetFileName(filename), _chatName);
                             message.AddFile(file, Path.GetFileName(filename));
                             _chat.WriteMessage(message);
                         });
