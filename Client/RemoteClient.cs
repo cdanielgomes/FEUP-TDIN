@@ -36,7 +36,7 @@ namespace Client
         {
             ClientApp.GetInstance().GetPendingChats().Remove(id);
             ClientApp.GetMainWindow().RejectedChat(user, chatName);
-            //say that was reject 
+           
         }
     }
 }

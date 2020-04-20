@@ -62,7 +62,7 @@ namespace Client
             }
         }
 
-        private void CloseChat()
+        public void CloseChat()
         {
             this.Close();
         }
@@ -178,7 +178,7 @@ namespace Client
             }
         }
 
-        public void Logout()
+        private void Logout()
         {
             ClientApp.GetInstance().GetChats().Remove(this.ID);
             UnsubscibeChat();

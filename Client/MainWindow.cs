@@ -186,6 +186,10 @@ namespace Client
 
         private void Logout_Click(object sender, EventArgs e)
         {
+            foreach (var a in ClientApp.GetInstance().GetChats())
+            {
+                a.Value.CloseChat();
+            }
             LogoutSession();
             Application.Exit();
         }
@@ -205,7 +209,7 @@ namespace Client
         {
             foreach (var a in ClientApp.GetInstance().GetChats())
             {
-                a.Value.Logout();
+                a.Value.CloseChat();
             }
             LogoutSession();
             
