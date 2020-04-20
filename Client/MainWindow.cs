@@ -186,10 +186,15 @@ namespace Client
 
         private void Logout_Click(object sender, EventArgs e)
         {
-            foreach (var a in ClientApp.GetInstance().GetChats())
+            Console.WriteLine("Before iteration");
+
+            foreach (var a in ClientApp.GetInstance().GetChatIds())
             {
-                a.Value.CloseChat();
+                ClientApp.GetInstance().GetChats()[a].CloseChat();
             }
+            Console.WriteLine("After iteration");
+
+            ClientApp.GetInstance().GetChatIds().Clear();
             LogoutSession();
             Application.Exit();
         }
@@ -207,10 +212,13 @@ namespace Client
 
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
-            foreach (var a in ClientApp.GetInstance().GetChats())
+            Console.WriteLine("Before iteration 2.0");
+
+            foreach (var a in ClientApp.GetInstance().GetChatIds())
             {
-                a.Value.CloseChat();
+                ClientApp.GetInstance().GetChats()[a].CloseChat();
             }
+            Console.WriteLine("After iteration 2.0");
             LogoutSession();
             
             Application.Exit();
@@ -220,8 +228,8 @@ namespace Client
         {
             InviteWindow inviteWin = new InviteWindow(msg.Sender, msg.ChatName, msg.Chat, msg.ID);
             this.BeginInvoke((MethodInvoker)delegate () {
-                inviteWin.Show();
                 inviteWin.BringToFront();
+                inviteWin.Show();
             });
         }
 
@@ -236,7 +244,7 @@ namespace Client
             {
                 ChatBox box = new ChatBox(user, chatName, chat, number);
                 
-                ClientApp.GetInstance().GetChats().Add(number, box);
+                ClientApp.GetInstance().AddChat(number, box);
                 box.Show();
             }
           

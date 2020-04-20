@@ -11,6 +11,7 @@ namespace Client {
         private IServer _chatServer;
         private ActiveUser _loggedUser;
         private Dictionary<string, ChatBox> _chat;
+        private HashSet<string> _chatIds;
         private HashSet<string> _pendingChats;
         private MainWindow mainWin;
 
@@ -18,6 +19,7 @@ namespace Client {
             InitializeServerConnection();
             _pendingChats = new HashSet<string>();
             _chat = new Dictionary<string, ChatBox>();
+            _chatIds = new HashSet<string>();
 
     }
 
@@ -59,6 +61,24 @@ namespace Client {
         public Dictionary<string, ChatBox> GetChats()
         {
             return _chat;
+        }
+
+        public HashSet<string> GetChatIds()
+        {
+            return _chatIds;
+        }
+
+        public bool AddChat(string number, ChatBox chat)
+        {
+            try
+            {
+                _chat.Add(number, chat);
+               return  _chatIds.Add(number);
+            }
+            catch (ArgumentException e)
+            {
+                return false;
+            }
         }
 
         public HashSet<string> GetPendingChats()
