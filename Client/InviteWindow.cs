@@ -36,7 +36,6 @@ namespace Client
 
         private void AcceptInvationButton_Click(object sender, System.EventArgs e)
         {
-            string username = ClientApp.GetLoggedUser().Username;
             string chatName;
 
             if (_chatName != _user.Username)
@@ -45,13 +44,13 @@ namespace Client
             }
             else
             {
-                chatName = username;
+                chatName = ClientApp.GetLoggedUser().Username;
             }
 
             Task.Factory.StartNew(() => { _iFriend.AcceptChat(ClientApp.GetLoggedUser(), chatName, _chat, _id); });
             
             
-            ClientApp.GetMainWindow().StartChatBox(_user, chatName, _chat, _id);
+            ClientApp.GetMainWindow().StartChatBox(_user, _chatName, _chat, _id);
             this.Close();
         }
 

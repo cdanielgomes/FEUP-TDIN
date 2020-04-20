@@ -132,7 +132,7 @@ namespace Client
 
                     try
                     {
-                        friend.Invite(new ControlMessage(ClientApp.GetLoggedUser(), ClientApp.GetLoggedUser().Username, chat, id));
+                        friend.Invite(new ControlMessage(ClientApp.GetLoggedUser(), Client.ClientApp.GetLoggedUser().Username, chat, id));
                     }
                     catch (Exception e)
                     {
@@ -144,8 +144,8 @@ namespace Client
             }
             else if (users.Count > 1 && !exists)
             {
-                Form1 a = new Form1();
-                a.ShowDialog();
+                Form1 chatNameForm = new Form1();
+                chatNameForm.ShowDialog();
                 RemoteChat chat = new RemoteChat();
 
                 foreach (var user in users)
@@ -154,10 +154,10 @@ namespace Client
                   
                     Task.Factory.StartNew(() =>
                     {
-                        Console.WriteLine(@"Invitation sent to " + user.Username + " to join " + a.GetText);
+                        Console.WriteLine(@"Invitation sent to " + user.Username + " to join " + chatNameForm.GetText);
                         try
                         {
-                            friend.Invite(new ControlMessage(ClientApp.GetLoggedUser(), a.GetText, chat, id));
+                            friend.Invite(new ControlMessage(ClientApp.GetLoggedUser(), chatNameForm.GetText, chat, id));
                         }
                         catch (Exception e)
                         {
