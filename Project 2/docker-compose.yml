@@ -1,0 +1,20 @@
+version: '3.5'
+
+services:
+  express-app:
+    build: ./central-server
+    container_name: central-server
+    volumes:
+      - "./central-server/src/:/app/src/"
+      - "./central-server/bin/:/app/bin/"
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27016:27016"
