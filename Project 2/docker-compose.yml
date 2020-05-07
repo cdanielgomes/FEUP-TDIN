@@ -1,5 +1,9 @@
 version: '3.5'
 
+networks:
+  app-tier:
+    driver: bridge
+
 services:
   express-app:
     build: ./central-server
@@ -12,9 +16,15 @@ services:
       - "3000:3000"
     depends_on:
       - mongo
+      - rabbitmq
 
   mongo:
     image: mongo:latest
     restart: always
     ports:
       - "27016:27016"
+
+  rabbitmq:
+    image: 'bitnami/rabbitmq:latest'
+    networks:
+      - app-tier
