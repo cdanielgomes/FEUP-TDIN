@@ -12,6 +12,8 @@ services:
       - "./central-server/src/:/app/src/"
       - "./central-server/bin/:/app/bin/"
     working_dir: /app
+    networks:
+      - app-tier
     ports:
       - "3000:3000"
     depends_on:
