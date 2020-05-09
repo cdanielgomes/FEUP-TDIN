@@ -1,7 +1,7 @@
 version: '3.5'
 
 networks:
-  app-tier:
+  tdin-net:
     driver: bridge
 
 services:
@@ -13,7 +13,7 @@ services:
       - "./central-server/bin/:/app/bin/"
     working_dir: /app
     networks:
-      - app-tier
+      - tdin-net
     ports:
       - "3000:3000"
     depends_on:
@@ -23,10 +23,12 @@ services:
   mongo:
     image: mongo:latest
     restart: always
+    networks:
+      - tdin-net
     ports:
-      - "27016:27016"
+      - "27017:27017"
 
   rabbitmq:
     image: 'bitnami/rabbitmq:latest'
     networks:
-      - app-tier
+      - tdin-net
