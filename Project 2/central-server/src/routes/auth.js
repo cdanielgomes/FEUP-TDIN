@@ -43,7 +43,7 @@ router.post('/login', (req, res) => {
   }
 });
 
-router.get('/', (req, res) => {
+router.get('/logout', (req, res) => {
   if (req.session.email) {
     // delete session object
     req.session.destroy((err) => {
