@@ -1,0 +1,68 @@
+import React, { useState } from "react";
+import {
+  Button,
+  Form,
+  Col,
+  FormGroup,
+  FormControl,
+  FormLabel,
+  Row,
+  Container,
+} from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../actions/authActions";
+
+const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+
+  function validateForm() {
+    return username.length > 0 && password.length > 0;
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    dispatch(authActions.login(username, password));
+  }
+
+  return (
+    <Container>
+      <Row>
+        <Col>
+          <Form onSubmit={handleSubmit}>
+            <FormGroup controlId="username">
+              <FormLabel>Username</FormLabel>
+              <FormControl
+                autoFocus
+                type="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </FormGroup>
+            <FormGroup controlId="password">
+              <FormLabel>Password</FormLabel>
+              <FormControl
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+              />
+            </FormGroup>
+
+            <Button block disabled={!validateForm()} type="submit">
+              Login
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col>
+          Do you not have an account? <a href="/register"> Register </a>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
+
+export default Login;
