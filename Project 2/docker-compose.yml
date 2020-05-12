@@ -5,7 +5,22 @@ networks:
     driver: bridge
 
 services:
-  express-app:
+  worker-app:
+    stdin_open: true
+    build: ./worker-app
+    container_name: worker-app
+    volumes:
+      - "./worker-app/src/:/app/src/"
+      - "./worker-app/public/:/app/public/"
+    working_dir: /app
+    networks:
+      - tdin-net
+    ports:
+      - "8080:8080"
+    depends_on:
+      - central-server
+
+  central-server:
     build: ./central-server
     container_name: central-server
     volumes:

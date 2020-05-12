@@ -10,6 +10,7 @@ require("dotenv").config();
 
 const logger = require('./utils/logger');
 
+const indexRouter = require('./routes');
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 
@@ -37,6 +38,7 @@ app.use(session({
   saveUninitialized: false
 }));
 
+app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
 
