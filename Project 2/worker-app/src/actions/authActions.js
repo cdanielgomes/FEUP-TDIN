@@ -47,17 +47,19 @@ function login(username, password) {
   }
 }
 
-function register({ username, password, email }) {
+function register(infos) {
   return (dispatch) => {
     dispatch(request());
 
-    authService.register(username, email, password).then(
-      (infos) => {
-        dispatch(success(infos));
+    authService.register(infos).then(
+      (response) => {
+        dispatch(success(response));
         history.push("/");
       },
       (error) => {
         dispatch(failure(error));
+        history.push("/register");
+
       }
     );
   };
@@ -77,7 +79,15 @@ function register({ username, password, email }) {
 }
 
 function logout() {
-  authService.logout();
+  authService.logout().then(
+    (response) => {
+      console.log(response)
+    },
+    error => {
+      console.log(error)
+    }
+  )
+
   history.push("/login");
   return { type: authConstants.LOGOUT };
 }

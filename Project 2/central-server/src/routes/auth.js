@@ -44,8 +44,10 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
+  console.log(req)
   if (req.session.email) {
     // delete session object
+
     req.session.destroy((err) => {
       if (err) {
         return res.json({

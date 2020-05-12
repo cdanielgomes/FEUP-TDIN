@@ -13,18 +13,18 @@ import { useDispatch } from "react-redux";
 import { authActions } from "../../actions/authActions";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
   function validateForm() {
-    return username.length > 0 && password.length > 0;
+    return email.length > 0 && password.length > 0;
   }
 
   function handleSubmit(event) {
     event.preventDefault();
     event.stopPropagation();
-    dispatch(authActions.login(username, password));
+    dispatch(authActions.login(email, password));
   }
 
   return (
@@ -32,13 +32,13 @@ const Login = () => {
       <Row>
         <Col>
           <Form onSubmit={handleSubmit}>
-            <FormGroup controlId="username">
-              <FormLabel>Username</FormLabel>
+            <FormGroup controlId="email">
+              <FormLabel>Email</FormLabel>
               <FormControl
                 autoFocus
-                type="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </FormGroup>
             <FormGroup controlId="password">

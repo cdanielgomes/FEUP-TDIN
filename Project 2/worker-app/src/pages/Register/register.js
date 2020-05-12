@@ -17,7 +17,7 @@ export default function Register() {
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    passwordConf: "",
   });
 
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ export default function Register() {
       fields.username.length > 0 &&
       fields.email.length > 0 &&
       fields.password.length > 0 &&
-      fields.password === fields.confirmPassword
+      fields.password === fields.passwordConf
     );
   }
 
@@ -76,12 +76,12 @@ export default function Register() {
                   onChange={changeField}
                 />
               </FormGroup>
-              <FormGroup controlId="confirmPassword">
+              <FormGroup controlId="passwordConf">
                 <FormLabel>Confirm Password</FormLabel>
                 <FormControl
                   type="password"
                   onChange={changeField}
-                  value={fields.confirmPassword}
+                  value={fields.passwordConf}
                 />
               </FormGroup>
               <FormGroup>

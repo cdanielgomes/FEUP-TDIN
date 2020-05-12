@@ -10,7 +10,7 @@ import Register from "./pages/Register";
 
 const App = () => {
   const loggedIn = useSelector((state) => state.auth.loggedIn);
-  const cookie = useSelector((state) => state.auth.cookie);
+  const cookie = useSelector((state) => state.auth.auth_token);
   return (
     <Router history={history}>
       <Switch>

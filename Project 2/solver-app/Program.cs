@@ -1,7 +1,7 @@
 using System;
 using Gtk;
 
-namespace solver_app
+namespace Solver
 {
     class Program
     {
