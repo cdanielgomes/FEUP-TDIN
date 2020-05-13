@@ -27,15 +27,13 @@ router.post('/', (req, res) => {
 
     User.create(userData, (error, user) => {
       if (error) {
-        res.status(error.status || 500);
-        res.json({
+        res.status(error.status).json({
           message: error.message,
           error: error
         });
       } else {
         req.session.userId = user._id;
-        res.status(200);
-        res.json({
+        res.status(200).json({
           message: "User created with success"
         });
       }
@@ -44,8 +42,7 @@ router.post('/', (req, res) => {
   } else {
     var err = new Error('All fields required.');
     err.status = 400;
-    res.status(err.status || 500);
-    res.json({
+    res.status(err.status).json({
       message: err.message,
       error: err
     });
