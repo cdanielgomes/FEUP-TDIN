@@ -5,10 +5,8 @@ var User = require('../models/user.model.js');
 router.post('/', (req, res) => {
   if (req.body.password !== req.body.passwordConf) {
     var err = new Error('Passwords do not match.');
-    err.status = 400;
-    res.send("passwords dont match");
-    res.status(err.status || 500);
-    res.json({
+    err.status = 401;
+    res.status(err.status).json({
       message: err.message,
       error: err
     });
