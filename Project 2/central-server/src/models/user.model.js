@@ -23,8 +23,10 @@ const UserSchema = new mongoose.Schema({
         enum: ["worker", "solver"],
         required: true,
     },
-    cardsOwened: [],
-    cardsAssigned: [],
+    issues: {
+        type: Array,
+        default: []
+    },
 });
 
 //authenticate input against database

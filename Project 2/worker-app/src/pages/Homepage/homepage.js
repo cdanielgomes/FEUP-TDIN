@@ -7,19 +7,21 @@ const Homepage = () => {
 
   const sendIssue = (issue) => {
     issuesService.sendIssue({ ...issue }).then((newIssue) => {
-      console.log(newIssue);
       setIssues((state) => [...state, newIssue]);
     });
   };
+
   useEffect(() => {
-    issuesService.getIssues().then((issuesArray) => {
-      setIssues(issuesArray);
+    issuesService.getIssues().then((issues) => {
+    
+      setIssues(issues);
     });
   }, []);
 
   return (
     <>
       <Header callback={sendIssue} />
+      {console.log(issues)}
       {issues.map((element) => {
         return <IssueCard key={element.id} {...element} />;
       })}

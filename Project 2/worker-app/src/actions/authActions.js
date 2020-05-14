@@ -28,12 +28,12 @@ function login(username, password) {
       (infos) => {
         dispatch(success(infos));
         history.push("/");
-      },
+      }
+    ).catch(
       (error) => {
         dispatch(errorActions.alertError(error));
         dispatch(failure(error));
-      }
-    );
+      })
   };
 
   function request() {
@@ -53,10 +53,12 @@ function register(infos) {
 
     authService.register(infos).then(
       (response) => {
+        console.log(response)
         dispatch(success(response));
         history.push("/");
-      },
-      (error) => {
+      })
+      .catch((error) => {
+        console.log(error)
         dispatch(failure(error));
         history.push("/register");
 
@@ -79,15 +81,7 @@ function register(infos) {
 }
 
 function logout() {
-  authService.logout().then(
-    (response) => {
-      console.log(response)
-    },
-    error => {
-      console.log(error)
-    }
-  )
-
+  authService.logout();
   history.push("/login");
   return { type: authConstants.LOGOUT };
 }
