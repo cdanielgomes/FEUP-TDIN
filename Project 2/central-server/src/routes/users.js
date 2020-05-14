@@ -1,6 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var User = require('../models/user.model.js');
+const express = require('express');
+const router = express.Router();
+const User = require('../models/user.model.js');
+const Issue = require('../models/issue.model.js');
 
 router.post('/', (req, res) => {
   if (req.body.password !== req.body.passwordConf) {
@@ -16,7 +17,7 @@ router.post('/', (req, res) => {
     req.body.username &&
     req.body.password &&
     req.body.passwordConf &&
-    req.body.role ) {
+    req.body.role) {
 
     var userData = {
       email: req.body.email,
@@ -77,6 +78,33 @@ router.get('/list', (req, res) => {
 
     res.status(200).json(users);
   });
+});
+
+// get all issues
+router.get("/issue", (req, res) => {
+  console.log("get all issues")
+  res.status(200).json({
+    issues: []
+  })
+});
+
+// add one issue
+router.post("/issue", (req, res) => {
+  console.log("add one issue")
+  res.status(200).json({
+    issues: []
+
+  })
+});
+
+// update one issue
+router.put("/issue", (req, res) => {
+
+  console.log("update issue")
+  res.status(200).json({
+    issues: []
+
+  })
 });
 
 module.exports = router;

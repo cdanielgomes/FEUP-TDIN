@@ -10,7 +10,6 @@ const Header = ({ callback }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const name = useSelector((state) => state.auth.username);
-  const email = useSelector((state) => state.auth.email);
 
   const dispatch = useDispatch();
 
@@ -38,7 +37,7 @@ const Header = ({ callback }) => {
 
   const sendTicket = (e) => {
     e.preventDefault();
-    callback({ title, description });
+    callback({title, description });
     closeForm();
   };
 

@@ -38,9 +38,7 @@ export default function Register() {
   }
 
   function changeField(e) {
-    console.log(e.target);
-    console.log(e.target.id);
-    console.log({ ...fields, [e.target.id]: e.target.value });
+    e.preventDefault();
     setFields({ ...fields, [e.target.id]: e.target.value });
   }
 

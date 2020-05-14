@@ -1,15 +1,23 @@
 const axios_module = require("axios")
 
-const axios = axios_module.create({ baseURL: "http://localhost:3000/api/auth" })
+const axios = axios_module.create({ baseURL: "http://localhost:3000/api/" })
 
 async function login(email, password) {
-  console.log(axios)
-  return axios.post(`/login`, { email, password })
+  return axios.post(`auth/login`, { email, password })
     .then(
-      ({ data, status }) => {
-        if (status === 200) {
-          localStorage.setItem("cookie", JSON.stringify(data));
-          return data
+      (resp) => {
+        console.log(resp)
+        if (resp.status === 200) {
+
+          // set the cookie on header by default
+          axios.defaults.headers.common['auth_token'] = resp.data.auth_token
+          // axios.defaults.headers.common['Authorization'] = data.auth_token
+          localStorage.setItem("cookie", JSON.stringify(resp.data));
+          return resp.data
+        } else {
+          console.log("NOT 200", resp)
+          return Promise.reject("Erro")
+
         }
       }
     )
@@ -20,29 +28,16 @@ async function login(email, password) {
 }
 
 function logout() {
-  const {auth_token, email, username} = JSON.parse(localStorage.getItem("cookie"))
   // remove user from local storage to log user out
-  return axios.get("/logout", {session:{email}, headers: { auth_token }, params: {email} }).then(
-    (status, data) => {
-      console.log(data)
-      console.log(status)
-      if (status === 200) {
-        localStorage.removeItem("cookie");
-        return data
-      } else return Promise.reject("Asneira")
-    }
-  )
-  .catch(error => {
-    console.log(error)
-    Promise.reject(error)
-  })
+  localStorage.removeItem("cookie");
+
 }
 
 function register(infos) {
-  return axios_module.post("http://localhost:3000/api/users/", { ...infos, role: "worker" }).then(response => {
+  return axios.post("users/", { ...infos, role: "worker" }).then(response => {
 
     // localStorage.setItem("cookie", JSON.stringify(sensitiveInfo));
-    console.log(response.session)
+    console.log(response.data)
 
   }).catch(error => {
     console.log(error)
