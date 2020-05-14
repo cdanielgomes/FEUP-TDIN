@@ -49,4 +49,34 @@ router.post('/', (req, res) => {
   }
 });
 
+router.get('/reset', (req, res) => {
+  User.remove({}, (err) => {
+    if (err) {
+      const err = new Error('Failed to reset Users.');
+      err.status = 500;
+      res.json({
+        message: err.message,
+        error: err
+      });
+    }
+
+    res.status(200).json('All users cleared');
+  });
+});
+
+router.get('/list', (req, res) => {
+  User.find({}, (err, users) => {
+    if (err) {
+      const err = new Error('Failed to list Users.');
+      err.status = 500;
+      res.json({
+        message: err.message,
+        error: err
+      });
+    }
+
+    res.status(200).json(users);
+  });
+});
+
 module.exports = router;
