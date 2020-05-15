@@ -6,7 +6,7 @@ using System.Text;
 namespace Solver {
     class QueueListener {
         public delegate void MessageReceivedEvent(String msg);
-        public MessageReceivedEvent Received;
+        public MessageReceivedEvent Received = null;
 
         QueueListener() {
             var factory = new ConnectionFactory() { HostName = "localhost" };

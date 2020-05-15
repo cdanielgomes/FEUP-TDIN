@@ -4,9 +4,11 @@ using UI = Gtk.Builder.ObjectAttribute;
 
 namespace Solver {
     class MainWindow : Window {
-
         [UI]
         ListBox myIssuesList = null;
+
+        [UI]
+        ListBox unassignedIssues = null;
 
         public MainWindow() : this(new Builder("MainWindow.glade")) { }
 
@@ -15,6 +17,7 @@ namespace Solver {
 
             DeleteEvent += Window_DeleteEvent;
 
+            LoadUnassignedIssues();
             LoadIssuesList();
         }
 
@@ -22,11 +25,20 @@ namespace Solver {
             Application.Quit();
         }
 
+        private void LoadUnassignedIssues() {
+            var listBoxRow = new ListBoxRow();
+            listBoxRow.Add(new Label { Text="Unassigned Issue", Expand=true});
+
+            unassignedIssues.Insert(listBoxRow, 0);
+            listBoxRow.ShowAll();
+        }
+
         private void LoadIssuesList() {
             var listBoxRow = new ListBoxRow();
-            listBoxRow.Add(new Label { Text="Test Element", Expand=true});
+            listBoxRow.Add(new Label { Text="My issue", Expand=true});
 
-            myIssuesList.Insert(listBoxRow,0);
+            myIssuesList.Insert(listBoxRow, 0);
+            listBoxRow.ShowAll();
         }
     }
 }

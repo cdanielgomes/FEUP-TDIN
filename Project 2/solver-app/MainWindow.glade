@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.18"/>
   <object class="GtkWindow" id="MainWindow">
@@ -8,7 +8,7 @@
     <property name="resizable">False</property>
     <property name="default_width">720</property>
     <property name="default_height">354</property>
-    <child>
+    <child type="titlebar">
       <placeholder/>
     </child>
     <child>
@@ -92,7 +92,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkListBox">
+                      <object class="GtkListBox" id="unassignedIssues">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_left">9</property>
@@ -120,15 +120,17 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkFixed">
+                  <object class="GtkButton">
+                    <property name="label" translatable="yes">button</property>
                     <property name="width_request">100</property>
-                    <property name="height_request">80</property>
+                    <property name="height_request">30</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
                   </object>
                   <packing>
-                    <property name="x">354</property>
-                    <property name="y">25</property>
+                    <property name="x">322</property>
+                    <property name="y">13</property>
                   </packing>
                 </child>
               </object>
