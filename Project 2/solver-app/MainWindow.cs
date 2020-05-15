@@ -9,6 +9,7 @@ namespace Solver {
 
         [UI]
         ListBox unassignedIssues = null;
+        QueueListener _queue = null;
 
         public MainWindow() : this(new Builder("MainWindow.glade")) { }
 
@@ -17,6 +18,7 @@ namespace Solver {
 
             DeleteEvent += Window_DeleteEvent;
 
+            InitQueue();
             LoadUnassignedIssues();
             LoadIssuesList();
         }
@@ -27,7 +29,7 @@ namespace Solver {
 
         private void LoadUnassignedIssues() {
             var listBoxRow = new ListBoxRow();
-            listBoxRow.Add(new Label { Text="Unassigned Issue", Expand=true});
+            listBoxRow.Add(new Label { Text = "Unassigned Issue", Expand = true });
 
             unassignedIssues.Insert(listBoxRow, 0);
             listBoxRow.ShowAll();
@@ -35,10 +37,21 @@ namespace Solver {
 
         private void LoadIssuesList() {
             var listBoxRow = new ListBoxRow();
-            listBoxRow.Add(new Label { Text="My issue", Expand=true});
+            listBoxRow.Add(new Label { Text = "My issue", Expand = true });
 
             myIssuesList.Insert(listBoxRow, 0);
             listBoxRow.ShowAll();
+        }
+
+        void InitQueue() {
+            _queue = new QueueListener();
+            _queue.Received += (message) => {
+                var listBoxRow = new ListBoxRow();
+                listBoxRow.Add(new Label { Text = "My issue", Expand = true });
+
+                unassignedIssues.Insert(listBoxRow, 0);
+                listBoxRow.ShowAll();
+            };
         }
     }
 }

@@ -5,18 +5,22 @@ using System.Text;
 
 namespace Solver {
     class QueueListener {
+        const String HOST_ADDRESS = "localhost";
+        const String EXCHANGE_NAME = "issues";
+
         public delegate void MessageReceivedEvent(String msg);
         public MessageReceivedEvent Received = null;
 
-        QueueListener() {
-            var factory = new ConnectionFactory() { HostName = "localhost" };
+        public QueueListener() {
+            var factory = new ConnectionFactory() { HostName = HOST_ADDRESS };
             using (var connection = factory.CreateConnection()) {
                 using (var channel = connection.CreateModel()) {
-                    channel.QueueDeclare(queue: "trouble_tickets_queue",
-                                         durable: false,
-                                         exclusive: false,
-                                         autoDelete: false,
-                                         arguments: null);
+                    channel.ExchangeDeclare(exchange: EXCHANGE_NAME, type: ExchangeType.Fanout);
+                    var queueName = channel.QueueDeclare().QueueName;
+
+                    channel.QueueBind(queue: queueName,
+                              exchange: EXCHANGE_NAME,
+                              routingKey: "");
 
                     var consumer = new EventingBasicConsumer(channel);
                     consumer.Received += (model, ea) => {
@@ -24,7 +28,7 @@ namespace Solver {
                         var message = Encoding.UTF8.GetString(body.ToArray());
                         if (Received != null) Received(message);
                     };
-                    channel.BasicConsume(queue: "trouble_tickets_queue",
+                    channel.BasicConsume(queue: queueName,
                                          autoAck: true,
                                          consumer: consumer);
                 }
