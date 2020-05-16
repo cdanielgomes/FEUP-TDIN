@@ -9,11 +9,15 @@ const mongoose = require('mongoose');
 const httplogger = require('morgan');
 require("dotenv").config();
 
+const checkJWTandRole = require('./middleware/jwt')
+
 const logger = require('./utils/logger');
 
 const indexRouter = require('./routes');
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
+const workerRouter = require('./routes/worker');
+const solverRouter = require('./routes/solver');
 
 const app = express();
 
@@ -21,6 +25,7 @@ const app = express();
 mongoose.connect('mongodb://mongo', {
   useUnifiedTopology: true,
   useNewUrlParser: true,
+  useFindAndModify: false,
 }).then(() => logger.info('Connection to Database succeeded'))
   .catch(err => {
     logger.warn(`Failed to connect to Database: ${ err.message }`);
@@ -41,8 +46,11 @@ app.use(session({
 
 app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/users', usersRouter);
 
+app.use('/api/worker', checkJWTandRole("worker"), workerRouter);
+app.use('/api/solver', checkJWTandRole("solver"), solverRouter);
+
+app.use('/api/users', usersRouter);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));

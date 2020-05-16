@@ -1,7 +1,14 @@
 import React from "react";
-import { Card, Container, Row, Col } from "react-bootstrap";
+import { Card, Container, Row, Col } from "react-bootstrap"
+import moment from "moment"
 import styles from "./IssueCard.module.scss";
-const IssueCard = ({ title, date, time, state, description }) => {
+
+const IssueCard = ({ title, createdAt, state, description }) => {
+
+  const x = () => {
+    return moment(createdAt).format('LLLL')
+  }
+  
   return (
     <Card className={styles["issueCard"]}>
       <Card.Header as="h5" className={styles[`issue-${state}`]}>
@@ -15,7 +22,7 @@ const IssueCard = ({ title, date, time, state, description }) => {
       <Card.Body>
         <Card.Text>{description}</Card.Text>
       </Card.Body>
-      <Card.Footer> {date + " " + time} </Card.Footer>
+      <Card.Footer> {x()} </Card.Footer>
     </Card>
   );
 };

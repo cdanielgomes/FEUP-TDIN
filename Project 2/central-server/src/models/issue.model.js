@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
 const IssueSchema = new mongoose.Schema({
-  title: {
+    creator: { type: String, required: true },
+    assignee: { type: String, default: null},
+    title: {
         type: String,
         required: true,
     },
@@ -15,7 +17,7 @@ const IssueSchema = new mongoose.Schema({
         default: "unassigned"
     },
     redirects: {
-        type: Boolean, 
+        type: Boolean,
         default: false,
     }
 },

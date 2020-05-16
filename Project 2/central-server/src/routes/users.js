@@ -27,6 +27,7 @@ router.post('/', (req, res) => {
     }
 
     User.create(userData, (error, user) => {
+      
       if (error) {
         res.status(error.status).json({
           message: error.message,
@@ -60,8 +61,6 @@ router.get('/reset', (req, res) => {
         error: err
       });
     }
-
-    res.status(200).json('All users cleared');
   });
 });
 
@@ -75,36 +74,8 @@ router.get('/list', (req, res) => {
         error: err
       });
     }
-
     res.status(200).json(users);
   });
-});
-
-// get all issues
-router.get("/issue", (req, res) => {
-  console.log("get all issues")
-  res.status(200).json({
-    issues: []
-  })
-});
-
-// add one issue
-router.post("/issue", (req, res) => {
-  console.log("add one issue")
-  res.status(200).json({
-    issues: []
-
-  })
-});
-
-// update one issue
-router.put("/issue", (req, res) => {
-
-  console.log("update issue")
-  res.status(200).json({
-    issues: []
-
-  })
 });
 
 module.exports = router;

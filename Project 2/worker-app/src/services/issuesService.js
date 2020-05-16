@@ -1,4 +1,4 @@
-import {caller} from '../helpers/axiosIntances'
+import { caller } from '../helpers/axiosIntances'
 // get Issues
 
 
@@ -11,16 +11,16 @@ const getIssues = () => {
       else return Promise.reject(statusText)
     })
     .catch(error => {
+      localStorage.removeItem('cookie')
       return Promise.reject(error)
     })
 };
-// send Issues
 
+// send Issues
 const sendIssue = (issue) => {
 
   return caller.getIssueAxios().post("", issue)
     .then(({ data, status, statusText }) => {
-
       return status === 200 ? data.issue : Promise.reject(statusText)
     })
     .catch(error => {

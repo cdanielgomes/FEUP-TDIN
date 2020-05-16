@@ -35,8 +35,6 @@ function logout() {
 
 function register(infos) {
   return axios.post("users/", { ...infos, role: "worker" }).then(response => {
-
-    // localStorage.setItem("cookie", JSON.stringify(sensitiveInfo));
     console.log(response.data)
 
   }).catch(error => {

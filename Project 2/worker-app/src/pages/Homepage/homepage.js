@@ -13,7 +13,7 @@ const Homepage = () => {
 
   useEffect(() => {
     issuesService.getIssues().then((issues) => {
-    
+
       setIssues(issues);
     });
   }, []);
@@ -21,9 +21,8 @@ const Homepage = () => {
   return (
     <>
       <Header callback={sendIssue} />
-      {console.log(issues)}
       {issues.map((element) => {
-        return <IssueCard key={element.id} {...element} />;
+        return <IssueCard key={element._id} {...element} />;
       })}
     </>
   );
