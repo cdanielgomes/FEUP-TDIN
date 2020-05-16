@@ -18,6 +18,7 @@ const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 const workerRouter = require('./routes/worker');
 const solverRouter = require('./routes/solver');
+const resetRouter = require('./routes/admin');
 
 const app = express();
 
@@ -51,6 +52,8 @@ app.use('/api/worker', checkJWTandRole("worker"), workerRouter);
 app.use('/api/solver', checkJWTandRole("solver"), solverRouter);
 
 app.use('/api/users', usersRouter);
+
+app.use('/api/admin', resetRouter)
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));

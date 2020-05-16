@@ -29,7 +29,8 @@ router.post('/', (req, res) => {
     User.create(userData, (error, user) => {
       
       if (error) {
-        res.status(error.status).json({
+        console.log(error)
+        res.status(500).json({
           message: error.message,
           error: error
         });

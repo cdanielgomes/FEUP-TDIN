@@ -13,13 +13,10 @@ const IssueSchema = new mongoose.Schema({
     },
     state: {
         type: String,
-        enum: ["unassigned", "solved", "assigned"],
+        enum: ["unassigned", "solved", "assigned", "waiting for answes"],
         default: "unassigned"
     },
-    redirects: {
-        type: Boolean,
-        default: false,
-    }
+    unsolved_questions: [{type: mongoose.Types.ObjectId}]
 },
     {
         timestamps: true
