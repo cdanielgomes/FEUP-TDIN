@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
+using Newtonsoft.Json.Linq;
 
 namespace Solver {
     class RegisterWindow : Window {
@@ -30,7 +31,7 @@ namespace Solver {
         }
 
         private void RegisterButton_Clicked(object sender, EventArgs a) {
-            AutheticateSolver();
+            var task = AutheticateSolver();
         }
 
         private void LoginButton_Clicked(object sender, EventArgs a) {
@@ -48,7 +49,13 @@ namespace Solver {
         }
 
         private async Task AutheticateSolver() {
-            var json = @"";
+            var json = JObject.Parse(@"{
+                'email':'nome@mail.com',
+                'username': 'nome',
+                'password': '123456',
+                'passwordConf': '123456',
+                'role': 'solver'
+            }");
             await SolverApp.PostRequest("/api/users/", json);
         }
     }

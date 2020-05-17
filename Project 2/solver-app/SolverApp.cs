@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using RestSharp;
+using Newtonsoft.Json.Linq;
 using Gtk;
 
 namespace Solver {
@@ -9,13 +9,13 @@ namespace Solver {
         private static SolverApp _instance;
         private string _jwt;
         private Application application;
-        private HttpClient client;
+        private RestClient client;
 
         private SolverApp(Application app) {
             DotNetEnv.Env.Load();
             application = app;
             _jwt = "";
-            InitHttpClient();
+            client = new RestClient(DotNetEnv.Env.GetString("SERVER_ADDRESS"));
         }
 
         public static void Init(Application app) {
@@ -38,49 +38,24 @@ namespace Solver {
             return _instance.application;
         }
 
-        private void InitHttpClient() {
-            client = new HttpClient();
-            client.DefaultRequestHeaders.Accept.Add(
-        new MediaTypeWithQualityHeaderValue("application/json"));
-        }
+        public static async Task<String> PostRequest(string endpoint, JObject body) {
+            var request = new RestRequest(endpoint, Method.POST);
 
-        private void setJwtHeader(String accessToken) {
-            _instance.client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-        }
+            string requestBody = body.ToString();
+            string result = null;
 
-        public static async Task<String> GetRequest(String endpoint) {
-            String url = DotNetEnv.Env.GetString("SERVER_ADDRESS");
+            request.AddParameter("application/json; charset=utf-8", requestBody, ParameterType.RequestBody);
+            request.RequestFormat = DataFormat.Json;
 
             try {
-                var responseBody = await _instance.client.GetStringAsync(url + endpoint);
-
-                Console.WriteLine(responseBody);
-                return responseBody;
-            } catch (HttpRequestException e) {
+                var response = await _instance.client.ExecuteAsync(request);
+                result = response.Content;
+            } catch (Exception e) {
                 Console.WriteLine("\nException Caught!");
                 Console.WriteLine("Message :{0} ", e.Message);
             }
 
-            return null;
-        }
-
-        public static async Task<String> PostRequest(String endpoint, String body) {
-            String url = DotNetEnv.Env.GetString("SERVER_ADDRESS");
-
-            try {
-                var content = new StringContent(body);
-                var responseBody = await _instance.client.PostAsync(url + endpoint, content);
-
-                var result = await responseBody.Content.ReadAsStringAsync();
-
-                Console.WriteLine(result);
-                return result;
-            } catch (HttpRequestException e) {
-                Console.WriteLine("\nException Caught!");
-                Console.WriteLine("Message :{0} ", e.Message);
-            }
-
-            return null;
+            return result;
 
         }
     }
