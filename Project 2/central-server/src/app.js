@@ -19,7 +19,8 @@ const usersRouter = require('./routes/users');
 const workerRouter = require('./routes/worker');
 const solverRouter = require('./routes/solver');
 const resetRouter = require('./routes/admin');
-
+const streamRouter = require('./routes/stream')
+const Events = require('./middleware/events').default
 const app = express();
 
 // Connection to DB
@@ -29,7 +30,7 @@ mongoose.connect('mongodb://mongo', {
   useFindAndModify: false,
 }).then(() => logger.info('Connection to Database succeeded'))
   .catch(err => {
-    logger.warn(`Failed to connect to Database: ${ err.message }`);
+    logger.warn(`Failed to connect to Database: ${err.message}`);
   });
 
 app.use(httplogger('dev'));
@@ -38,6 +39,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
+
 //use sessions for tracking logins
 app.use(session({
   secret: process.env.CENTRAL_SERVER_SECRET,
@@ -48,11 +50,12 @@ app.use(session({
 app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
 
-app.use('/api/worker', checkJWTandRole("worker"), workerRouter);
-app.use('/api/solver', checkJWTandRole("solver"), solverRouter);
+app.use('/api/worker', checkJWTandRole(["worker"]), workerRouter);
+app.use('/api/solver', checkJWTandRole(["solver"]), solverRouter);
 
 app.use('/api/users', usersRouter);
 
+app.use('/api/stream', checkJWTandRole(["worker", "solver"]), streamRouter)
 app.use('/api/admin', resetRouter)
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -16,6 +16,12 @@ const Homepage = () => {
 
       setIssues(issues);
     });
+
+    issuesService.openStream((event) => {
+        
+      const data = JSON.parse(event.data)
+      console.log("DATA ON OPENING SOURCE", data)
+    })
   }, []);
 
   return (

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user.model.js');
 const Issue = require('../models/issue.model.js');
-
+const Events = require('../middleware/events')
 const Question = require('../models/question.model.js');
 // get all issues of a solver
 
@@ -19,7 +19,6 @@ router.get("/", (req, res) => {
 // update one issue
 router.put("/:id/assigned", (req, res) => {
     setState("assigned", req, res)
-
 });
 
 
@@ -36,9 +35,9 @@ router.put("/:id/solved", (req, res) => {
 router.post("/:id/question", (req, res) => {
 
     Question.create({ issueId: req.params.id, ...req.body }, (error, question) => {
-        console.log(question)
+
         if (error) return res.status(500).json({ message: "Impossible create Question for issue" })
-        Issue.updateOne({ _id: req.params.id }, { $push: { unsolved_questions: question._id } }, (err, issue) => {
+        Issue.findByIdAndUpdate(req.params.id, { $push: { unsolved_questions: question._id }, state: "waiting for answers" }, (err, issue) => {
             if (err) {
                 Question.deleteOne({ _id: question._id })
                 return res.status(500).json({ message: "Impossible create Question for issue" })
@@ -48,6 +47,8 @@ router.post("/:id/question", (req, res) => {
                 question,
                 message: "Question created with success"
             })
+
+            Events.sendInfo(issue.creator, issue)
         })
     })
 });
@@ -62,7 +63,7 @@ router.put("/:id/questions/:questionId", (req, res) => {
 
     Question.findByIdAndUpdate(req.params.questionId, { answer: req.body.answer, state: "answered" }, {new:true}, (error, question) => {
         if (error) return res.status(500).json({ message: "Impossible update Question for issue" })
-        Issue.updateOne({ _id: req.params.id }, { $pull: { unsolved_questions: req.params.id } }, (err, issue) => {
+        Issue.updateOne({ _id: req.params.id }, { $pull: { unsolved_questions: req.params.questionId } }, (err, issue) => {
             if (err) {
                 Question.updateOne({ _id: re.params.questionId }, { answer: null, state: "queued" })
                 return res.status(500).json({ message: "Impossible update Question for issue" })
@@ -98,6 +99,8 @@ const setState = (role, req, res) => {
                 message: `Issue ${req.params.id} updated to \"${role}\"`,
                 issue
             })
+
+            Events.sendInfo(issue.creator, issue) // send event to client
         })
 }
 
