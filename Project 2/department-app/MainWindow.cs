@@ -2,13 +2,13 @@ using System;
 using Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
 
-namespace Solver {
+namespace Department {
     class MainWindow : Window {
         [UI]
-        ListBox myIssuesList = null;
+        ListBox myQuestionsList = null;
 
         [UI]
-        ListBox unassignedIssues = null;
+        ListBox unassignedQuestions = null;
 
         public MainWindow() : this(new Builder("MainWindow.glade")) { }
 
@@ -17,27 +17,27 @@ namespace Solver {
 
             DeleteEvent += Window_DeleteEvent;
 
-            LoadUnassignedIssues();
-            LoadIssuesList();
+            LoadUnassignedQuestions();
+            LoadQuestionsList();
         }
 
         private void Window_DeleteEvent(object sender, DeleteEventArgs a) {
             Application.Quit();
         }
 
-        private void LoadUnassignedIssues() {
+        private void LoadUnassignedQuestions() {
             var listBoxRow = new ListBoxRow();
-            listBoxRow.Add(new Label { Text = "Unassigned Issue", Expand = true });
+            listBoxRow.Add(new Label { Text = "Unassigned Question", Expand = true });
 
-            unassignedIssues.Insert(listBoxRow, 0);
+            unassignedQuestions.Insert(listBoxRow, 0);
             listBoxRow.ShowAll();
         }
 
-        private void LoadIssuesList() {
+        private void LoadQuestionsList() {
             var listBoxRow = new ListBoxRow();
-            listBoxRow.Add(new Label { Text = "My issue", Expand = true });
+            listBoxRow.Add(new Label { Text = "My Question", Expand = true });
 
-            myIssuesList.Insert(listBoxRow, 0);
+            myQuestionsList.Insert(listBoxRow, 0);
             listBoxRow.ShowAll();
         }
     }

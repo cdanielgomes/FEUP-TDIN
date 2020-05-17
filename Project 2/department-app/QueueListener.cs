@@ -3,7 +3,7 @@ using RabbitMQ.Client.Events;
 using System;
 using System.Text;
 
-namespace Solver {
+namespace Department {
     class QueueListener {
         const String HOST_ADDRESS = "localhost";
         const String EXCHANGE_NAME = "issues";
