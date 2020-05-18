@@ -43,7 +43,6 @@ namespace Solver {
             for(int i = 0; i < issues.Count; i++) {
                 var issue = issues[i];
 
-                Console.WriteLine(issue["assignee"].ToObject<String>());
                 if (issue["assignee"].ToObject<String>() == null) {
                     InsertUnassignedIssue(issue);
                 }
