@@ -1,21 +1,30 @@
-class Events  {
+class Events {
 
-    constructor(){
+    constructor() {
 
         this.clients = {}
     }
-    
+
     addClient(id, res) {
-        res.writeHead(200, {
+        const headers = {
             'Content-Type': 'text/event-stream',
             'Cache-Control': 'no-cache',
             'Connection': 'keep-alive'
-          })
+        }
+        res.writeHead(200, headers)
+        res.flushHeaders()
         this.clients[id] = res
+        ///  console.log(clients)
     }
 
-    sendInfo (id, message) {
-        this.clients[id].write(JSON.stringify(message))
+    sendInfo(id, message) {
+        try{
+            const messageToSent =  JSON.stringify(message);
+            this.clients[id].write("data:" + messageToSent +"\n\n")
+            
+        } catch (e){
+            console.log(e)
+        }
     }
 
 }

@@ -6,7 +6,7 @@ function checkJWTandRole(role) {
 
         return checkJWTandRole[role] || (checkJWTandRole[role] = function (req, res, next) {
             const token = req.headers["auth_token"]
-            
+
             if (!token) return res.status(401).json({ message: "No token provided" })
 
             const secret = process.env.CENTRAL_SERVER_SECRET;
@@ -25,9 +25,7 @@ function checkJWTandRole(role) {
             })
         })
     } catch (e) {
-        console.log("oi")
-        e.printStackTrace
-        console.log()
+        console.log(e)
     }
 }
 

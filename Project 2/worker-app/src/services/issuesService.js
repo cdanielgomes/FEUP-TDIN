@@ -1,8 +1,5 @@
 import { caller } from '../helpers/axiosIntances'
 
-// get Issues
-
-
 const getIssues = () => {
 
   return caller.getIssueAxios().get("")
@@ -29,22 +26,21 @@ const sendIssue = (issue) => {
       return Promise.reject(error)
     })
 };
-  
+
 const openStream = (onMessage) => {
 
   const events = caller.getStream();
-  console.log(events)
+
   events.onmessage = (event) => {
-    console.log(event)
-    onMessage(event)}
+    onMessage(event)
+  }
 
   events.onopen = (event) => {
     console.log(event)
     console.log("openned connection")
   }
-  events.onerror = (err) => {
-
-    console.log(err)
+  events.onerror = (event) => {
+    console.log(event)
   }
 
 }
