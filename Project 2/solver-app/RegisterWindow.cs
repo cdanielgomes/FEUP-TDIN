@@ -6,14 +6,13 @@ using Newtonsoft.Json.Linq;
 
 namespace Solver {
     class RegisterWindow : Window {
-        [UI]
-        Button registerButton = null;
-
-        [UI]
-        Button loginButton = null;
-
-        [UI]
-        Button closeButton = null;
+        [UI] Button registerButton = null;
+        [UI] Button loginButton = null;
+        [UI] Button closeButton = null;
+        [UI] Entry emailBox = null;
+        [UI] Entry nameBox = null;
+        [UI] Entry passBox = null;
+        [UI] Entry confBox = null;
 
         public RegisterWindow() : this(new Builder("RegisterWindow.glade")) { }
 
@@ -49,14 +48,39 @@ namespace Solver {
         }
 
         private async Task AutheticateSolver() {
-            var json = JObject.Parse(@"{
-                'email':'nome@mail.com',
-                'username': 'nome',
-                'password': '123456',
-                'passwordConf': '123456',
-                'role': 'solver'
-            }");
-            await SolverApp.PostRequest("/api/users/", json);
+            var email = emailBox.Text;
+            var name = nameBox.Text;
+            var pass = passBox.Text;
+            var conf = confBox.Text;
+
+            var registerBody = new JObject();
+            registerBody["email"] = email;
+            registerBody["username"] = name;
+            registerBody["password"] = pass;
+            registerBody["passwordConf"] = conf;
+            registerBody["role"] = "solver";
+
+            var response = await SolverApp.PostRequest("/api/users/", registerBody);
+
+            if (response == null) return;
+
+            var loginBody = new JObject();
+            loginBody["email"] = email;
+            loginBody["password"] = pass;
+
+            var loginResponse = await SolverApp.PostRequest("/api/auth/login", loginBody);
+
+            if (loginResponse == null) return;
+
+            SolverApp.SetJwt(response["auth_token"].ToString());
+            SolverApp.SetEmail(response["email"].ToString());
+
+            var mainWindow = new MainWindow();
+            SolverApp.GetApp().AddWindow(mainWindow);
+            mainWindow.ShowAll();
+
+            SolverApp.GetApp().RemoveWindow(this);
+            this.Hide();
         }
     }
 }

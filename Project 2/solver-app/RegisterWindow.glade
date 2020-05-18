@@ -19,6 +19,7 @@
             <property name="height_request">36</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="input_purpose">email</property>
           </object>
           <packing>
             <property name="x">105</property>
@@ -153,6 +154,9 @@
             <property name="height_request">36</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="visibility">False</property>
+            <property name="invisible_char">*</property>
+            <property name="input_purpose">password</property>
           </object>
           <packing>
             <property name="x">105</property>
@@ -165,6 +169,9 @@
             <property name="height_request">36</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="visibility">False</property>
+            <property name="invisible_char">*</property>
+            <property name="input_purpose">password</property>
           </object>
           <packing>
             <property name="x">105</property>
