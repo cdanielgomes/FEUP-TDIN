@@ -13,6 +13,8 @@ const checkJWTandRole = require('./middleware/jwt')
 
 const logger = require('./utils/logger');
 
+const { seedDb } = require('./utils/db/seed');
+
 const indexRouter = require('./routes');
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
@@ -28,10 +30,12 @@ mongoose.connect('mongodb://mongo', {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   useFindAndModify: false,
-}).then(() => logger.info('Connection to Database succeeded'))
-  .catch(err => {
-    logger.warn(`Failed to connect to Database: ${err.message}`);
-  });
+}).then(() => {
+  logger.info('Connection to Database succeeded');
+  seedDb();
+}).catch(err => {
+    logger.warn(`Failed to connect to Database: ${ err.message }`);  
+});
 
 app.use(httplogger('dev'));
 app.use(bodyParser.json());

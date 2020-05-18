@@ -24,7 +24,7 @@ router.post("/", (req, res) => {
         } else {
             res.status(200).json({
                 issue: answer,
-                message: "Inserted with succsess"
+                message: "Inserted with success"
             })
         }
     })

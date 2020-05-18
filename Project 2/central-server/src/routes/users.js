@@ -4,6 +4,7 @@ const User = require('../models/user.model.js');
 const Issue = require('../models/issue.model.js');
 
 router.post('/', (req, res) => {
+  console.log(req.body);
   if (req.body.password !== req.body.passwordConf) {
     var err = new Error('Passwords do not match.');
     err.status = 401;
