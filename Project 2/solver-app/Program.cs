@@ -13,7 +13,9 @@ namespace Solver
             var app = new Application("org.solver_app.solver_app", GLib.ApplicationFlags.None);
             app.Register(GLib.Cancellable.Current);
 
-            var win = new MainWindow();
+            SolverApp.Init(app);
+
+            var win = new LoginWindow();
             app.AddWindow(win);
 
             win.Show();
