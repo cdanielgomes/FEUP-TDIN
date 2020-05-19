@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
 using Newtonsoft.Json.Linq;
-using EvtSource;
+using EvtSourceTDIN;
 
 namespace Solver {
     class MainWindow : Window {
@@ -77,10 +77,11 @@ namespace Solver {
 
         private void subscribeServerEvents() {
             var host = DotNetEnv.Env.GetString("SERVER_ADDRESS") + "/api/stream";
+
             var evt = new EventSourceReader(new Uri(host)).Start();
             evt.MessageReceived += (object sender, EventSourceMessageEventArgs e) => Console.WriteLine($"{e.Event} : {e.Message}");
             evt.Disconnected += async (object sender, DisconnectEventArgs e) => {
-                Console.WriteLine($"Retry: {e.ReconnectDelay} - Error: {e.ToString()}");
+                Console.WriteLine($"Retry: {e.ReconnectDelay} - Error: {e.Exception.Message}");
                 await Task.Delay(e.ReconnectDelay);
                 evt.Start(); // Reconnect to the same URL
             };

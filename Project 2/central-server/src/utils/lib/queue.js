@@ -9,12 +9,12 @@ let publishChannel;
 const createChannel = () => new Promise((resolve, reject) => {
   amqp.connect(HOST_ADDRESS, (connectionError, connection) => {
     if (connectionError) {
-      console.log(connectionError);
+      logger.error(connectionError);
       reject(connectionError);
     }
     connection.createChannel((channelError, channel) => {
       if (channelError) {
-        console.log(channelError);
+        logger.error(channelError);
         reject(channelError);
       }
 
@@ -29,8 +29,6 @@ const createChannel = () => new Promise((resolve, reject) => {
     });
   });
 });
-
-console.log(process.env.QUEUE_NAME);
 
 const getChannel = async () => {
   if (publishChannel) return publishChannel;

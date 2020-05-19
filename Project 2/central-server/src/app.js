@@ -55,12 +55,12 @@ app.use(session({
 app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
 
-app.use('/api/worker', checkJWTandRole(["worker"]), workerRouter);
-app.use('/api/solver', checkJWTandRole(["solver"]), solverRouter);
+app.use('/api/worker', checkJWTandRole.bind(["worker"]), workerRouter);
+app.use('/api/solver', checkJWTandRole.bind(["solver"]), solverRouter);
 
 app.use('/api/users', usersRouter);
 
-app.use('/api/stream', checkJWTandRole(["worker", "solver"]), streamRouter);
+app.use('/api/stream', checkJWTandRole.bind(["worker", "solver"]), streamRouter);
 app.use('/api/admin', resetRouter);
 
 app.use('/api/dev', devRouter);
