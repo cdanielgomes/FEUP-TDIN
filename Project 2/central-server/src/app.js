@@ -21,7 +21,8 @@ const usersRouter = require('./routes/users');
 const workerRouter = require('./routes/worker');
 const solverRouter = require('./routes/solver');
 const resetRouter = require('./routes/admin');
-const streamRouter = require('./routes/stream')
+const streamRouter = require('./routes/stream');
+const devRouter = require('./routes/dev');
 const Events = require('./middleware/events').default
 const app = express();
 
@@ -59,8 +60,10 @@ app.use('/api/solver', checkJWTandRole(["solver"]), solverRouter);
 
 app.use('/api/users', usersRouter);
 
-app.use('/api/stream', checkJWTandRole(["worker", "solver"]), streamRouter)
-app.use('/api/admin', resetRouter)
+app.use('/api/stream', checkJWTandRole(["worker", "solver"]), streamRouter);
+app.use('/api/admin', resetRouter);
+
+app.use('/api/dev', devRouter);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));

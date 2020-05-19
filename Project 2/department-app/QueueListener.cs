@@ -6,33 +6,42 @@ using System.Text;
 namespace Department {
     class QueueListener {
         const String HOST_ADDRESS = "localhost";
-        const String EXCHANGE_NAME = "issues";
+        const int PORT = 5672;
+        const String QUEUE_NAME = "issues";
 
         public delegate void MessageReceivedEvent(String msg);
-        public MessageReceivedEvent Received = null;
+        public MessageReceivedEvent MessageReceived = null;
+
+        public IConnection connection;
+        public EventingBasicConsumer consumer;
+        public IModel channel;
 
         public QueueListener() {
-            var factory = new ConnectionFactory() { HostName = HOST_ADDRESS };
-            using (var connection = factory.CreateConnection()) {
-                using (var channel = connection.CreateModel()) {
-                    channel.ExchangeDeclare(exchange: EXCHANGE_NAME, type: ExchangeType.Fanout);
-                    var queueName = channel.QueueDeclare().QueueName;
+            var factory = new ConnectionFactory() { HostName = HOST_ADDRESS, Port = PORT };
+            factory.UserName = "guest";
+            factory.Password = "guest";
+            connection = factory.CreateConnection();
+            channel = connection.CreateModel();
 
-                    channel.QueueBind(queue: queueName,
-                              exchange: EXCHANGE_NAME,
-                              routingKey: "");
+            channel.QueueDeclare(queue: QUEUE_NAME,
+                         durable: true,
+                         exclusive: false,
+                         autoDelete: false,
+                         arguments: null);
 
-                    var consumer = new EventingBasicConsumer(channel);
-                    consumer.Received += (model, ea) => {
-                        var body = ea.Body;
-                        var message = Encoding.UTF8.GetString(body.ToArray());
-                        if (Received != null) Received(message);
-                    };
-                    channel.BasicConsume(queue: queueName,
-                                         autoAck: true,
-                                         consumer: consumer);
-                }
-            }
+            consumer = new EventingBasicConsumer(channel);
+        }
+
+        public void Init() {
+            consumer.Received += (model, ea) => {
+                var body = ea.Body;
+                var message = Encoding.UTF8.GetString(body.ToArray());
+
+                if (MessageReceived != null) MessageReceived(message);
+            };
+            channel.BasicConsume(queue: QUEUE_NAME,
+                                 autoAck: true,
+                                 consumer: consumer);
         }
     }
 }

@@ -2,11 +2,11 @@ const User = require("../../models/user.model");
 const Issue = require("../../models/issue.model");
 const Question = require("../../models/question.model");
 
-User.collection.drop();
-Issue.collection.drop();
-Question.collection.drop();
-
 const seedDb = () => {
+        User.collection.drop().catch((e) => {});
+        Issue.collection.drop().catch((e) => {});
+        Question.collection.drop().catch((e) => {});
+
     User.create([
         {
             email: "daniel@mail.com",

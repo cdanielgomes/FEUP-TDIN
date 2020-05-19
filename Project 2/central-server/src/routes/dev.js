@@ -1,16 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user.model.js');
-const Issue = require('../models/issue.model.js');
+const { seedDb } = require('../utils/db/seed');
+const { publishQueue } = require('../utils/lib/queue');
 
 const Question = require('../models/question.model.js');
 
-
 router.get('/seed', async (req, res) => {
-    await User.remove({})
-    await Issue.remove({})
-    await Question.remove({})
-    res.send();
+    seedDb();
+    res.json('done');
+});
+
+router.get('/queue', async (req, res) => {
+    publishQueue("test");
+    res.json('done');
 });
 
 module.exports = router

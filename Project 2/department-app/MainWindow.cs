@@ -10,6 +10,8 @@ namespace Department {
         [UI]
         ListBox unassignedQuestions = null;
 
+        QueueListener queue;
+
         public MainWindow() : this(new Builder("MainWindow.glade")) { }
 
         private MainWindow(Builder builder) : base(builder.GetObject("MainWindow").Handle) {
@@ -19,6 +21,8 @@ namespace Department {
 
             LoadUnassignedQuestions();
             LoadQuestionsList();
+
+            InitQueue();
         }
 
         private void Window_DeleteEvent(object sender, DeleteEventArgs a) {
@@ -39,6 +43,16 @@ namespace Department {
 
             myQuestionsList.Insert(listBoxRow, 0);
             listBoxRow.ShowAll();
+        }
+
+        void InitQueue() {
+            queue = new QueueListener();
+
+            queue.MessageReceived += (message) => {
+                Console.WriteLine(message);
+            };
+
+            queue.Init();
         }
     }
 }
