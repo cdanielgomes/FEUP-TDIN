@@ -18,7 +18,6 @@ const Homepage = () => {
     issuesService.getIssues().then((issues) => {
       setIssues(issues);
 
-
       issuesService.openStream((event) => {
         const issueUpdated = JSON.parse(event.data)
 

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user.model.js');
 const Issue = require('../models/issue.model.js');
+const Events = require('../middleware/events')
 
 // get all issues of a worker
 
@@ -26,6 +27,8 @@ router.post("/", (req, res) => {
                 issue: answer,
                 message: "Inserted with success"
             })
+
+            Events.sendInfo("issue", answer)
         }
     })
 });
