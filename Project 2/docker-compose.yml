@@ -1,7 +1,7 @@
 version: '3.5'
 
 networks:
-  tdin-net:
+  tdin-network:
     driver: bridge
 
 services:
@@ -14,7 +14,7 @@ services:
       - "./worker-app/public/:/app/public/"
     working_dir: /app
     networks:
-      - tdin-net
+      - tdin-network
     ports:
       - "8080:8080"
     depends_on:
@@ -28,7 +28,7 @@ services:
       - "./central-server/bin/:/app/bin/"
     working_dir: /app
     networks:
-      - tdin-net
+      - tdin-network
     ports:
       - "3000:3000"
     depends_on:
@@ -39,11 +39,15 @@ services:
     image: mongo:latest
     restart: always
     networks:
-      - tdin-net
+      - tdin-network
     ports:
       - "27017:27017"
 
   rabbitmq:
-    image: 'bitnami/rabbitmq:latest'
+    image: 'rabbitmq:3.6-management-alpine'
+    restart: always
     networks:
-      - tdin-net
+      - tdin-network
+    ports:
+      - "5672:5672"
+      - "15672:15672"

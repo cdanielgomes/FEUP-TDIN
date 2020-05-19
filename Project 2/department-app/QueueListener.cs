@@ -6,13 +6,16 @@ using System.Text;
 namespace Department {
     class QueueListener {
         const String HOST_ADDRESS = "localhost";
+        const int PORT = 5672;
         const String EXCHANGE_NAME = "issues";
 
         public delegate void MessageReceivedEvent(String msg);
         public MessageReceivedEvent Received = null;
 
         public QueueListener() {
-            var factory = new ConnectionFactory() { HostName = HOST_ADDRESS };
+            var factory = new ConnectionFactory() { HostName = HOST_ADDRESS, Port = PORT };
+            factory.UserName = "guest";
+            factory.Password = "guest";
             using (var connection = factory.CreateConnection()) {
                 using (var channel = connection.CreateModel()) {
                     channel.ExchangeDeclare(exchange: EXCHANGE_NAME, type: ExchangeType.Fanout);
