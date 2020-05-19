@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
 using Newtonsoft.Json.Linq;
+using EvtSource;
 
 namespace Solver {
     class MainWindow : Window {
@@ -31,6 +32,7 @@ namespace Solver {
 
         private void LoadMainWindow() {
             var task = FetchIssues();
+            subscribeServerEvents();
         }
 
         private async Task FetchIssues() {
@@ -39,14 +41,13 @@ namespace Solver {
             if (response["issues"] == null) return;
 
             var issues = response["issues"].ToObject<JArray>();
-            
-            for(int i = 0; i < issues.Count; i++) {
+
+            for (int i = 0; i < issues.Count; i++) {
                 var issue = issues[i];
 
                 if (issue["assignee"].ToObject<String>() == null) {
                     InsertUnassignedIssue(issue);
-                }
-                else if (issue["assignee"].ToObject<String>() == SolverApp.GetEmail()) {
+                } else if (issue["assignee"].ToObject<String>() == SolverApp.GetEmail()) {
                     InsertSolverIssues(issue);
                 }
             }
@@ -72,6 +73,17 @@ namespace Solver {
             listBoxRow.ShowAll();
 
             userIssuesCounter++;
+        }
+
+        private void subscribeServerEvents() {
+            var host = DotNetEnv.Env.GetString("SERVER_ADDRESS") + "/api/stream";
+            var evt = new EventSourceReader(new Uri(host)).Start();
+            evt.MessageReceived += (object sender, EventSourceMessageEventArgs e) => Console.WriteLine($"{e.Event} : {e.Message}");
+            evt.Disconnected += async (object sender, DisconnectEventArgs e) => {
+                Console.WriteLine($"Retry: {e.ReconnectDelay} - Error: {e.ToString()}");
+                await Task.Delay(e.ReconnectDelay);
+                evt.Start(); // Reconnect to the same URL
+            };
         }
     }
 }
