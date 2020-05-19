@@ -48,7 +48,7 @@ router.post("/:id/question", (req, res) => {
                 message: "Question created with success"
             })
 
-            Events.sendInfo(issue.creator, issue)
+            Events.sendInfo(issue)
         })
     })
 });
@@ -100,7 +100,7 @@ const setState = (role, req, res) => {
                 issue
             })
 
-            Events.sendInfo(issue.creator, issue) // send event to client
+            Events.sendInfo(issue) // send event to client
         })
 }
 

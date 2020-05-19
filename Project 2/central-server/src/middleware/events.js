@@ -17,12 +17,13 @@ class Events {
         ///  console.log(clients)
     }
 
-    sendInfo(id, message) {
-        try{
-            const messageToSent =  JSON.stringify(message);
-            this.clients[id].write("data:" + messageToSent +"\n\n")
-            
-        } catch (e){
+    sendInfo(issue) {
+        const { creator, assignee } = issue
+        try {
+            const messageToSent = JSON.stringify(issue);
+            this.clients[creator].write("data:" + messageToSent + "\n\n")
+            this.clients[assignee].write("data:" + messageToSent + "\n\n")
+        } catch (e) {
             console.log(e)
         }
     }
