@@ -49,9 +49,10 @@ namespace Department {
             queue = new QueueListener();
 
             queue.MessageReceived += (message) => {
-                Console.WriteLine("Chegou aqui");
                 Console.WriteLine(message);
             };
+
+            queue.Init();
         }
     }
 }
