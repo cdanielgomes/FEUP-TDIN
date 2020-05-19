@@ -7,10 +7,10 @@ namespace Department {
     class QueueListener {
         const String HOST_ADDRESS = "localhost";
         const int PORT = 5672;
-        const String EXCHANGE_NAME = "issues";
+        const String QUEUE_NAME = "issues";
 
         public delegate void MessageReceivedEvent(String msg);
-        public MessageReceivedEvent Received = null;
+        public MessageReceivedEvent MessageReceived = null;
 
         public QueueListener() {
             var factory = new ConnectionFactory() { HostName = HOST_ADDRESS, Port = PORT };
@@ -18,20 +18,22 @@ namespace Department {
             factory.Password = "guest";
             using (var connection = factory.CreateConnection()) {
                 using (var channel = connection.CreateModel()) {
-                    channel.ExchangeDeclare(exchange: EXCHANGE_NAME, type: ExchangeType.Fanout);
-                    var queueName = channel.QueueDeclare().QueueName;
+                    channel.QueueDeclare(queue: QUEUE_NAME,
+                                 durable: true,
+                                 exclusive: false,
+                                 autoDelete: false,
+                                 arguments: null);
 
-                    channel.QueueBind(queue: queueName,
-                              exchange: EXCHANGE_NAME,
-                              routingKey: "");
+                    channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
 
                     var consumer = new EventingBasicConsumer(channel);
                     consumer.Received += (model, ea) => {
+                        Console.WriteLine("Chegou mensagem");
                         var body = ea.Body;
                         var message = Encoding.UTF8.GetString(body.ToArray());
-                        if (Received != null) Received(message);
+                        if (MessageReceived != null) MessageReceived(message);
                     };
-                    channel.BasicConsume(queue: queueName,
+                    channel.BasicConsume(queue: QUEUE_NAME,
                                          autoAck: true,
                                          consumer: consumer);
                 }

@@ -48,7 +48,8 @@ namespace Department {
         void InitQueue() {
             queue = new QueueListener();
 
-            queue.Received += (message) => {
+            queue.MessageReceived += (message) => {
+                Console.WriteLine("Chegou aqui");
                 Console.WriteLine(message);
             };
         }
