@@ -33,7 +33,7 @@ mongoose.connect('mongodb://mongo', {
   useFindAndModify: false,
 }).then(() => {
   logger.info('Connection to Database succeeded');
-  seedDb();
+  //seedDb();
 }).catch(err => {
     logger.warn(`Failed to connect to Database: ${ err.message }`);  
 });
@@ -61,6 +61,7 @@ app.use('/api/solver', checkJWTandRole.bind(["solver"]), solverRouter);
 app.use('/api/users', usersRouter);
 
 app.use('/api/stream', checkJWTandRole.bind(["worker", "solver"]), streamRouter);
+
 app.use('/api/admin', resetRouter);
 
 app.use('/api/dev', devRouter);
