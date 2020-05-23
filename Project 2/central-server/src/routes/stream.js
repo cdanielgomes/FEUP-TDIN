@@ -6,8 +6,13 @@ const Events = require('../middleware/events')
 const Question = require('../models/question.model.js');
 
 
-router.get('/', (req, res, next) => {
-    Events.addClient(req.userEmail, res)
+router.get('/worker', (req, res, next) => {
+    Events.addClient(req, res)
+    //next()
+})
+
+router.get('/solver', (req, res, next) => {
+    Events.addClient(req, res)
     //next()
 })
 module.exports = router

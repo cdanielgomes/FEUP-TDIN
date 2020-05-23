@@ -16,17 +16,17 @@ router.get('/', async (req, res) => {
 
 router.get('/users', async (req, res) => {
     const users = await User.find({})
-   res.status(200).json(users)
+    res.status(200).json(users)
 })
 
 router.get('/questions', async (req, res) => {
     const questions = await Question.find({})
-   res.status(200).json(questions)
+    res.status(200).json(questions)
 })
 
 router.get('/issues', async (req, res) => {
     const issues = await Issue.find({})
-   res.status(200).json(issues)
+    res.status(200).json(issues)
 })
 
 module.exports = router

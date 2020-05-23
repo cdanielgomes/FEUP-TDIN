@@ -6,7 +6,6 @@ function checkJWTandRole(req, res, next) {
         roles = this;
 
         const token = req.headers["auth_token"];
-
         if (!token) return res.status(401).json({ message: "No token provided" })
 
         const secret = process.env.CENTRAL_SERVER_SECRET;

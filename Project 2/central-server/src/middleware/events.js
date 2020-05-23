@@ -6,20 +6,37 @@ class Events {
         this.worker = {}
     }
 
+    removeClient(req) {
+        const role = req.userRole
+        const email = req.userEmail
+        delete this[role][email]
+    }
+
+
     addClient(req, res) {
+        
         const headers = {
             'Content-Type': 'text/event-stream',
             'Cache-Control': 'no-cache',
             'Connection': 'keep-alive'
         }
-        res.writeHead(200, headers)
-        res.flushHeaders()
-        this[req.userRole] = { ...this[role], [req.userEmail]: res }
-        req.on("close", function () {
-            delete this[req.userRole][req.userEmail]
-        })
-        console.log(this.worker)
-        console.log(this.solver)
+
+        try {
+            this[req.userRole] = { ...this[req.userRole], [req.userEmail]: res }
+            req.on("end", () => {
+                console.log("end")
+                this.removeClient(req)
+            })
+            req.on("close", () => {
+                console.log("close")
+                this.removeClient(req)
+            })
+            res.writeHead(200, headers)
+            res.flushHeaders()
+
+        } catch (e) {
+            console.log(e)
+        }
 
     }
 
@@ -28,13 +45,14 @@ class Events {
             switch (type) {
 
                 case "issue":
-                    for (let solver of this.solver) solver.write(this.message({ type: "issue", issue }))
+                    console.log(this.solver)
+                    for (let solver in this.solver) this.solver[solver].write(this.message({ type: "issue", issue }))
                     break;
                 case "question":
-                    this.solver[issue.assignee].write({ type: "question", question, issue })
+                    this.solver[issue.assignee].write(this.message({ type: "question", question, issue }))
                     break;
                 case "client":
-                    this.client[issue.creator].write(issue)
+                    this.worker[issue.creator].write(this.message(issue))
                     break;
                 default:
                     console.log("SHOUDLNT BE HERE")

@@ -28,7 +28,7 @@ router.post("/", (req, res) => {
                 message: "Inserted with success"
             })
 
-            Events.sendInfo("issue", answer)
+            ///Events.sendInfo("issue", answer)
         }
     })
 });

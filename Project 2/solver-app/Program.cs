@@ -17,7 +17,7 @@ namespace Solver
 
             var win = new LoginWindow();
             app.AddWindow(win);
-
+            
             win.Show();
             Application.Run();
         }

@@ -10,7 +10,7 @@ const getIssues = () => {
     })
     .catch(error => {
       console.log(error)
-      //  localStorage.removeItem('cookie')
+      localStorage.removeItem('cookie')
       return Promise.reject(error)
     })
 };
