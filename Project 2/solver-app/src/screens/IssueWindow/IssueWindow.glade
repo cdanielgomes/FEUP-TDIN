@@ -2,8 +2,10 @@
 <!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkWindow">
+  <object class="GtkWindow" id="IssueWindow">
     <property name="can_focus">False</property>
+    <property name="default_width">800</property>
+    <property name="default_height">600</property>
     <child type="titlebar">
       <placeholder/>
     </child>
@@ -33,6 +35,7 @@
             <property name="height_request">276</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="editable">False</property>
           </object>
           <packing>
             <property name="x">6</property>
@@ -40,7 +43,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel">
+          <object class="GtkLabel" id="issueLabel">
             <property name="width_request">100</property>
             <property name="height_request">80</property>
             <property name="visible">True</property>
@@ -72,7 +75,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkTextView">
+          <object class="GtkTextView" id="answerBox">
             <property name="width_request">447</property>
             <property name="height_request">100</property>
             <property name="visible">True</property>
@@ -84,7 +87,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkListBox">
+          <object class="GtkListBox" id="questionsBox">
             <property name="width_request">200</property>
             <property name="height_request">276</property>
             <property name="visible">True</property>
@@ -138,6 +141,22 @@
           <packing>
             <property name="x">564</property>
             <property name="y">471</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="authorDate">
+            <property name="width_request">100</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Submitted by Author at date</property>
+            <attributes>
+              <attribute name="scale" value="1"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">5</property>
+            <property name="y">344</property>
           </packing>
         </child>
       </object>

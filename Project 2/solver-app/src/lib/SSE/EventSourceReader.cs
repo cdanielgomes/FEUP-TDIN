@@ -41,6 +41,7 @@ namespace EvtSourceTDIN
         {
             Uri = url;
             Hc = new HttpClient(handler ?? new HttpClientHandler());
+            Hc.DefaultRequestHeaders.Add("auth_token", SolverApp.GetJwt());
         }
 
 
@@ -96,7 +97,6 @@ namespace EvtSourceTDIN
                     Hc.DefaultRequestHeaders.TryAddWithoutValidation("Last-Event-Id", LastEventId);
                 }
 
-                Hc.DefaultRequestHeaders.Add("auth_token", SolverApp.GetJwt());
                 using (HttpResponseMessage response = await Hc.GetAsync(Uri, HttpCompletionOption.ResponseHeadersRead))
                 {
                     response.EnsureSuccessStatusCode();

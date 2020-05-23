@@ -13,7 +13,6 @@ namespace Solver {
         private RestClient client;
 
         private SolverApp(Application app) {
-            DotNetEnv.Env.Load();
             application = app;
             _jwt = "";
             client = new RestClient(DotNetEnv.Env.GetString("SERVER_ADDRESS"));
@@ -47,9 +46,9 @@ namespace Solver {
             return _instance.application;
         }
 
-        public static async Task<JObject> PostRequest(string endpoint, JObject body) {
-            var request = new RestRequest(endpoint, Method.POST);
-            request.AddHeader("authorization", "Bearer " + GetJwt());
+        public static async Task<JObject> HttpRequest(string endpoint, JObject body, Method method) {
+            var request = new RestRequest(endpoint, method);
+            request.AddHeader("auth_token", GetJwt());
 
             string requestBody = body.ToString();
             JObject result = null;
@@ -66,7 +65,14 @@ namespace Solver {
             }
 
             return result;
+        }
 
+        public static async Task<JObject> PostRequest(string endpoint, JObject body) {
+            return await HttpRequest(endpoint, body, Method.POST);
+        }
+
+        public static async Task<JObject> PutRequest(string endpoint, JObject body) {
+            return await HttpRequest(endpoint, body, Method.PUT);
         }
 
         public static async Task<JObject> GetRequest(string endpoint) {
