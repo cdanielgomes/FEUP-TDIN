@@ -27,6 +27,7 @@ namespace Solver {
             issue = _issue;
             mainWindow = _mainWindow;
             row = _row;
+            questions = new Dictionary<string, Question>();
 
             issueTitle.Text = issue.Title;
             descriptionBox.Buffer.Text = issue.Description;
@@ -43,8 +44,8 @@ namespace Solver {
                 if (args.Row == null) return;
 
                 var label = (Label)args.Row.Child;
-                LaunchIssueWindow(label.Text, args.Row);
-            }
+                LaunchAnswerWindow(label.Text, args.Row);
+            };
 
             var task = FetchQuestions();
         }
