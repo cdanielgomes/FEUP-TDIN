@@ -12,12 +12,13 @@ namespace Solver {
         [UI] Label issueTitle = null;
         [UI] Label authorDate = null;
         [UI] Button solveButton = null;
-        [UI] ListBox questionsList = null;
+        [UI] public ListBox questionsList = null;
+        [UI] Button addQuestionButton = null;
 
         Issue issue;
         MainWindow mainWindow;
         ListBoxRow row;
-        Dictionary<String, Question> questions;
+        public Dictionary<String, Question> questions;
 
         public IssueWindow(Issue issue, MainWindow mainWindow, ListBoxRow row) : this(new Builder("IssueWindow.glade"), issue, mainWindow, row) { }
 
@@ -28,6 +29,8 @@ namespace Solver {
             mainWindow = _mainWindow;
             row = _row;
             questions = new Dictionary<string, Question>();
+
+            DeleteEvent += Window_DeleteEvent;
 
             issueTitle.Text = issue.Title;
             descriptionBox.Buffer.Text = issue.Description;
@@ -44,10 +47,16 @@ namespace Solver {
                 if (args.Row == null) return;
 
                 var label = (Label)args.Row.Child;
-                LaunchAnswerWindow(label.Text, args.Row);
+                LaunchAnswerDialog(label.Text, args.Row);
             };
 
+            addQuestionButton.Clicked += AddQuestionButton_Clicked;
+
             var task = FetchQuestions();
+        }
+
+        private void Window_DeleteEvent(object sender, DeleteEventArgs args) {
+            SolverApp.GetApp().RemoveWindow(this);
         }
 
         private void AssignButton_Clicked(object sender, EventArgs a) {
@@ -94,7 +103,8 @@ namespace Solver {
 
         }
 
-        private void InsertQuestion(JToken question) {
+        public void InsertQuestion(JToken question) {
+            Console.WriteLine(question.ToString());
             questions[question["question"].ToString()] = new Question() {
                 Text = question["question"].ToString(),
                 Answer = question["answer"].ToString(),
@@ -105,11 +115,20 @@ namespace Solver {
 
             var row = new ListBoxRow();
             row.Add(new Label { Text = question["question"].ToString(), Expand = true });
+            row.ShowAll();
+            
             questionsList.Add(row);
         }
 
-        private void LaunchAnswerWindow(string questionID, ListBoxRow row) {
-            var questionDialog = new QuestionDialog(questions[questionID], this);
+        private void LaunchAnswerDialog(string questionID, ListBoxRow row) {
+            var questionDialog = new AnswerDialog(questions[questionID], this);
+
+            SolverApp.GetApp().AddWindow(questionDialog);
+            questionDialog.ShowAll();
+        }
+
+        private void AddQuestionButton_Clicked(object sender, EventArgs a) {
+            var questionDialog = new QuestionDialog(this, issue.ID);
 
             SolverApp.GetApp().AddWindow(questionDialog);
             questionDialog.ShowAll();

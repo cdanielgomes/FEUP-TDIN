@@ -14,6 +14,7 @@
     </data>
   </object>
   <object class="GtkDialog" id="QuestionDialog">
+    <property name="width_request">360</property>
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
     <child type="titlebar">
@@ -106,9 +107,9 @@
                     <property name="has_entry">True</property>
                     <property name="id_column">0</property>
                     <child internal-child="entry">
-                      <object class="GtkEntry" id="departmentComb">
+                      <object class="GtkEntry" id="departmentEntry">
                         <property name="can_focus">False</property>
-                        <property name="text" translatable="yes">choose department</property>
+                        <property name="text" translatable="yes">Issues</property>
                         <property name="primary_icon_stock">gtk-go-forward</property>
                       </object>
                     </child>
@@ -132,7 +133,7 @@
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkLabel">
-                    <property name="height_request">37</property>
+                    <property name="height_request">41</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
@@ -144,7 +145,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="questionBox">
+                  <object class="GtkTextView" id="questionText">
+                    <property name="height_request">100</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                   </object>
@@ -157,6 +159,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
+                <property name="padding">9</property>
                 <property name="position">2</property>
               </packing>
             </child>
