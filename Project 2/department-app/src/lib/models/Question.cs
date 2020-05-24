@@ -1,6 +1,7 @@
 using System;
 
 namespace Department {
+    [Serializable]
     public class Question {
         public string ID;
         public string issueID;

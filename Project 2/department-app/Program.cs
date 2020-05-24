@@ -11,7 +11,7 @@ namespace Department
             DotNetEnv.Env.Load();
             Application.Init();
 
-            var app = new Application("org.solver_app.solver_app", GLib.ApplicationFlags.None);
+            var app = new Application("org.department_app.department_app", GLib.ApplicationFlags.None);
             app.Register(GLib.Cancellable.Current);
 
             DepartmentApp.Init(app);

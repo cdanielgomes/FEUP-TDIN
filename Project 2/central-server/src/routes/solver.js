@@ -76,10 +76,10 @@ router.get("/:id/questions/:questionId", (req, res) => {
 
 // answer a question
 router.put("/:id/questions/:questionId", (req, res) => {
-    Issue.find({ $or: [{ state: "unassigned" }, { assignee: req.userEmail }] }, (err, issues) => {
+    Question.findByIdAndUpdate(req.params.questionId, { answer: req.body.answer }, (err, question) => {
         if (err) return res.status(500).json({ message: err })
         else {
-            res.status(200).json({ issues })
+            res.status(200).json({ question })
         }
     });
 });

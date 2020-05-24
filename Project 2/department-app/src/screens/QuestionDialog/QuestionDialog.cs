@@ -48,6 +48,7 @@ namespace Department {
             var endpoint = $"/api/solver/{question.issueID}/questions/{question.ID}";
             var answer = answerBox.Buffer.Text;
             var requestBody = new JObject();
+            requestBody["answer"] = answer;
 
             var response = await DepartmentApp.PutRequest(endpoint, requestBody);
 
