@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
@@ -11,17 +12,17 @@ namespace Solver {
         [UI] Label issueTitle = null;
         [UI] Label authorDate = null;
         [UI] Button solveButton = null;
+        [UI] ListBox questionsList = null;
 
         Issue issue;
         MainWindow mainWindow;
         ListBoxRow row;
+        Dictionary<String, Question> questions;
 
         public IssueWindow(Issue issue, MainWindow mainWindow, ListBoxRow row) : this(new Builder("IssueWindow.glade"), issue, mainWindow, row) { }
 
         private IssueWindow(Builder builder, Issue _issue, MainWindow _mainWindow, ListBoxRow _row) : base(builder.GetObject("IssueWindow").Handle) {
             builder.Autoconnect(this);
-
-            DeleteEvent += Window_DeleteEvent;
 
             issue = _issue;
             mainWindow = _mainWindow;
@@ -37,16 +38,20 @@ namespace Solver {
             } else {
                 solveButton.Clicked += SolveButton_Clicked;
             }
-        }
 
-        private void Window_DeleteEvent(object sender, DeleteEventArgs a) {
+            questionsList.RowSelected += (object sender, RowSelectedArgs args) => {
+                if (args.Row == null) return;
 
+                var label = (Label)args.Row.Child;
+                LaunchIssueWindow(label.Text, args.Row);
+            }
+
+            var task = FetchQuestions();
         }
 
         private void AssignButton_Clicked(object sender, EventArgs a) {
             var task = Assign();
         }
-
 
         private async Task Assign() {
             var endpoint = $"/api/solver/{issue.ID}/assigned";
@@ -78,6 +83,35 @@ namespace Solver {
                 this.Hide();
                 SolverApp.GetApp().RemoveWindow(this);
             }
+        }
+
+        private async Task FetchQuestions() {
+            var endpoint = $"/api/solver/{issue.ID}/question";
+            var response = await SolverApp.GetRequest(endpoint);
+
+            Console.WriteLine();
+
+        }
+
+        private void InsertQuestion(JToken question) {
+            questions[question["question"].ToString()] = new Question() {
+                Text = question["question"].ToString(),
+                Answer = question["answer"].ToString(),
+                State = question["state"].ToString(),
+                Department = question["department"].ToString(),
+                Date = question["created_at"].ToString()
+            };
+
+            var row = new ListBoxRow();
+            row.Add(new Label { Text = question["question"].ToString(), Expand = true });
+            questionsList.Add(row);
+        }
+
+        private void LaunchAnswerWindow(string questionID, ListBoxRow row) {
+            var questionDialog = new QuestionDialog(questions[questionID], this);
+
+            SolverApp.GetApp().AddWindow(questionDialog);
+            questionDialog.ShowAll();
         }
     }
 }

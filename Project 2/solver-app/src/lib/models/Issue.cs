@@ -9,10 +9,5 @@ namespace Solver {
         public string State;
         public string Date;
         public string Creator;
-        public Dictionary<String, Question> Questions;
-
-        public Issue() {
-            Questions = new Dictionary<String, Question>();
-        }
     }
 }

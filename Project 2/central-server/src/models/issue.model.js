@@ -13,7 +13,7 @@ const IssueSchema = new mongoose.Schema({
     },
     state: {
         type: String,
-        enum: ["unassigned", "solved", "assigned", "waiting for answers"],
+        enum: ["unassigned", "solved", "assigned", "waiting"],
         default: "unassigned"
     },
     resolution: {

@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
         else {
             res.status(200).json({ issues })
         }
-    })
+    });
 });
 
 
@@ -30,6 +30,15 @@ router.put("/:id/solved", (req, res) => {
     // TODO: needs to send an email 
 });
 
+// get the questions of a issue
+router.get("/:id/question", (req, res) => {
+    Question.find({ issueId: req.params.id }, (err, question) => {
+        if (err) return res.status(500).json({ message: err });
+        else {
+            res.status(200).json({ question });
+        }
+    });
+});
 
 // create question
 router.post("/:id/question", (req, res) => {
@@ -37,7 +46,7 @@ router.post("/:id/question", (req, res) => {
     Question.create({ issueId: req.params.id, ...req.body }, (error, question) => {
 
         if (error) return res.status(500).json({ message: "Impossible create Question for issue" })
-        Issue.findByIdAndUpdate(req.params.id, { $push: { unsolved_questions: question._id }, state: "waiting for answers" }, (err, issue) => {
+        Issue.findByIdAndUpdate(req.params.id, { $push: { unsolved_questions: question._id }, state: "waiting" }, (err, issue) => {
             if (err) {
                 Question.deleteOne({ _id: question._id })
                 return res.status(500).json({ message: "Impossible create Question for issue" })

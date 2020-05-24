@@ -5,7 +5,7 @@ namespace Solver {
         public string Text;
         public string Answer;
         public string State;
-        public DateTime Date;
+        public string Date;
         public string Department;
     }
 }
