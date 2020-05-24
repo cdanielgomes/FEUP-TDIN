@@ -14,7 +14,7 @@ class Events {
 
 
     addClient(req, res) {
-        
+
         const headers = {
             'Content-Type': 'text/event-stream',
             'Cache-Control': 'no-cache',
@@ -51,7 +51,8 @@ class Events {
                     this.solver[issue.assignee].write(this.message({ type: "question", question, issue }))
                     break;
                 case "client":
-                    this.worker[issue.creator].write(this.message(issue))
+                    if (this.worker[issue.creator])
+                        this.worker[issue.creator].write(this.message(issue))
                     break;
                 default:
                     console.log("SHOULDN'T BE HERE");
