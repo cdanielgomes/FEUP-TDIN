@@ -4,6 +4,7 @@ const User = require('../models/user.model.js');
 const Issue = require('../models/issue.model.js');
 const Events = require('../middleware/events')
 const Question = require('../models/question.model.js');
+const { publishQueue } = require('../utils/lib/queue');
 // get all issues of a solver
 
 router.get("/", (req, res) => {
@@ -58,11 +59,12 @@ router.post("/:id/question", (req, res) => {
             })
 
             Events.sendInfo("client", issue);
+            publishQueue(JSON.stringify(question), question.department);
         })
     })
 });
 
-// answer a question
+// get a question
 router.get("/:id/questions/:questionId", (req, res) => {
     Question.findOne({ _id: req.params.questionId }, (err, question) => {
         if (err) return res.status(500).json({ message: err });

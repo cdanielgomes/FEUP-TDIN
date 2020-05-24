@@ -4,7 +4,7 @@ using Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
 using Newtonsoft.Json.Linq;
 
-namespace Solver {
+namespace Department {
     class LoginWindow : Window {
         [UI] Button loginButton = null;
         [UI] Button registerButton = null;
@@ -34,10 +34,10 @@ namespace Solver {
         private void RegisterButton_Clicked(object sender, EventArgs a) {
             var registerWindow = new RegisterWindow();
 
-            SolverApp.GetApp().AddWindow(registerWindow);
+            DepartmentApp.GetApp().AddWindow(registerWindow);
             registerWindow.ShowAll();
 
-            SolverApp.GetApp().RemoveWindow(this);
+            DepartmentApp.GetApp().RemoveWindow(this);
             this.Hide();
         }
 
@@ -53,18 +53,18 @@ namespace Solver {
             loginBody["email"] = email;
             loginBody["password"] = pass;
 
-            var response = await SolverApp.PostRequest("/api/auth/login", loginBody);
+            var response = await DepartmentApp.PostRequest("/api/auth/login", loginBody);
 
             if (response == null) return;
 
-            SolverApp.SetJwt(response["auth_token"].ToString());
-            SolverApp.SetEmail(response["email"].ToString());
+            DepartmentApp.SetJwt(response["auth_token"].ToString());
+            DepartmentApp.SetEmail(response["email"].ToString());
 
             var mainWindow = new MainWindow();
-            SolverApp.GetApp().AddWindow(mainWindow);
+            DepartmentApp.GetApp().AddWindow(mainWindow);
             mainWindow.ShowAll();
 
-            SolverApp.GetApp().RemoveWindow(this);
+            DepartmentApp.GetApp().RemoveWindow(this);
             this.Hide();
         }
     }

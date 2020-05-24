@@ -7,7 +7,7 @@ namespace Department {
     class QueueListener {
         const String HOST_ADDRESS = "localhost";
         const int PORT = 5672;
-        const String QUEUE_NAME = "issues";
+        const String QUEUE_NAME = "Issues";
 
         public delegate void MessageReceivedEvent(String msg);
         public MessageReceivedEvent MessageReceived = null;

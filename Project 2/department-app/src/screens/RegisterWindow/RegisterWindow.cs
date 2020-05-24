@@ -4,7 +4,7 @@ using Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
 using Newtonsoft.Json.Linq;
 
-namespace Solver {
+namespace Department {
     class RegisterWindow : Window {
         [UI] Button registerButton = null;
         [UI] Button loginButton = null;
@@ -36,10 +36,10 @@ namespace Solver {
         private void LoginButton_Clicked(object sender, EventArgs a) {
             var loginWindow = new LoginWindow();
 
-            SolverApp.GetApp().AddWindow(loginWindow);
+            DepartmentApp.GetApp().AddWindow(loginWindow);
             loginWindow.ShowAll();
 
-            SolverApp.GetApp().RemoveWindow(this);
+            DepartmentApp.GetApp().RemoveWindow(this);
             this.Hide();
         }
 
@@ -60,7 +60,7 @@ namespace Solver {
             registerBody["passwordConf"] = conf;
             registerBody["role"] = "solver";
 
-            var response = await SolverApp.PostRequest("/api/users/", registerBody);
+            var response = await DepartmentApp.PostRequest("/api/users/", registerBody);
 
             if (response == null) return;
 
@@ -68,18 +68,18 @@ namespace Solver {
             loginBody["email"] = email;
             loginBody["password"] = pass;
 
-            var loginResponse = await SolverApp.PostRequest("/api/auth/login", loginBody);
+            var loginResponse = await DepartmentApp.PostRequest("/api/auth/login", loginBody);
 
             if (loginResponse == null) return;
 
-            SolverApp.SetJwt(response["auth_token"].ToString());
-            SolverApp.SetEmail(response["email"].ToString());
+            DepartmentApp.SetJwt(response["auth_token"].ToString());
+            DepartmentApp.SetEmail(response["email"].ToString());
 
             var mainWindow = new MainWindow();
-            SolverApp.GetApp().AddWindow(mainWindow);
+            DepartmentApp.GetApp().AddWindow(mainWindow);
             mainWindow.ShowAll();
 
-            SolverApp.GetApp().RemoveWindow(this);
+            DepartmentApp.GetApp().RemoveWindow(this);
             this.Hide();
         }
     }

@@ -2,11 +2,10 @@ const amqp = require('amqplib/callback_api');
 const logger = require('../logger');
 
 const HOST_ADDRESS = process.env.HOST_ADDRESS;
-const QUEUE_NAME = process.env.QUEUE_NAME;
 
-let publishChannel;
+const queuesMap = {};
 
-const createChannel = () => new Promise((resolve, reject) => {
+const createChannel = (queue) => new Promise((resolve, reject) => {
   amqp.connect(HOST_ADDRESS, (connectionError, connection) => {
     if (connectionError) {
       logger.error(connectionError);
@@ -18,26 +17,26 @@ const createChannel = () => new Promise((resolve, reject) => {
         reject(channelError);
       }
 
-      channel.assertQueue(QUEUE_NAME, {
+      channel.assertQueue(queue, {
         durable: true
       });
 
-      publishChannel = channel;
-
-      resolve(publishChannel);
+      resolve(channel);
 
     });
   });
 });
 
-const getChannel = async () => {
-  if (publishChannel) return publishChannel;
-  return await createChannel();
+const getChannel = async (queue) => {
+  if (queuesMap[queue]) return queuesMap[queue];
+  const newQueue = await createChannel(queue);
+  queuesMap[queue] = newQueue;
+  return newQueue;
 }
 
-const publishQueue = async (msg) => {
-  const channel = await getChannel();
-  channel.sendToQueue(QUEUE_NAME, Buffer.from(msg), {
+const publishQueue = async (msg, queue) => {
+  const channel = await getChannel(queue);
+  channel.sendToQueue(queue, Buffer.from(msg), {
     persistent: true
   });
   

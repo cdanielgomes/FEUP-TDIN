@@ -8,14 +8,17 @@ namespace Department
         [STAThread]
         public static void Main(string[] args)
         {
+            DotNetEnv.Env.Load();
             Application.Init();
 
-            var app = new Application("org.department_app.department_app", GLib.ApplicationFlags.None);
+            var app = new Application("org.solver_app.solver_app", GLib.ApplicationFlags.None);
             app.Register(GLib.Cancellable.Current);
 
-            var win = new MainWindow();
-            app.AddWindow(win);
+            DepartmentApp.Init(app);
 
+            var win = new LoginWindow();
+            app.AddWindow(win);
+            
             win.Show();
             Application.Run();
         }
