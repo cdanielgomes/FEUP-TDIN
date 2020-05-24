@@ -55,7 +55,7 @@ class Events {
                         this.worker[issue.creator].write(this.message(issue))
                     break;
                 default:
-                    console.log("SHOUDLNT BE HERE")
+                    console.log("SHOULDN'T BE HERE");
                     break;
             }
 
