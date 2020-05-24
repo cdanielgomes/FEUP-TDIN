@@ -2,8 +2,16 @@
 <!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkWindow">
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="stock">gtk-add</property>
+    <property name="icon_size">5</property>
+  </object>
+  <object class="GtkWindow" id="IssueWindow">
+    <property name="can_focus">False</property>
+    <property name="default_width">800</property>
+    <property name="default_height">600</property>
     <child type="titlebar">
       <placeholder/>
     </child>
@@ -33,6 +41,7 @@
             <property name="height_request">276</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="editable">False</property>
           </object>
           <packing>
             <property name="x">6</property>
@@ -40,7 +49,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel">
+          <object class="GtkLabel" id="issueLabel">
             <property name="width_request">100</property>
             <property name="height_request">80</property>
             <property name="visible">True</property>
@@ -72,7 +81,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkTextView">
+          <object class="GtkTextView" id="answerBox">
             <property name="width_request">447</property>
             <property name="height_request">100</property>
             <property name="visible">True</property>
@@ -84,7 +93,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkListBox">
+          <object class="GtkListBox" id="questionsList">
             <property name="width_request">200</property>
             <property name="height_request">276</property>
             <property name="visible">True</property>
@@ -113,13 +122,13 @@
         </child>
         <child>
           <object class="GtkButton" id="addQuestionButton">
-            <property name="label">gtk-add</property>
-            <property name="width_request">40</property>
-            <property name="height_request">40</property>
+            <property name="width_request">30</property>
+            <property name="height_request">30</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="use_stock">True</property>
+            <property name="image">image1</property>
+            <property name="always_show_image">True</property>
           </object>
           <packing>
             <property name="x">527</property>
@@ -138,6 +147,22 @@
           <packing>
             <property name="x">564</property>
             <property name="y">471</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="authorDate">
+            <property name="width_request">100</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Submitted by Author at date</property>
+            <attributes>
+              <attribute name="scale" value="1"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">5</property>
+            <property name="y">344</property>
           </packing>
         </child>
       </object>

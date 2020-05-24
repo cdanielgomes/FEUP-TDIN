@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.2 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <object class="GtkWindow" id="RegisterWindow">
+    <property name="can_focus">False</property>
+    <property name="default_width">530</property>
+    <property name="default_height">460</property>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkFixed">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkEntry" id="emailBox">
+            <property name="width_request">385</property>
+            <property name="height_request">36</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="input_purpose">email</property>
+          </object>
+          <packing>
+            <property name="x">105</property>
+            <property name="y">100</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="nameBox">
+            <property name="width_request">385</property>
+            <property name="height_request">36</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+          </object>
+          <packing>
+            <property name="x">105</property>
+            <property name="y">149</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="width_request">100</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Create an account here</property>
+            <attributes>
+              <attribute name="scale" value="2"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">119</property>
+            <property name="y">10</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="registerButton">
+            <property name="label" translatable="yes">Create account</property>
+            <property name="width_request">100</property>
+            <property name="height_request">40</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+          </object>
+          <packing>
+            <property name="x">207</property>
+            <property name="y">299</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="loginButton">
+            <property name="label" translatable="yes">Login</property>
+            <property name="width_request">100</property>
+            <property name="height_request">40</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+          </object>
+          <packing>
+            <property name="x">226</property>
+            <property name="y">347</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="closeButton">
+            <property name="label" translatable="yes">Close</property>
+            <property name="width_request">100</property>
+            <property name="height_request">40</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+          </object>
+          <packing>
+            <property name="x">226</property>
+            <property name="y">396</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="width_request">100</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">E-mail:</property>
+          </object>
+          <packing>
+            <property name="x">3</property>
+            <property name="y">77</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="width_request">100</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Full Name:</property>
+          </object>
+          <packing>
+            <property name="x">16</property>
+            <property name="y">126</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="width_request">100</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Password:</property>
+          </object>
+          <packing>
+            <property name="x">15</property>
+            <property name="y">174</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="width_request">100</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Pass. Conf:</property>
+          </object>
+          <packing>
+            <property name="x">17</property>
+            <property name="y">225</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="passBox">
+            <property name="width_request">385</property>
+            <property name="height_request">36</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="visibility">False</property>
+            <property name="invisible_char">*</property>
+            <property name="input_purpose">password</property>
+          </object>
+          <packing>
+            <property name="x">105</property>
+            <property name="y">198</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="confBox">
+            <property name="width_request">385</property>
+            <property name="height_request">36</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="visibility">False</property>
+            <property name="invisible_char">*</property>
+            <property name="input_purpose">password</property>
+          </object>
+          <packing>
+            <property name="x">105</property>
+            <property name="y">247</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

@@ -8,6 +8,7 @@ namespace Solver
         [STAThread]
         public static void Main(string[] args)
         {
+            DotNetEnv.Env.Load();
             Application.Init();
 
             var app = new Application("org.solver_app.solver_app", GLib.ApplicationFlags.None);
