@@ -45,7 +45,6 @@ class Events {
             switch (type) {
 
                 case "issue":
-                    console.log(this.solver)
                     for (let solver in this.solver) this.solver[solver].write(this.message({ type: "issue", issue }))
                     break;
                 case "question":
