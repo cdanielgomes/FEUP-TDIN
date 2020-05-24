@@ -76,7 +76,7 @@ namespace Solver {
         }
 
         private void subscribeServerEvents() {
-            var host = DotNetEnv.Env.GetString("SERVER_ADDRESS") + "/api/stream";
+            var host = DotNetEnv.Env.GetString("SERVER_ADDRESS") + "/api/stream/solver/";
 
             var evt = new EventSourceReader(new Uri(host)).Start();
             evt.MessageReceived += (object sender, EventSourceMessageEventArgs e) => Console.WriteLine($"{e.Event} : {e.Message}");
@@ -85,6 +85,7 @@ namespace Solver {
                 await Task.Delay(e.ReconnectDelay);
                 evt.Start(); // Reconnect to the same URL
             };
+        
         }
     }
 }
