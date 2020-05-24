@@ -57,7 +57,7 @@ router.post("/:id/question", (req, res) => {
                 message: "Question created with success"
             })
 
-            Events.sendInfo("client", issue)
+            Events.sendInfo("client", issue);
         })
     })
 });

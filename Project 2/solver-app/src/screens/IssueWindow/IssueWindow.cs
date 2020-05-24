@@ -70,6 +70,7 @@ namespace Solver {
 
             if (response["issue"] != null) {
                 solveButton.Label = "Solve";
+                issue.State = "assigned";
                 solveButton.Clicked -= AssignButton_Clicked;
                 solveButton.Clicked += SolveButton_Clicked;
 
@@ -99,25 +100,33 @@ namespace Solver {
             var endpoint = $"/api/solver/{issue.ID}/question";
             var response = await SolverApp.GetRequest(endpoint);
 
-            Console.WriteLine();
-
+            var fetchedQuestions = response["questions"].ToObject<JArray>();
+            for (var i = 0; i < fetchedQuestions.Count; i++) {
+                InsertQuestion(fetchedQuestions[i]);
+            }
         }
 
         public void InsertQuestion(JToken question) {
-            Console.WriteLine(question.ToString());
-            questions[question["question"].ToString()] = new Question() {
-                Text = question["question"].ToString(),
-                Answer = question["answer"].ToString(),
-                State = question["state"].ToString(),
-                Department = question["department"].ToString(),
-                Date = question["created_at"].ToString()
-            };
+            try {
+                questions[question["question"].ToString()] = new Question() {
+                    Text = question["question"].ToString(),
+                    State = question["state"].ToString(),
+                    Department = question["department"].ToString(),
+                    Date = question["createdAt"].ToString()
+                };
 
-            var row = new ListBoxRow();
-            row.Add(new Label { Text = question["question"].ToString(), Expand = true });
-            row.ShowAll();
-            
-            questionsList.Add(row);
+                if (question["answer"] != null) {
+                    questions[question["question"].ToString()].Answer = question["answer"].ToString();
+                }
+
+                var row = new ListBoxRow();
+                row.Add(new Label { Text = question["question"].ToString(), Expand = true });
+
+                questionsList.Add(row);
+                row.ShowAll();
+            } catch (Exception e) {
+                Console.WriteLine(e.Message);
+            }
         }
 
         private void LaunchAnswerDialog(string questionID, ListBoxRow row) {
@@ -128,6 +137,7 @@ namespace Solver {
         }
 
         private void AddQuestionButton_Clicked(object sender, EventArgs a) {
+            if (issue.State == "unassigned") return;
             var questionDialog = new QuestionDialog(this, issue.ID);
 
             SolverApp.GetApp().AddWindow(questionDialog);

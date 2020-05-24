@@ -7,12 +7,12 @@ const Question = require('../models/question.model.js');
 
 
 router.get('/worker', (req, res, next) => {
-    Events.addClient(req, res)
+    Events.addClient(req, res);
     //next()
 })
 
 router.get('/solver', (req, res, next) => {
-    Events.addClient(req, res)
+    Events.addClient(req, res);
     //next()
 })
 module.exports = router
