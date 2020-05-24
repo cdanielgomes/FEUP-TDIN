@@ -38,36 +38,24 @@ namespace Department {
 
         void InitQueue() {
             queue = new QueueListener();
-            try {
-                queue.MessageReceived += (message) => {
-                    Console.WriteLine("Message received from the queue");
-                    var question = JObject.Parse(message);
-
-                    if (question["question"] == null) return;
-
-                    questions[question["question"].ToString()] = new Question() {
-                        ID = question["_id"].ToString(),
-                        issueID = question["issueId"].ToString(),
-                        Text = question["question"].ToString(),
-                        State = question["state"].ToString(),
-                        Department = question["department"].ToString(),
-                        Date = question["createdAt"].ToString()
-                    };
-
-                    SaveData();
-
-                    var row = new ListBoxRow();
-                    row.Add(new Label { Text = question["question"].ToString(), Expand = true });
-
-                    questionsList.Add(row);
-                    row.ShowAll();
+            queue.MessageReceived += (message) => {
+                var question = JObject.Parse(message);
+                if (question["question"] == null) return;
+                questions[question["question"].ToString()] = new Question() {
+                    ID = question["_id"].ToString(),
+                    issueID = question["issueId"].ToString(),
+                    Text = question["question"].ToString(),
+                    State = question["state"].ToString(),
+                    Department = question["department"].ToString(),
+                    Date = question["createdAt"].ToString()
                 };
-
+                var row = new ListBoxRow();
+                row.Add(new Label { Text = question["question"].ToString(), Expand = true });
+                questionsList.Add(row);
+                row.ShowAll();
+                this.SaveData();
                 queue.Init();
-            }
-            catch (Exception e) {
-                Console.WriteLine(e.Message);
-            }
+            };
         }
 
         private void LaunchQuestionDialog(String questionID, ListBoxRow row) {
@@ -81,7 +69,6 @@ namespace Department {
         void LoadData() {
             var FileName = DotNetEnv.Env.GetString("QUESTIONS_STORAGE");
             if (File.Exists(FileName)) {
-                Console.WriteLine("[Server]: Reading saved file");
                 Stream openFileStream = File.OpenRead(FileName);
                 BinaryFormatter deserializer = new BinaryFormatter();
                 this.questions = (Dictionary<string, Question>)deserializer.Deserialize(openFileStream);
