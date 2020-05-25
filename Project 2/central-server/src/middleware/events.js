@@ -45,13 +45,17 @@ class Events {
     sendInfo(type, issue, question) {
         try {
             switch (type) {
-
+                case "assign":
+                    for (let solver in this.solver) {
+                        if (issue.assignee !== solver && !this.solver[solver]) this.solver[solver].write(this.message({ type: "assign", issue }))
+                }
+                    break;
                 case "issue":
                     for (let solver in this.solver) this.solver[solver].write(this.message({ type: "issue", issue }))
                     break;
                 case "question":
-                    if(this.solver[issue.assignee])
-                    this.solver[issue.assignee].write(this.message({ type: "question", question, issue }))
+                    if (this.solver[issue.assignee])
+                        this.solver[issue.assignee].write(this.message({ type: "question", question, issue }))
                     break;
                 case "client":
                     if (this.worker[issue.creator])

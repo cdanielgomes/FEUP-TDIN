@@ -28,6 +28,10 @@ const Login = () => {
   }
 
   return (
+    <>
+    <Container style={{marginTop: "2em", display: 'flex',  justifyContent:'center', alignItems:'center'}}className="justify-content-center align-items-center">
+      <h1 style={{color:"#5a6268"}}>Enterprising - LOGIN</h1>
+    </Container>
     <Container>
       <Row>
         <Col>
@@ -50,7 +54,7 @@ const Login = () => {
               />
             </FormGroup>
 
-            <Button block disabled={!validateForm()} type="submit">
+            <Button style={{backgroundColor:"#5a6268", borderColor:"#5a6268"}}block disabled={!validateForm()} type="submit">
               Login
             </Button>
           </Form>
@@ -58,10 +62,11 @@ const Login = () => {
       </Row>
       <Row className="justify-content-center">
         <Col>
-          Do you not have an account? <a href="/register"> Register </a>
+          Do you not have an account? <a style={{color:"#5a6268"}} href="/register"> Register </a>
         </Col>
       </Row>
     </Container>
+    </>
   );
 };
 

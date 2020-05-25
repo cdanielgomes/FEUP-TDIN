@@ -20,7 +20,24 @@ router.get("/", (req, res) => {
 
 // update one issue
 router.put("/:id/assigned", (req, res) => {
-    setState("assigned", req, res)
+
+    Issue.find({ _id: req.params.id })
+        .then(async issue => {
+            console.log(issue[0])
+            if (issue[0].assignee === null){
+                const s = await setState("assigned", req, res)
+                console.log(s)
+                Events.sendInfo("assign", s)
+            }
+            else return res.status(403).json({ message: "Unauthorized issue assignement" })
+        })
+        .catch(error => {
+            u
+            return res.status(500).json({ message: "Internal error" })
+        })
+
+
+
 });
 
 
@@ -41,7 +58,7 @@ router.put("/:id/solved", async (req, res) => {
     const solver = await User.findOne({ email: issueResolved.assignee })
 
     if (!solver) return
-    
+
     send(issueResolved, solver)
 
 });

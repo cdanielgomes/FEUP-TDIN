@@ -44,6 +44,10 @@ export default function Register() {
 
   function renderForm() {
     return (
+<>
+      <Container style={{marginTop: "2em", display: 'flex',  justifyContent:'center', alignItems:'center'}}className="justify-content-center align-items-center">
+      <h1 style={{color:"#5a6268"}}>Enterprising - Register</h1>
+    </Container>
       <Container>
         <Row>
           <Col>
@@ -83,7 +87,7 @@ export default function Register() {
                 />
               </FormGroup>
               <FormGroup>
-                <Button block type="submit" disabled={!validateForm()}>
+                <Button style={{backgroundColor:"#5a6268", borderColor:"#5a6268"}} block type="submit" disabled={!validateForm()}>
                   Signup
                 </Button>
               </FormGroup>
@@ -92,10 +96,11 @@ export default function Register() {
         </Row>
         <Row className="align-items-center">
           <Col>
-            Do you not have an account? <a href="/login"> Log in </a>
+            Do you not have an account? <a  style={{color:"#5a6268"}} href="/login"> Log in </a>
           </Col>
         </Row>
       </Container>
+      </>
     );
   }
 
