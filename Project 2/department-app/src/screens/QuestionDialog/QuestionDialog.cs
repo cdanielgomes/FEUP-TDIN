@@ -5,7 +5,7 @@ using UI = Gtk.Builder.ObjectAttribute;
 using Newtonsoft.Json.Linq;
 
 namespace Department {
-    class QuestionDialog : Window {
+    class QuestionDialog : Dialog {
         [UI] TextView questionBox = null;
         [UI] TextView answerBox = null;
         [UI] Button answerButton = null;
@@ -52,8 +52,9 @@ namespace Department {
 
             var response = await DepartmentApp.PutRequest(endpoint, requestBody);
 
-            if (response["message"] != null) return;
+            if (response["statusCode"].ToString() != "OK") return;
 
+            row.Hide();
             mainWindow.questionsList.Remove(row);
 
             mainWindow.SaveData();
