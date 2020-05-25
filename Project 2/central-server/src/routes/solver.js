@@ -109,7 +109,7 @@ router.put("/:id/questions/:questionId", (req, res) => {
                 message: "Question updated with success"
             })
 
-            Events.sendInfo("question", req.params.id, question)
+            Events.sendInfo("question", issue, question)
         })
     })
 });
