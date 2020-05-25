@@ -14,6 +14,8 @@ namespace Solver {
 
         Dictionary<String, Issue> issues;
 
+        public IssueWindow issueWindow = null;
+
         public MainWindow() : this(new Builder("MainWindow.glade")) { }
 
         private MainWindow(Builder builder) : base(builder.GetObject("MainWindow").Handle) {
@@ -108,7 +110,6 @@ namespace Solver {
             var evt = new EventSourceReader(new Uri(host)).Start();
             evt.MessageReceived += (object sender, EventSourceMessageEventArgs e) => {
                 Task.Run(() => {
-                    Console.WriteLine($"SSE Event: {e.Event} || SSE Message {e.Message}");
                     var parsedMessage = JObject.Parse(e.Message);
 
                     var type = parsedMessage["type"];
@@ -137,15 +138,26 @@ namespace Solver {
         }
 
         private void LaunchIssueWindow(string issueID, ListBoxRow row) {
-            var issueWindow = new IssueWindow(issues[issueID], this, row);
-
+            issueWindow = new IssueWindow(issues[issueID], this, row);
             SolverApp.GetApp().AddWindow(issueWindow);
             issueWindow.ShowAll();
         }
 
         private void UpdateQuestion(JToken question) {
-            foreach (Window win in SolverApp.GetApp().Windows) {
-                Console.WriteLine(Window.ToString());
+            try {
+                if (question["answer"] == null) return;
+
+                foreach (var pair in issueWindow.questions) {
+                    if (pair.Key == question["question"].ToString()) {
+                        var q = (Question)pair.Value;
+                        q.Answer = question["answer"].ToString();
+                    }
+                }
+                if (issueWindow.answerDialog != null) {
+                    issueWindow.answerDialog.UpdateQuestion(question["answer"].ToString());
+                }
+            } catch (Exception e) {
+                Console.WriteLine(e);
             }
         }
     }

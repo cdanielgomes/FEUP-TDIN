@@ -6,7 +6,7 @@ using UI = Gtk.Builder.ObjectAttribute;
 using Newtonsoft.Json.Linq;
 
 namespace Solver {
-    class IssueWindow : Window {
+    public class IssueWindow : Window {
         [UI] TextView descriptionBox = null;
         [UI] TextView answerBox = null;
         [UI] Label issueTitle = null;
@@ -17,6 +17,7 @@ namespace Solver {
 
         Issue issue;
         MainWindow mainWindow;
+        public AnswerDialog answerDialog;
         ListBoxRow row;
         public Dictionary<String, Question> questions;
 
@@ -30,6 +31,7 @@ namespace Solver {
             row = _row;
             questions = new Dictionary<string, Question>();
 
+            mainWindow.Sensitive = false;
             DeleteEvent += Window_DeleteEvent;
 
             issueTitle.Text = issue.Title;
@@ -56,7 +58,10 @@ namespace Solver {
         }
 
         private void Window_DeleteEvent(object sender, DeleteEventArgs args) {
+            mainWindow.Sensitive = true;
+            mainWindow.issueWindow = null;
             SolverApp.GetApp().RemoveWindow(this);
+            this.Dispose();
         }
 
         private void AssignButton_Clicked(object sender, EventArgs a) {
@@ -130,10 +135,10 @@ namespace Solver {
         }
 
         private void LaunchAnswerDialog(string questionID, ListBoxRow row) {
-            var questionDialog = new AnswerDialog(questions[questionID], this);
+            answerDialog = new AnswerDialog(questions[questionID], this);
 
-            SolverApp.GetApp().AddWindow(questionDialog);
-            questionDialog.ShowAll();
+            SolverApp.GetApp().AddWindow(answerDialog);
+            answerDialog.ShowAll();
         }
 
         private void AddQuestionButton_Clicked(object sender, EventArgs a) {
