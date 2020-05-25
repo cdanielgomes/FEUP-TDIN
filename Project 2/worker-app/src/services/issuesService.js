@@ -6,7 +6,9 @@ const getIssues = () => {
 
     .then(({ status, data, statusText }) => {
       if (status === 200) return data.issues
-      else return Promise.reject(statusText)
+      else {
+        localStorage.removeItem("cookie")
+        return Promise.reject(statusText)}
     })
     .catch(error => {
       console.log(error)

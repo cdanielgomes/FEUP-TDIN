@@ -28,21 +28,22 @@ router.put("/:id/assigned", (req, res) => {
 router.put("/:id/solved", async (req, res) => {
 
     const issue = await Issue.findOne({ _id: req.params.id })
-    console.log("ARE YOU HERE MOTHERDUCJKERA")
     const array = issue.unsolved_questions;
-    console.log(array)
 
     if (array.length) {
-        
+
         res.status(418).json({ message: "You have to wait for all question been solved. Be patient, take a coffee" })
         return
     }
 
-    const issueResolved = setState("solved", req, res);
-    console.log(issueResolved)
-    const solver = await User.findOne({ _id: issueResolved.assignee })
+    const issueResolved = await setState("solved", req, res);
 
-    console.log("vou mandar alguma cena\n", solver, issueResolved)
+    const solver = await User.findOne({ email: issueResolved.assignee })
+
+    if (!solver) return
+
+    console.log("solver", solver)
+    console.log("Issue Resolved", issueResolved)
     send(issueResolved, solver)
 
 });
@@ -124,21 +125,30 @@ router.get("/", (req, res) => {
 
 
 
-const setState = (role, req, res) => {
-    Issue.findByIdAndUpdate(req.params.id,
-        { state: role, assignee: req.userEmail, resolution: req.body.answer },
-        { new: true, timestamps: true },
-        (err, issue) => {
-            if (err) console.log(err)
-            if (err) return res.status(500).json({ message: `Error updating Issue ${req.params.id}` })
+const setState = async (role, req, res) => {
+    try {
+        const issue = await Issue.findByIdAndUpdate(req.params.id,
+            { state: role, assignee: req.userEmail, resolution: req.body.answer },
+            { new: true, timestamps: true })
+
+        if (!issue) {
+            return res.status(500).json({ message: `Error updating Issue ${req.params.id}` })
+        } else {
+
             res.status(200).json({
                 message: `Issue ${req.params.id} updated to \"${role}\"`,
                 issue
             })
 
+
             Events.sendInfo("client", issue) // send event to client
+
             return issue
-        })
+        }
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ message: `Error updating Issue ${req.params.id}` })
+    }
 }
 
 
