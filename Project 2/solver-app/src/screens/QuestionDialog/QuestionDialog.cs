@@ -22,19 +22,22 @@ namespace Solver {
             issueWindow = _issueWindow;
             issueID = _issueID;
 
+            issueWindow.Sensitive = false;
             DeleteEvent += Window_DeleteEvent;
             sendButton.Clicked += SendButton_Clicked;
             cancelButton.Clicked += CancelButton_Clicked;
         }
 
         private void Window_DeleteEvent(object sender, DeleteEventArgs args) {
-            this.Hide();
             SolverApp.GetApp().RemoveWindow(this);
+            issueWindow.Sensitive = true;
+            this.Dispose();
         }
 
         private void CancelButton_Clicked(object sender, EventArgs args) {
-            this.Hide();
             SolverApp.GetApp().RemoveWindow(this);
+            issueWindow.Sensitive = true;
+            this.Dispose();
         }
 
         private void SendButton_Clicked(object sender, EventArgs args) {
@@ -67,10 +70,10 @@ namespace Solver {
                 issueWindow.questionsList.Add(questionRow);
                 questionRow.ShowAll();
 
-                this.Hide();
+                issueWindow.Sensitive = true;
                 SolverApp.GetApp().RemoveWindow(this);
-            }
-            catch(Exception e) {
+                this.Dispose();
+            } catch (Exception e) {
                 Console.WriteLine(e.ToString());
             }
         }
