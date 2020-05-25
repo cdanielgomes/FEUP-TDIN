@@ -33,6 +33,7 @@ namespace Department {
         }
 
         private void Window_DeleteEvent(object sender, DeleteEventArgs a) {
+            this.SaveData();
             Application.Quit();
         }
 
@@ -54,7 +55,6 @@ namespace Department {
                     row.Add(new Label { Text = question["question"].ToString(), Expand = true });
                     questionsList.Add(row);
                     row.ShowAll();
-                    this.SaveData();
                 });
             };
 
