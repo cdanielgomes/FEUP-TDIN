@@ -3,6 +3,8 @@ import { Navbar, Nav, Button, Modal, Form } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../actions/authActions";
+import styles from './nav.module.scss'
+
 const Header = ({ callback }) => {
   // const login = useSelector((state) => state.auth.loggedIn);
   const [showModal, setShowModal] = useState(false);
@@ -54,11 +56,11 @@ const Header = ({ callback }) => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav>
-            <Nav.Link>
-              <Button onClick={handleForm}> New Issue </Button>{" "}
+            <Nav.Link className={styles['button']}>
+              <Button className={styles['button']} onClick={handleForm}> New Issue </Button>{" "}
             </Nav.Link>
-            <Nav.Link>
-              <Button onClick={logout}>Logout</Button>
+            <Nav.Link className={styles['button']}>
+              <Button className={styles['button']} onClick={logout}>Logout</Button>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
@@ -90,7 +92,7 @@ const Header = ({ callback }) => {
           <Button variant="secondary" onClick={closeForm}>
             Close
           </Button>
-          <Button
+          <Button className={styles["buttonSave"]}
             disabled={!validation()}
             variant="primary"
             onClick={sendTicket}

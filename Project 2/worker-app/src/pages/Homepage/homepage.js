@@ -21,7 +21,8 @@ const Homepage = () => {
   const sendIssue = (issue) => {
     issuesService.sendIssue({ ...issue }).then((newIssue) => {
       setAllIssues([...allIssuesRef.current, newIssue]);
-    });
+    }).catch(() => 
+    dispatch(dispatch(authActions.logout)))
   };
 
   useEffect(() => {
@@ -34,7 +35,6 @@ const Homepage = () => {
         const index = allIssuesRef.current.findIndex(element => {
           return element._id === issueUpdated._id
         })
-
         const tmp = [...allIssuesRef.current]
         tmp[index] = issueUpdated
         setAllIssues(tmp)

@@ -1,0 +1,19 @@
+.button {
+    background-color: transparent !important;
+    border-color: grey !important; 
+
+    :hover{
+        background-color: grey !important;
+        border-color: none;
+    }
+}
+
+.buttonSave {
+    background-color: rgb(108, 117, 125) !important ;
+    border-color: rgb(108, 117, 125) !important;
+    &:hover  {
+        color: #fff !important;
+        background-color: #5a6268 !important;
+        border-color: #545b62 !important;
+    }
+}

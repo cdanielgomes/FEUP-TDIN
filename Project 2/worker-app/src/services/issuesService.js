@@ -7,12 +7,10 @@ const getIssues = () => {
     .then(({ status, data, statusText }) => {
       if (status === 200) return data.issues
       else {
-        localStorage.removeItem("cookie")
-        return Promise.reject(statusText)}
+        return Promise.reject(statusText)
+      }
     })
     .catch(error => {
-      console.log(error)
-      localStorage.removeItem('cookie')
       return Promise.reject(error)
     })
 };
@@ -30,19 +28,18 @@ const sendIssue = (issue) => {
 };
 
 const openStream = (onMessage) => {
+  try {
+    const events = caller.getStream();
 
-  const events = caller.getStream();
+    events.onmessage = (event) => {
+      onMessage(event)
+    }
 
-  events.onmessage = (event) => {
-    onMessage(event)
-  }
+    events.onerror = (event) => {
+      // console.log(event)
+    }
+  } catch (e) {
 
-  events.onopen = (event) => {
-    console.log(event)
-    console.log("openned connection")
-  }
-  events.onerror = (event) => {
-    console.log(event)
   }
 
 }
