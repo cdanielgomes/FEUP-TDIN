@@ -35,3 +35,6 @@ msbuild.wrn
 
 # Visual Studio
 .vs/
+
+# Stored Questions
+StoredQuestions.bin
