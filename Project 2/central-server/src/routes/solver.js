@@ -5,6 +5,7 @@ const Issue = require('../models/issue.model.js');
 const Events = require('../middleware/events')
 const Question = require('../models/question.model.js');
 const { publishQueue } = require('../utils/lib/queue');
+const send = require("../email/email")
 // get all issues of a solver
 
 router.get("/", (req, res) => {
@@ -26,15 +27,24 @@ router.put("/:id/assigned", (req, res) => {
 // solve issue
 router.put("/:id/solved", async (req, res) => {
 
-    const issue = await Issue.findOne({ _id: req.params.id }, "unsolved_questions")
-
+    const issue = await Issue.findOne({ _id: req.params.id })
+    console.log("ARE YOU HERE MOTHERDUCJKERA")
     const array = issue.unsolved_questions;
-    if (!array.length) {
-        res.status(418).json({ message: "You ahve to wait for all question been solved. Be patient, take a coffee" })
+    console.log(array)
+
+    if (array.length) {
+        
+        res.status(418).json({ message: "You have to wait for all question been solved. Be patient, take a coffee" })
         return
     }
 
-    setState("solved", req, res)
+    const issueResolved = setState("solved", req, res);
+    console.log(issueResolved)
+    const solver = await User.findOne({ _id: issueResolved.assignee })
+
+    console.log("vou mandar alguma cena\n", solver, issueResolved)
+    send(issueResolved, solver)
+
 });
 
 // get the questions of a issue
@@ -127,6 +137,7 @@ const setState = (role, req, res) => {
             })
 
             Events.sendInfo("client", issue) // send event to client
+            return issue
         })
 }
 

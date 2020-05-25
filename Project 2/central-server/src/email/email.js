@@ -3,6 +3,11 @@ const nodemailer = require("nodemailer");
 const moment = require("moment")
 const send = (issue, solver) => {
     
+    if(!(issue && solver)) {
+        console.log("COuldnt send email")
+        return false
+    } 
+     
   let transporter = nodemailer.createTransport({
     service: "gmail",
      auth: {
@@ -12,8 +17,9 @@ const send = (issue, solver) => {
   });
 
   // send mail with defined transport object
+  console.log("try to send")
 transporter.sendMail({
-    from: `"${solver.email}" ${issue.email}`, // sender address
+    from: `"${solver.email}" ${solver.email}`, // sender address
     to: `${issue.creator}`, // list of receivers
     subject: `Issue "${issue.title}" submited has been solved`, // Subject line
     html: `<h1> The issue you submitted "${issue.title}" has been solved!!! </h1> \
