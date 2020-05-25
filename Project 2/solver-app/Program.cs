@@ -11,7 +11,7 @@ namespace Solver
             DotNetEnv.Env.Load();
             Application.Init();
 
-            var app = new Application("org.solver_app.solver_app", GLib.ApplicationFlags.None);
+            var app = new Application(null, GLib.ApplicationFlags.None);
             app.Register(GLib.Cancellable.Current);
 
             SolverApp.Init(app);
