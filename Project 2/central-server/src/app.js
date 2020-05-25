@@ -33,7 +33,7 @@ mongoose.connect('mongodb://mongo', {
   useFindAndModify: false,
 }).then(() => {
   logger.info('Connection to Database succeeded');
-  seedDb();
+  //seedDb();
 }).catch(err => {
     logger.warn(`Failed to connect to Database: ${ err.message }`);  
 });

@@ -15,10 +15,7 @@ const send = (issue, solver) => {
             pass: "solvertdin2020", // generated ethereal password
         },
     });
-
-    // send mail with defined transport object
-    console.log("try to send")
-    transporter.sendMail({
+    const options  = {
         from: `"${solver.email}" ${solver.email}`, // sender address
         to: `${issue.creator}`, // list of receivers
         subject: `Issue "${issue.title}" submited has been solved`, // Subject line
@@ -30,7 +27,10 @@ const send = (issue, solver) => {
     <h4> Submitted at: <h4>${moment(issue.createdAt).format('LLLL')}}\
     <h2> Was solved by: <h2> ${solver.name}\
     <h4> Answer: </h4>${issue.answer}`
-    }).then(res => console.log("email sent: " + res.response))
+    }
+    // send mail with defined transport object
+    console.log("try to send")
+    transporter.sendMail(options).then(res => console.log("email sent: " + res.response))
     .catch(err => console.log(err))
 }
 
