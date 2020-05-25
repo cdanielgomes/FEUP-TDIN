@@ -50,7 +50,6 @@ class Events {
                     for (let solver in this.solver) this.solver[solver].write(this.message({ type: "issue", issue }))
                     break;
                 case "question":
-
                     if(this.solver[issue.assignee])
                     this.solver[issue.assignee].write(this.message({ type: "question", question, issue }))
                     break;

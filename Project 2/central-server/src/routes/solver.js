@@ -99,7 +99,7 @@ router.put("/:id/questions/:questionId", (req, res) => {
 
     Question.findByIdAndUpdate(req.params.questionId, { answer: req.body.answer, state: "answered" }, { new: true }, (error, question) => {
         if (error) return res.status(500).json({ message: "Impossible update Question for issue" })
-        Issue.updateOne({ _id: req.params.id }, { $pull: { unsolved_questions: req.params.questionId } }, (err, issue) => {
+        Issue.findOneAndUpdate({ _id: req.params.id }, { $pull: { unsolved_questions: req.params.questionId } }, (err, issue) => {
             if (err) {
                 Question.updateOne({ _id: re.params.questionId }, { answer: null, state: "queued" })
                 return res.status(500).json({ message: "Impossible update Question for issue" })
