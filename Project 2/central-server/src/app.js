@@ -10,6 +10,7 @@ const httplogger = require('morgan');
 require("dotenv").config();
 
 const checkJWTandRole = require('./middleware/jwt')
+const checkUserCanAcess = require('./middleware/validation')
 
 const logger = require('./utils/logger');
 
@@ -23,7 +24,6 @@ const solverRouter = require('./routes/solver');
 const resetRouter = require('./routes/admin');
 const streamRouter = require('./routes/stream');
 const devRouter = require('./routes/dev');
-const Events = require('./middleware/events').default
 const app = express();
 
 // Connection to DB
@@ -33,7 +33,7 @@ mongoose.connect('mongodb://mongo', {
   useFindAndModify: false,
 }).then(() => {
   logger.info('Connection to Database succeeded');
-  seedDb();
+  //seedDb();
 }).catch(err => {
     logger.warn(`Failed to connect to Database: ${ err.message }`);  
 });
@@ -55,12 +55,12 @@ app.use(session({
 app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
 
-app.use('/api/worker', checkJWTandRole.bind(["worker"]), workerRouter);
-app.use('/api/solver', checkJWTandRole.bind(["solver"]), solverRouter);
+app.use('/api/worker', checkJWTandRole.bind(["worker"]), checkUserCanAcess , workerRouter);
+app.use('/api/solver', checkJWTandRole.bind(["solver"]), checkUserCanAcess, solverRouter);
 
 app.use('/api/users', usersRouter);
 
-app.use('/api/stream', checkJWTandRole.bind(["worker", "solver"]), streamRouter);
+app.use('/api/stream', checkJWTandRole.bind(["worker", "solver"]), checkUserCanAcess, streamRouter);
 
 app.use('/api/admin', resetRouter);
 

@@ -8,8 +8,8 @@ async function login(email, password) {
       (resp) => {
         console.log(resp)
         if (resp.status === 200) {
-
           // set the cookie on header by default
+          console.log(resp.data)
           axios.defaults.headers.common['auth_token'] = resp.data.auth_token
           // axios.defaults.headers.common['Authorization'] = data.auth_token
           localStorage.setItem("cookie", JSON.stringify(resp.data));
