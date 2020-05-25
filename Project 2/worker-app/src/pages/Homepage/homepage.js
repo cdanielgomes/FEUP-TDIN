@@ -1,43 +1,54 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "../../components/Navbar";
 import { issuesService } from "../../services/issuesService";
 import IssueCard from "../../components/IssueCard";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../actions/authActions";
 
 const Homepage = () => {
-  const [issues, setIssues] = useState([]);
+
+  const [allIssues, _setAllIssues] = useState([]);
+  const allIssuesRef = useRef(allIssues)
+
+  const setAllIssues = data => {
+    allIssuesRef.current = data;
+    _setAllIssues(data)
+  }
+
+  const dispatch = useDispatch();
+
 
   const sendIssue = (issue) => {
     issuesService.sendIssue({ ...issue }).then((newIssue) => {
-
-      setIssues((state) => [...state, newIssue]);
+      setAllIssues([...allIssuesRef.current, newIssue]);
     });
   };
 
   useEffect(() => {
 
     issuesService.getIssues().then((issues) => {
-      setIssues(issues);
+      setAllIssues(issues);
 
       issuesService.openStream((event) => {
         const issueUpdated = JSON.parse(event.data)
-
-        const index = issues.findIndex(element => {
+        const index = allIssuesRef.current.findIndex(element => {
           return element._id === issueUpdated._id
         })
 
-        const tmp = [...issues]
+        const tmp = [...allIssuesRef.current]
         tmp[index] = issueUpdated
-
-        setIssues(tmp)
+        setAllIssues(tmp)
       })
-    })
+    }).catch(error =>
+      dispatch(dispatch(authActions.logout))
+    )
 
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
       <Header callback={sendIssue} />
-      {issues.map((element) => {
+      {allIssues.map((element) => {
         return <IssueCard key={element._id} {...element} />;
       })}
     </>

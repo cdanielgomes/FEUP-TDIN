@@ -31,7 +31,7 @@ const seedDb = () => {
         {
             title: "Sol",
             description: "Apanha sol",
-            creator: "joao@mail.com"
+            creator: "daniel@mail.com"
         },
     ]);
 };
