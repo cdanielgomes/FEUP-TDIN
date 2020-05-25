@@ -5,7 +5,7 @@ async function checkUserCanAcess(req, res, next) {
     const user = await User.findOne({email: req.userEmail});
 
     if(user._id) next()
-    else return res.status(401).json({message: "Nonexistent user"})
+    else return res.status(403).json({message: "Nonexistent user"})
     return
 }
 

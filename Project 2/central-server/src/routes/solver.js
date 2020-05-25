@@ -24,11 +24,17 @@ router.put("/:id/assigned", (req, res) => {
 
 
 // solve issue
-router.put("/:id/solved", (req, res) => {
+router.put("/:id/solved", async (req, res) => {
+
+    const issue = await Issue.findOne({ _id: req.params.id }, "unsolved_questions")
+
+    const array = issue.unsolved_questions;
+    if (!array.length) {
+        res.status(418).json({ message: "You ahve to wait for all question been solved. Be patient, take a coffee" })
+        return
+    }
 
     setState("solved", req, res)
-    // need to check if array of questions is empty
-    // TODO: needs to send an email 
 });
 
 // get the questions of a issue
@@ -76,7 +82,7 @@ router.get("/:id/questions/:questionId", (req, res) => {
 
 // answer a question
 router.put("/:id/questions/:questionId", (req, res) => {
-   
+
     // TODO notifications about the receiveing of an answer
     if (!req.body.answer) return res.status(422).json({ message: "Missing answer" })
 
