@@ -73,6 +73,7 @@
             <property name="margin_left">2</property>
             <property name="margin_right">2</property>
             <property name="editable">False</property>
+            <property name="wrap_mode">word-char</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -101,6 +102,7 @@
             <property name="can_focus">True</property>
             <property name="margin_left">2</property>
             <property name="margin_right">2</property>
+            <property name="wrap_mode">word-char</property>
           </object>
           <packing>
             <property name="expand">False</property>

@@ -84,7 +84,7 @@ namespace Solver {
         }
 
         private async Task Solve() {
-            var endpoint = $"/api/solver/{issue.ID}/assigned";
+            var endpoint = $"/api/solver/{issue.ID}/solved";
             var requestBody = new JObject();
             requestBody["answer"] = answerBox.Buffer.Text;
             var response = await SolverApp.PutRequest(endpoint, requestBody);

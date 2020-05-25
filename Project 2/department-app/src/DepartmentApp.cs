@@ -59,6 +59,7 @@ namespace Department {
             try {
                 var response = await _instance.client.ExecuteAsync(request);
                 result = JObject.Parse(response.Content);
+                result["statusCode"] = response.StatusCode.ToString();
             } catch (Exception e) {
                 Console.WriteLine("\nException Caught!");
                 Console.WriteLine("Message :{0} ", e.Message);
