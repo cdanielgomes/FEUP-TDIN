@@ -5,6 +5,7 @@ const Issue = require('../models/issue.model.js');
 const Events = require('../middleware/events')
 const Question = require('../models/question.model.js');
 const { publishQueue } = require('../utils/lib/queue');
+const send = require("../email/email")
 // get all issues of a solver
 
 router.get("/", (req, res) => {
@@ -26,15 +27,25 @@ router.put("/:id/assigned", (req, res) => {
 // solve issue
 router.put("/:id/solved", async (req, res) => {
 
-    const issue = await Issue.findOne({ _id: req.params.id }, "unsolved_questions")
-
+    const issue = await Issue.findOne({ _id: req.params.id })
     const array = issue.unsolved_questions;
-    if (!array.length) {
-        res.status(418).json({ message: "You ahve to wait for all question been solved. Be patient, take a coffee" })
+
+    if (array.length) {
+
+        res.status(418).json({ message: "You have to wait for all question been solved. Be patient, take a coffee" })
         return
     }
 
-    setState("solved", req, res)
+    const issueResolved = await setState("solved", req, res);
+
+    const solver = await User.findOne({ email: issueResolved.assignee })
+
+    if (!solver) return
+
+    console.log("solver", solver)
+    console.log("Issue Resolved", issueResolved)
+    send(issueResolved, solver)
+
 });
 
 // get the questions of a issue
@@ -98,7 +109,7 @@ router.put("/:id/questions/:questionId", (req, res) => {
                 message: "Question updated with success"
             })
 
-            Events.sendInfo("question", req.params.id, question)
+            Events.sendInfo("question", issue, question)
         })
     })
 });
@@ -114,20 +125,30 @@ router.get("/", (req, res) => {
 
 
 
-const setState = (role, req, res) => {
-    Issue.findByIdAndUpdate(req.params.id,
-        { state: role, assignee: req.userEmail, resolution: req.body.answer },
-        { new: true, timestamps: true },
-        (err, issue) => {
-            if (err) console.log(err)
-            if (err) return res.status(500).json({ message: `Error updating Issue ${req.params.id}` })
+const setState = async (role, req, res) => {
+    try {
+        const issue = await Issue.findByIdAndUpdate(req.params.id,
+            { state: role, assignee: req.userEmail, resolution: req.body.answer },
+            { new: true, timestamps: true })
+
+        if (!issue) {
+            return res.status(500).json({ message: `Error updating Issue ${req.params.id}` })
+        } else {
+
             res.status(200).json({
                 message: `Issue ${req.params.id} updated to \"${role}\"`,
                 issue
             })
 
+
             Events.sendInfo("client", issue) // send event to client
-        })
+
+            return issue
+        }
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ message: `Error updating Issue ${req.params.id}` })
+    }
 }
 
 

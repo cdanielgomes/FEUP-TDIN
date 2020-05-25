@@ -1,11 +1,11 @@
 const User = require('../models/user.model')
 
 async function checkUserCanAcess(req, res, next) {
+    if (!req.userEmail) return res.status(403).json({ message: "Nonexistent user" })
+    const user = await User.findOne({ email: req.userEmail });
 
-    const user = await User.findOne({email: req.userEmail});
-
-    if(user._id) next()
-    else return res.status(403).json({message: "Nonexistent user"})
+    if (user) next()
+    else return res.status(403).json({ message: "Nonexistent user" })
     return
 }
 
