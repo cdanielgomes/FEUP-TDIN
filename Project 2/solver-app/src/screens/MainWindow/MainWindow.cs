@@ -106,7 +106,27 @@ namespace Solver {
             var host = DotNetEnv.Env.GetString("SERVER_ADDRESS") + "/api/stream/solver";
 
             var evt = new EventSourceReader(new Uri(host)).Start();
-            evt.MessageReceived += (object sender, EventSourceMessageEventArgs e) => Console.WriteLine($"{e.Event} : {e.Message}");
+            evt.MessageReceived += (object sender, EventSourceMessageEventArgs e) => {
+                Task.Run(() => {
+                    Console.WriteLine($"SSE Event: {e.Event} || SSE Message {e.Message}");
+                    var parsedMessage = JObject.Parse(e.Message);
+
+                    var type = parsedMessage["type"];
+
+                    if (type == null) return;
+
+                    switch (type.ToString()) {
+                        case "issue":
+                            InsertUnassignedIssue(parsedMessage["issue"]);
+                            break;
+                        case "question":
+                            UpdateQuestion(parsedMessage["question"]);
+                            break;
+                        default:
+                            break;
+                    }
+                });
+            };
             evt.Disconnected += async (object sender, DisconnectEventArgs e) => {
                 if (e.ReconnectDelay != 3000) {
                     Console.WriteLine($"Retry: {e.ReconnectDelay} - Error: {e.Exception.Message}");
@@ -121,6 +141,12 @@ namespace Solver {
 
             SolverApp.GetApp().AddWindow(issueWindow);
             issueWindow.ShowAll();
+        }
+
+        private void UpdateQuestion(JToken question) {
+            foreach (Window win in SolverApp.GetApp().Windows) {
+                Console.WriteLine(Window.ToString());
+            }
         }
     }
 }

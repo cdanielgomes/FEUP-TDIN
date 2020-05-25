@@ -1,3 +1,5 @@
+const logger = require("../utils/logger");
+
 class Events {
 
     constructor() {
@@ -56,7 +58,7 @@ class Events {
                         this.worker[issue.creator].write(this.message(issue))
                     break;
                 default:
-                    console.log("SHOULDN'T BE HERE");
+                    logger.warn("Unknown type event received");
                     break;
             }
 
