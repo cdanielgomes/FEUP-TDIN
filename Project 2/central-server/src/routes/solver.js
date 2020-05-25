@@ -41,9 +41,7 @@ router.put("/:id/solved", async (req, res) => {
     const solver = await User.findOne({ email: issueResolved.assignee })
 
     if (!solver) return
-
-    console.log("solver", solver)
-    console.log("Issue Resolved", issueResolved)
+    
     send(issueResolved, solver)
 
 });
