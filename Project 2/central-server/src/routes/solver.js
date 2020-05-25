@@ -79,7 +79,13 @@ router.put("/:id/questions/:questionId", (req, res) => {
     Question.findByIdAndUpdate(req.params.questionId, { answer: req.body.answer }, (err, question) => {
         if (err) return res.status(500).json({ message: err })
         else {
-            res.status(200).json({ question })
+            Issue.findOne({_id: question.issueId}, {assignee}, (error, issue) => {
+                if(error) return res.status(500).json({message:err})
+    
+                res.status(200).json({ question })
+                Events.sendInfo("question", issue, question)
+          
+            })
         }
     });
 });
