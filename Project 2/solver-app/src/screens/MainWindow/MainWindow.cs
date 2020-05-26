@@ -123,6 +123,9 @@ namespace Solver {
                         case "question":
                             UpdateQuestion(parsedMessage["question"]);
                             break;
+                        case "assign":
+                            RemoveIssue(parsedMessage["issue"]);
+                            break;
                         default:
                             break;
                     }
@@ -158,6 +161,19 @@ namespace Solver {
                 }
             } catch (Exception e) {
                 Console.WriteLine(e);
+            }
+        }
+
+        private void RemoveIssue(JToken issue) {
+            if (issue["title"] == null) return;
+
+            foreach (Widget child in unassignedIssues.Children) {
+                var row = (ListBoxRow) child;
+                var label = (Label) row.Child;
+
+                if (label.Text == issue["title"].ToString()) {
+                    unassignedIssues.Remove(row);
+                }
             }
         }
     }

@@ -23,10 +23,8 @@ router.put("/:id/assigned", (req, res) => {
 
     Issue.find({ _id: req.params.id })
         .then(async issue => {
-            console.log(issue[0])
             if (issue[0].assignee === null){
                 const s = await setState("assigned", req, res)
-                console.log(s)
                 Events.sendInfo("assign", s)
             }
             else return res.status(403).json({ message: "Unauthorized issue assignement" })

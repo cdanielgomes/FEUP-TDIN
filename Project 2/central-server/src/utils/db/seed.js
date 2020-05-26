@@ -3,9 +3,9 @@ const Issue = require("../../models/issue.model");
 const Question = require("../../models/question.model");
 
 const seedDb = () => {
-        User.collection.drop().catch((e) => {});
-        Issue.collection.drop().catch((e) => {});
-        Question.collection.drop().catch((e) => {});
+    User.collection.drop().catch((e) => { });
+    Issue.collection.drop().catch((e) => { });
+    Question.collection.drop().catch((e) => { });
 
     User.create([
         {
@@ -17,6 +17,12 @@ const seedDb = () => {
         {
             email: "joao@mail.com",
             username: "Joao Maduro",
+            password: "123456",
+            role: "solver"
+        },
+        {
+            email: "dep@mail.com",
+            username: "Department Technician",
             password: "123456",
             role: "solver"
         },

@@ -26,18 +26,18 @@ class Events {
         try {
             this[req.userRole] = { ...this[req.userRole], [req.userEmail]: res }
             req.on("end", () => {
-                console.log("end")
+                logger.info("end")
                 this.removeClient(req)
             })
             req.on("close", () => {
-                console.log("close")
+                logger.info("close")
                 this.removeClient(req)
             })
             res.writeHead(200, headers)
             res.flushHeaders()
 
         } catch (e) {
-            console.log(e)
+            logger.error(e)
         }
 
     }
@@ -47,7 +47,7 @@ class Events {
             switch (type) {
                 case "assign":
                     for (let solver in this.solver) {
-                        if (issue.assignee !== solver && !this.solver[solver]) this.solver[solver].write(this.message({ type: "assign", issue }))
+                        if (issue.assignee !== solver && this.solver[solver]) this.solver[solver].write(this.message({ type: "assign", issue }))
                 }
                     break;
                 case "issue":
@@ -67,7 +67,7 @@ class Events {
             }
 
         } catch (e) {
-            console.log(e)
+            logger.error(e)
         }
     }
 
