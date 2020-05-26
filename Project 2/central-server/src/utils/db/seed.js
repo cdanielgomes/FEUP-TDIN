@@ -9,8 +9,14 @@ const seedDb = () => {
 
     User.create([
         {
-            email: "daniel@mail.com",
+            email: "danielcfgomes@gmail.com",
             username: "Daniel Gomes",
+            password: "123456",
+            role: "worker"
+        },
+        {
+            email: "carlosdcfgomes@hotmail.com",
+            username: "Carlos Gomes",
             password: "123456",
             role: "worker"
         },
@@ -30,14 +36,24 @@ const seedDb = () => {
 
     Issue.create([
         {
-            title: "Ligma",
-            description: "Apanha ligma",
-            creator: "daniel@mail.com"
+            title: "MIEIC at FEUP",
+            description: "What do I need to make MIEIC course at Feup?",
+            creator: "danielcfgomes@gmail.com"
         },
         {
-            title: "Sol",
-            description: "Apanha sol",
-            creator: "daniel@mail.com"
+            title: "TDIN",
+            description: "Should I select TDIN in next year?",
+            creator: "danielcfgomes@gmail.com"
+        },
+        {
+            title: "Classes",
+            description: "All classes at FEUP are at 8 a.m.?",
+            creator: "danielcfgomes@gmail.com"
+        },
+        {
+            title: "AIAD",
+            description: "Professor Carlos Soares will be nice to me wednesday?",
+            creator: "carlosdcfgomes@hotmail.com"
         },
     ]);
 };
