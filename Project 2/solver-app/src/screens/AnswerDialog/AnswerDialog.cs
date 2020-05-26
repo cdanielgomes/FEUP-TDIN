@@ -1,3 +1,4 @@
+using System;
 using Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
 
@@ -5,6 +6,7 @@ namespace Solver {
     public class AnswerDialog : Window {
         [UI] TextView questionBox = null;
         [UI] TextView answerBox = null;
+        [UI] Button closeButton = null;
 
         IssueWindow issueWindow;
         Question question;
@@ -19,6 +21,7 @@ namespace Solver {
 
             issueWindow.Sensitive = false;
             DeleteEvent += Window_DeleteEvent;
+            closeButton.Clicked += CloseButton_Clicked;
 
             questionBox.Buffer.Text = question.Text;
             answerBox.Buffer.Text = question.Answer;
@@ -26,6 +29,13 @@ namespace Solver {
 
 
         private void Window_DeleteEvent(object sender, DeleteEventArgs args) {
+            SolverApp.GetApp().RemoveWindow(this);
+            issueWindow.Sensitive = true;
+            issueWindow.answerDialog = null;
+            this.Dispose();
+        }
+
+        private void CloseButton_Clicked(object sender, EventArgs args) {
             SolverApp.GetApp().RemoveWindow(this);
             issueWindow.Sensitive = true;
             issueWindow.answerDialog = null;

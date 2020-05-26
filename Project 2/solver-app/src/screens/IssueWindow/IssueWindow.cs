@@ -95,6 +95,7 @@ namespace Solver {
             var response = await SolverApp.PutRequest(endpoint, requestBody);
 
             if (response["issue"] != null) {
+                mainWindow.Sensitive = true;
                 mainWindow.myIssuesList.Remove(row);
                 this.Hide();
                 SolverApp.GetApp().RemoveWindow(this);
