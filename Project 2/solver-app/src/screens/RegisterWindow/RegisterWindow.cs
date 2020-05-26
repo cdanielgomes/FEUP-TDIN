@@ -48,39 +48,43 @@ namespace Solver {
         }
 
         private async Task AutheticateSolver() {
-            var email = emailBox.Text;
-            var name = nameBox.Text;
-            var pass = passBox.Text;
-            var conf = confBox.Text;
+            try {
+                var email = emailBox.Text;
+                var name = nameBox.Text;
+                var pass = passBox.Text;
+                var conf = confBox.Text;
 
-            var registerBody = new JObject();
-            registerBody["email"] = email;
-            registerBody["username"] = name;
-            registerBody["password"] = pass;
-            registerBody["passwordConf"] = conf;
-            registerBody["role"] = "solver";
+                var registerBody = new JObject();
+                registerBody["email"] = email;
+                registerBody["username"] = name;
+                registerBody["password"] = pass;
+                registerBody["passwordConf"] = conf;
+                registerBody["role"] = "solver";
 
-            var response = await SolverApp.PostRequest("/api/users/", registerBody);
+                var response = await SolverApp.PostRequest("/api/users/", registerBody);
 
-            if (response == null) return;
+                if (response == null) return;
 
-            var loginBody = new JObject();
-            loginBody["email"] = email;
-            loginBody["password"] = pass;
+                var loginBody = new JObject();
+                loginBody["email"] = email;
+                loginBody["password"] = pass;
 
-            var loginResponse = await SolverApp.PostRequest("/api/auth/login", loginBody);
+                var loginResponse = await SolverApp.PostRequest("/api/auth/login", loginBody);
 
-            if (loginResponse == null) return;
+                if (loginResponse == null) return;
 
-            SolverApp.SetJwt(response["auth_token"].ToString());
-            SolverApp.SetEmail(response["email"].ToString());
+                SolverApp.SetJwt(loginResponse["auth_token"].ToString());
+                SolverApp.SetEmail(loginResponse["email"].ToString());
 
-            var mainWindow = new MainWindow();
-            SolverApp.GetApp().AddWindow(mainWindow);
-            mainWindow.ShowAll();
+                var mainWindow = new MainWindow();
+                SolverApp.GetApp().AddWindow(mainWindow);
+                mainWindow.ShowAll();
 
-            SolverApp.GetApp().RemoveWindow(this);
-            this.Hide();
+                SolverApp.GetApp().RemoveWindow(this);
+                this.Hide();
+            } catch (Exception e) {
+                Console.WriteLine(e);
+            }
         }
     }
 }
