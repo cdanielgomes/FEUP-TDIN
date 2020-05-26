@@ -1,2 +1,0 @@
-"Firstly, you need to be inteligent. \n Secondly, you need to be patient.\nLatly, never give up"
-"Sure, but only if you like c#. You need it for the first project; the second you can use JS. The course has a exam in the end of the semester, but it is easy :)"

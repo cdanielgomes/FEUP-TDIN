@@ -53,12 +53,10 @@ function register(infos) {
 
     authService.register(infos).then(
       (response) => {
-        console.log(response)
         dispatch(success(response));
         history.push("/");
       })
       .catch((error) => {
-        console.log(error)
         dispatch(failure(error));
         history.push("/register");
 

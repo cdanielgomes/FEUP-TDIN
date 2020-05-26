@@ -23,8 +23,8 @@ router.put("/:id/assigned", (req, res) => {
 
     Issue.find({ _id: req.params.id })
         .then(async issue => {
-            
-            if (issue[0].assignee === null){
+
+            if (issue[0].assignee === null) {
                 const s = await setState("assigned", req, res)
                 Events.sendInfo("assign", s)
             }
@@ -77,7 +77,7 @@ router.post("/:id/question", (req, res) => {
     Question.create({ issueId: req.params.id, ...req.body }, (error, question) => {
 
         if (error) return res.status(500).json({ message: error.message })
-        Issue.findByIdAndUpdate(req.params.id, { $push: { unsolved_questions: question._id }, state: "waiting" }, (err, issue) => {
+        Issue.findByIdAndUpdate(req.params.id, { $push: { unsolved_questions: question._id }, state: "waiting" }, { new: true }, (err, issue) => {
             if (err) {
                 Question.deleteOne({ _id: question._id });
                 return res.status(500).json({ message: err.message });
@@ -159,7 +159,7 @@ const setState = async (role, req, res) => {
             return issue
         }
     } catch (err) {
-        console.log(err)
+        
         return res.status(500).json({ message: `Error updating Issue ${req.params.id}` })
     }
 }

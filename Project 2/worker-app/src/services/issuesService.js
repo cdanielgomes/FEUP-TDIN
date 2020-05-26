@@ -28,19 +28,20 @@ const sendIssue = (issue) => {
 };
 
 const openStream = (onMessage) => {
-  try {
+
     const events = caller.getStream();
 
     events.onmessage = (event) => {
       onMessage(event)
     }
+    events.onopen = event => {
+      //console.log(event)
+    }
+    
 
     events.onerror = (event) => {
       // console.log(event)
     }
-  } catch (e) {
-
-  }
 
 }
 
