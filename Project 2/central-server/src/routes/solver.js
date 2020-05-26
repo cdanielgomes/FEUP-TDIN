@@ -23,6 +23,7 @@ router.put("/:id/assigned", (req, res) => {
 
     Issue.find({ _id: req.params.id })
         .then(async issue => {
+            
             if (issue[0].assignee === null){
                 const s = await setState("assigned", req, res)
                 Events.sendInfo("assign", s)
@@ -30,7 +31,6 @@ router.put("/:id/assigned", (req, res) => {
             else return res.status(403).json({ message: "Unauthorized issue assignement" })
         })
         .catch(error => {
-            u
             return res.status(500).json({ message: "Internal error" })
         })
 
