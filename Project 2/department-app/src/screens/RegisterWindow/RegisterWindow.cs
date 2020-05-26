@@ -72,8 +72,8 @@ namespace Department {
 
             if (loginResponse == null) return;
 
-            DepartmentApp.SetJwt(response["auth_token"].ToString());
-            DepartmentApp.SetEmail(response["email"].ToString());
+            DepartmentApp.SetJwt(loginResponse["auth_token"].ToString());
+            DepartmentApp.SetEmail(loginResponse["email"].ToString());
 
             var mainWindow = new MainWindow();
             DepartmentApp.GetApp().AddWindow(mainWindow);
