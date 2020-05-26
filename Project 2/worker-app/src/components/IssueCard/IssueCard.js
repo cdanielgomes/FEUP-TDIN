@@ -3,7 +3,7 @@ import { Card, Container, Row, Col } from "react-bootstrap"
 import moment from "moment"
 import styles from "./IssueCard.module.scss";
 
-const IssueCard = ({ title, createdAt, state, description, resolution }) => {
+const IssueCard = ({ title, createdAt, state, description, resolution, assignee }) => {
 
   const x = () => {
     return moment(createdAt).format('LLLL')
@@ -15,7 +15,8 @@ const IssueCard = ({ title, createdAt, state, description, resolution }) => {
         <Container fluid>
           <Row className={styles.issueCardHeader}>
             <Col>{title}</Col>
-            <Col className={styles.state}>{state}</Col>
+            
+            <Col className={styles.state}>{state === "solved" ? `solved  by ${assignee}` : state}</Col>
           </Row>
         </Container>
       </Card.Header>
