@@ -22,11 +22,11 @@ const send = (issue, solver) => {
         html: `<h1> The issue you submitted "${issue.title}" has been solved!!! </h1> \
     <br/>\
     <h2> Issue: </h2>\
-    <h4> Title: <h4> ${issue.title}\
-    <h4> Description: <h4>${issue.description}\
-    <h4> Submitted at: <h4>${moment(issue.createdAt).format('LLLL')}}\
-    <h2> Was solved by: <h2> ${solver.username}\
-    <h4> Answer: </h4>${issue.resolution}`
+    <h4> Title: ${issue.title} <h4>\
+    <h4> Description:${issue.description}  <h4>\
+    <h4> Submitted at: ${moment(issue.createdAt).format('LLLL')} <h4>\
+    <h2> Was solved by: ${solver.username} <h2> \
+    <h4> Answer: ${issue.resolution} </h4>`
     }
 
     transporter.sendMail(options).then(res => console.log("email sent: " + res.response))

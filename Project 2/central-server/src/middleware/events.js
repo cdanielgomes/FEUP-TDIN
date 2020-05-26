@@ -58,6 +58,7 @@ class Events {
                         this.solver[issue.assignee].write(this.message({ type: "question", question, issue }))
                     break;
                 case "client":
+                    
                     if (this.worker[issue.creator])
                         this.worker[issue.creator].write(this.message(issue))
                     break;
