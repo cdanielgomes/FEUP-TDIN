@@ -1,7 +1,7 @@
 # Enterprise Distributed System
 
 A distributed system built using a Service-Oriented Architecture. It allows a user, known as worker to create tickets in a web page. 
-Then, those tickets are answer or sent to other departments by a solver. Finally, each department can answer the tickets assigned to it.
+Then, those tickets are answered or sent to other departments by the solver. Finally, each department can answer the tickets assigned to it.
 
 1. [Application Overview](#application-overview)
 1. [Technologies](#technologies)
